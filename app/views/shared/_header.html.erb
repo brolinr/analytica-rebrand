@@ -1,0 +1,89 @@
+<header class="py-6 bg-blue-100">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <nav class="relative z-50 flex justify-between">
+      <div class="flex items-center md:gap-x-12">
+        <a href="/" class="text-3xl text-blue-500 hover:text-blue-700 text-md font-semibold">Analytica</a>
+        
+        <div class="hidden md:flex md:gap-x-6">
+          <%= link_to  'Company', company_path, 
+            class: 'inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+          %>
+          <%= link_to  'Features', company_path, 
+            class: 'inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+          %>
+          <%= link_to  'Pricing', '#', 
+            class: 'inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+          %>
+        </div>  
+      </div>
+        
+      <div class="flex items-center gap-x-5 md:gap-x-8">
+        <div class="hidden md:block">
+          <a class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900" href="#">Sign in</a>
+        </div>
+        
+        <%= link_to contact_path, class: 'group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none 
+            focus-visible:outline-2 focus-visible:outline-offset-2 bg-blue-600 text-white hover:text-slate-100 hover:bg-blue-500 
+            active:bg-blue-800 active:text-blue-100 focus-visible:outline-blue-600' do %>
+          <span>Contact us <span class="hidden lg:inline">today</span></span>
+        <% end %>
+        
+        <div class="-mr-1 md:hidden">
+         <div id="ham-container" class="flex items-center">
+            <button id="hamburger" class="text-gray-800 focus:outline-none transition ease-out-in
+              hover:-translate-y-2 hover:scale-95 duration-300">
+              <span class="block h-1 rounded-full w-6 bg-blue-500  mb-1"></span>
+              <span class="block h-1 rounded-full w-6 bg-blue-500  mb-1"></span>
+              <span class="block h-1 rounded-full w-6 bg-blue-500 "></span>
+            </button>
+          </div>       
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div id="navLinks" class="hidden px-2">
+  <div class="lg:hidden" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 z-50"></div>
+    <div class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+      <div class="flex items-center justify-between">
+        <a href="/" class="text-2xl text-blue-500 hover:text-blue-700
+          rounded-md text-md font-semibold col-span-3 transition ease-out-in
+          over:-translate-y-2 hover:scale-95 duration-300"
+        >
+          Analytica
+        </a>
+        <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" id="close-menu">
+          <span class="sr-only">Close menu</span>
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="mt-6 flow-root">
+        <div class="-my-6 divide-y divide-gray-500/10">
+          <div class="space-y-2 py-6">
+            <%= link_to  'Company', company_path, class: '-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-700 hover:bg-slate-100 hover:text-slate-900' %>
+            <%= link_to  'Features', company_path, class: '-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-700 hover:bg-slate-100 hover:text-slate-900' %>
+            <%= link_to  'Contact', contact_path, class: '-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-700 hover:bg-slate-100 hover:text-slate-900' %>
+          </div>
+          <div class="py-6">
+            <a href="#f" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log in</a>
+            <a href="#d" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Create account</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('hamburger').addEventListener('click', function () {
+    document.getElementById('navLinks').classList.toggle('hidden');
+  });
+
+  document.getElementById('close-menu').addEventListener('click', function () {
+    document.getElementById('navLinks').classList.toggle('hidden');
+  });
+</script>
