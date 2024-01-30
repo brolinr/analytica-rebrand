@@ -12,6 +12,9 @@ module Analytica
     config.i18n.default_locale = :en
 
     config.time_zone = "Harare"
+
+    config.exceptions_app = self.routes
+    
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end

@@ -18,6 +18,7 @@ gem 'ransack', '~> 4.1'
 gem 'redis',                                '~> 4.0'
 gem 'sprockets-rails',                      '~> 3.4.2'
 gem 'stimulus-rails',                       '~> 1.3.3'
+gem 'tailwindcss-rails',                    '~> 2.3'
 gem 'turbo-rails',                          '~> 1.5.0'
 gem 'tzinfo-data',                          '~> 2.0.6', platforms: %i[mingw mswin x64_mingw jruby]
 
