@@ -7,19 +7,6 @@ on:
       - '*'
 
 jobs:
-  changelog_check:
-    runs-on: ubuntu-latest
-    if: '! github.event.pull_request.draft'
-    steps:
-      - uses: actions/checkout@v2
-      - name: ChangelogCheck
-        uses: Zomzog/changelog-checker@v1.2.0
-        with:
-          fileName: CHANGELOG.md
-          noChangelogLabel: nochangelog
-          checkNotification: Detailed
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   rubocop:
     runs-on: ubuntu-latest
     if: '! github.event.pull_request.draft'
