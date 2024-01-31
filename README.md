@@ -42,14 +42,14 @@ The Tender Board displays tenders listed by Analytica, and they become unlisted 
 
 ## Tech Stack
 
-- **Databases:** PostgreSQL
-- **Backend:** Ruby on Rails
-- **Testing:** RSpec and FactoryBot
-- **Languages:** Ruby and JavaScript
-- **Frontend:** Bootstrap and JavaScript
+- **Database:** PostgreSQL
+- **Framework:** Ruby on Rails
+- **Testing:** RSpec
+- **Programming Languages:** Ruby and JavaScript
+- **Frontend:** Tailwindcss and JavaScriptdev
+
 - **Version Control:** Git
-- **CI/CD:** GitHub Actions and Render
-- **Project Management:** Trello
+- **CI:** GitHub Actions
 
 ## Getting Started
 
