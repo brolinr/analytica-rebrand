@@ -5,8 +5,20 @@ on:
     # Trigger on any pull request, not just on the main branch
     branches:
       - '*'
-
 jobs:
+  changelog_check:
+    runs-on: ubuntu-latest
+    if: '! github.event.pull_request.draft'
+    steps:
+      - uses: actions/checkout@v1
+      - name: Changelog check
+        uses: Zomzog/changelog-checker@v1.2.0
+        with:
+          fileName: CHANGELOG.md
+          noChangelogLabel: nochangelog
+          checkNotification: Simple
+        env:
+          GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
   rubocop:
     runs-on: ubuntu-latest
     if: '! github.event.pull_request.draft'
