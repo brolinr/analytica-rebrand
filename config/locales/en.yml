@@ -1,1 +1,35 @@
 en:
+  controllers:
+    company_onboardings:
+      approve:
+        success: "Company was successfully approved."
+        failure: "Company could not be approved."
+  flash:
+    created: "%{model} was successfully created."
+    updated: "%{model} was successfully updated."
+    destroyed: "%{model} was successfully destroyed."
+    not_found: "%{model} not found."
+    something_wrong: "Something went wrong."
+  mailers:
+    approval:
+      subject: "Company Approval"
+      body: "Your company has been approved."
+    disapproval:
+      subject: "Company Disapproval"
+      body: "Your company has been disapproved."
+  models:
+    company:
+      errors:
+        pdf_format: must be in PDF format
+        image_format: must be a valid image format
+        less_than_5mb: should be less than 5MB
+        terms_and_conditions:
+          presence: Please accept the terms and conditions to continue
+        certificate_of_incorporation:
+          presence: Submit your certificate of incorporation to continue
+        tax_clearance:
+          presence: Submit your tax clearance certificate to continue
+        cr5:
+          presence: CR5 is required
+        cr6:
+          presence: Submit your CR6 certificate to continue

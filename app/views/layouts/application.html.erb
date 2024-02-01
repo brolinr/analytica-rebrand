@@ -13,6 +13,10 @@
 
   <body>
     <%= render 'shared/header' %>
+    
+    <%= render 'shared/flash_messages', data: flash %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
     <main class="container-fluid mx-auto">
       <%= yield %>
     </main>

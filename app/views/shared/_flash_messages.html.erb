@@ -1,0 +1,12 @@
+<% flash = data[:flash] %>
+<% if flash&.any? %>
+  <% flash.each do |type, message| %>
+    <% if message.is_a?(Array) %>
+      <% message.each do |msg| %>
+        <%= render "shared/flash_alerts/#{type}", locals: { message: msg } %>
+      <% end %>
+    <% else %>
+      <%= render "shared/flash_alerts/#{type}", locals: { message: message } %>
+    <% end %>
+  <% end %>
+<% end %>

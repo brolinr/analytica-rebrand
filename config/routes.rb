@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   match "/422", to: 'errors#unprocessable_content', via: :all
 
   draw :reverse_auction_routes
+  draw :authentication_routes
+  draw :administrate_routes
 end
