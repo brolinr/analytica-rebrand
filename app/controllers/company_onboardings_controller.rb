@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class CompanyOnboardingsController < ApplicationController
-  before_action :authenticate_administrator!, except: %i[new create]
-  before_action :company_onboarding, except: %i[new create index]
+  before_action :authenticate_administrator!, only: %i[approve index show]
+  before_action :redirect_signed_in_user, except:  %i[approve index show]
+
   before_action :onboarding_valid?, except: %i[new create index]
   before_action :approval_valid?, only: :edit
   before_action :token_valid?, only: :edit
@@ -25,19 +26,21 @@ class CompanyOnboardingsController < ApplicationController
   def show; end
 
   def index
-    @q = CompanyOnboarding.ransack(params[:q])
-    @company_onboardings = @q.result(distinct: true)
+    @q = CompanyOnboarding.ransack(params[:q], approval: 'pending_review')
+    @pagy, @company_onboardings = pagy(@q.result.where(approval: 'pending_review'))
   end
 
   def edit; end
 
   def update
-    result = CompanyOnboardings::Update.call(params: onboarding_params)
+    result = CompanyOnboardings::Update.call(params: onboarding_params,
+                                             context: { company_onboarding: company_onboarding })
+    token = company_onboarding.tokens.find_by(status: 'active', purpose: 'onboarding_edit')
 
     error_or_redirect(
       object: result,
       success_path: root_path,
-      failure_path: edit_company_onboarding_path,
+      failure_path: token.nil? ? root_path : edit_company_onboarding_path(disapproval_token: token.secret),
       success_string_key: 'flash.updated'
     )
   end
@@ -49,8 +52,8 @@ class CompanyOnboardingsController < ApplicationController
 
     error_or_redirect(
       object: result,
-      success_path: root_path,
-      failure_path: edit_company_onboarding_path,
+      success_path: company_onboardings_path,
+      failure_path: company_onboardings_path,
       i18n_scope: 'controllers.company_onboardings.approve'
     )
   end
@@ -62,7 +65,7 @@ class CompanyOnboardingsController < ApplicationController
       :email, :name, :phone, :address, :city,
       :certificate_of_incorporation, :tax_clearance,
       :cr5, :cr6, :terms, :password,
-      :password_confirmation, :current_password, :approval
+      :password_confirmation, :current_password
     )
   end
 
@@ -85,7 +88,8 @@ class CompanyOnboardingsController < ApplicationController
   end
 
   def token_valid?
-    unless company_onboarding&.tokens&.where(status: 0, purpose: 1)&.any?
+    token = company_onboarding&.tokens&.find_by(status: 0, purpose: 1)
+    if token.nil? || token.void?
       redirect_to root_path, flash: { alert: I18n.t('flash.something_wrong') }
     end
   end

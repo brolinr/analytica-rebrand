@@ -1,5 +1,33 @@
-<h1>CompanyOnboarding#approve</h1>
+<div class="main">
+  <div class="header">
+    <%= image_tag 'email_illustration.jpg', alt: 'Bid image' %>
+  </div>
+  <div>
+    <h1 style="color: #2682df; font-weight: bold;">
+      🎉 Welcome Aboard!
+    </h1>
+    <p>
+      We are thrilled to inform you that your account information has been successfully approved! 
+    </p>
+    <p>
+      Now that you have crossed this significant milestone, it's time to transition to the next 
+      phase of your journey with us. To proceed, simply click on the button below:
+    </p>
 
-<p>
-  <%= @url %>, find me in app/views/company_onboarding_mailer/approve.html.erb
-</p>
+    <p>
+      For security reasons, this link is only valid for the next 24 hours.
+    </p>
+
+    <a href="<%= @url %>" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px; margin-bottom: 20px;">
+      Setup Account Password
+    </a>
+  </div>
+  <div>
+    <p style="font-style: italic; font-size: 14px;">
+      In case the button doesn't work, you can also copy and paste the following URL into your browser:
+    </p>
+    <p style="font-style: oblique; font-size: 12px; color: #2682df; text-decoration: none;" href="<%= @url %>">
+      <%= @url %>
+    </p>
+  </div>
+</div>

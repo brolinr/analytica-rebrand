@@ -54,4 +54,10 @@ class ApplicationService
   rescue ActiveRecord::Rollback => e
     e.message
   end
+
+  def handle_validation_errors(model)
+    return add_error(I18n.t('flash.something_wrong')) if model.valid?
+
+    add_error(model.errors.full_messages).join(' , ')
+  end
 end

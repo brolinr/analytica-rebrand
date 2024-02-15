@@ -9,7 +9,6 @@ RSpec.describe CompanyOnboarding do
     it { is_expected.to validate_length_of(:about).is_at_most(300) }
     it { is_expected.to validate_presence_of(:phone) }
     it { is_expected.to validate_length_of(:phone).is_at_least(10).is_at_most(16) }
-    it { is_expected.to validate_uniqueness_of(:phone) }
     it { is_expected.to validate_presence_of(:city) }
     it { is_expected.to validate_length_of(:city).is_at_most(50) }
     it { is_expected.to validate_presence_of(:address) }

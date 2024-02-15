@@ -9,6 +9,7 @@ gem 'active_storage_validations',           '~> 0.9.8'
 gem 'activestorage-validator',              '~> 0.4.0'
 gem 'administrate',                         '~> 0.20.1'
 gem 'bootsnap',                             '~> 1.17.1', require: false
+gem 'cssbundling-rails'
 gem 'devise',                               '~> 4.9'
 gem 'dotenv-rails',                         '>= 2.8.1'
 gem 'image_processing',                     '~> 1.2'
@@ -52,3 +53,5 @@ group :test do
   gem 'vcr',                                '~> 6.1.0'
   gem 'webdrivers',                         '~> 5.2.0'
 end
+
+gem 'pagy', '~> 6.4'

@@ -14,3 +14,7 @@ devise_scope :company do
   get 'company/confirmation/new', to: 'devise/confirmations#new', as: :new_company_confirmation
   post 'company/confirmation', to: 'devise/confirmations#create', as: :company_confirmations
 end
+
+resources :company_onboardings do
+  post '/approve/', on: :member, to: 'company_onboardings#approve', as: :approve
+end

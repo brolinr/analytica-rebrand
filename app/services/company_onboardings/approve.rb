@@ -2,9 +2,9 @@
 
 class CompanyOnboardings::Approve < ApplicationService
   def call
-    preload(:company_onboarding)
+    preload(:company_onboarding, :onboarding_tokens)
 
-    step :approve_onboarding
+    transaction { step :approve_onboarding }
 
     result
   end
@@ -12,19 +12,17 @@ class CompanyOnboardings::Approve < ApplicationService
   private
 
   def company_onboarding
-    @company_onboarding ||= context[:company_onboarding] || CompanyOnboarding.find(params[:id])
+    @company_onboarding ||= context[:company_onboarding].reload || CompanyOnboarding.find(params[:id])
   end
 
   def onboarding_tokens
-    if company_onboarding.is_a?(CompanyOnboarding)
-      @onboarding_tokens ||= company_onboarding.tokens
-    else
-      add_error(I18n.t('flash.not_found', model: 'Company onboarding'))
-    end
+    @onboarding_tokens ||= company_onboarding.tokens
   end
 
   def approve_onboarding
-    return if company_onboarding.is_a?(CompanyOnboarding) && company_onboarding.pending_review?
+    unless company_onboarding.is_a?(CompanyOnboarding) && company_onboarding.pending_review?
+      return add_error(I18n.t('flash.approval_not_pending'))
+    end
 
     case params[:approval]
     when 'approved'
@@ -35,16 +33,16 @@ class CompanyOnboardings::Approve < ApplicationService
   end
 
   def approve
-    company_onboarding.tokens.create!(status: 0, purpose: 0) unless onboarding_tokens.where(status: 0, purpose: 0)&.any?
+    company_onboarding.tokens.create!(status: 0, purpose: 0) unless onboarding_tokens.any? && onboarding_tokens.where(
+      status: 0, purpose: 0
+    )&.any?
 
-    if company_onboarding.approved!
+    if company_onboarding.update(approval: :approved)
       CompanyOnboardingMailer.with(company_onboarding: company_onboarding).approve.deliver_later
       assign_data(company_onboarding)
     else
-      add_error(I18n.t('flash.something_wrong'))
+      handle_validation_errors(company_onboarding)
     end
-  rescue ActiveRecord::RecordInvalid => e
-    add_error(e.message)
   end
 
   def disapprove
@@ -55,7 +53,7 @@ class CompanyOnboardings::Approve < ApplicationService
                                    reason_for_disapproval: params[:reason_for_disapproval]).disapprove.deliver_later
       assign_data(company_onboarding)
     else
-      add_error(I18n.t('flash.something_wrong'))
+      handle_validation_errors(company_onboarding)
     end
   end
 end

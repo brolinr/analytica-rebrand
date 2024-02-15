@@ -1,25 +1,31 @@
 # frozen_string_literal: true
-
 FactoryBot.define do
-  pdf_path = Rails.root.join('spec/factories/media/documents/test.pdf')
-  factory(:company_onboarding) do
+  factory :company_onboarding do
     email { FFaker::Internet.email }
-    name {  FFaker::Company.name }
+    name { FFaker::Company.name }
     phone { FFaker::PhoneNumberAU.international_mobile_phone_number }
     city { FFaker::Address.city }
     address { FFaker::AddressBR.street_address }
     terms { true }
-    tax_clearance { Rack::Test::UploadedFile.new(Rails.root.join(pdf_path), 'application/pdf') }
-    certificate_of_incorporation { Rack::Test::UploadedFile.new(Rails.root.join(pdf_path), 'application/pdf') }
-    cr5 { Rack::Test::UploadedFile.new(Rails.root.join(pdf_path), 'application/pdf') }
-    cr6 { Rack::Test::UploadedFile.new(Rails.root.join(pdf_path), 'application/pdf') }
+    tax_clearance { pdf_upload }
+    certificate_of_incorporation { pdf_upload }
+    cr5 { pdf_upload }
+    cr6 { pdf_upload }
 
-    trait :as_seller do
-      seller { true }
+    trait :approved do
+      approval { 1 }
     end
 
-    trait :as_buyer do
-      buyer { true }
+    trait :disapproved do
+      approval { 2 }
+    end
+
+    trait :pending_review do
+      approval { 0 }
     end
   end
+end
+
+def pdf_upload
+  Rack::Test::UploadedFile.new(Tempfile.new(['test', '.pdf']), 'application/pdf')
 end

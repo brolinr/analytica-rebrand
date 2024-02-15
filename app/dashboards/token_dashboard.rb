@@ -9,13 +9,15 @@ class TokenDashboard < Administrate::BaseDashboard
     generator: Field::Polymorphic,
     purpose: Field::Select.with_options(
       searchable: false, collection: lambda { |field|
-                            field.resource.class.send(field.attribute.to_s.pluralize).keys
-                          }),
+                                       field.resource.class.send(field.attribute.to_s.pluralize).keys
+                                     }
+    ),
     secret: Field::String.with_options(searchable: false),
     status: Field::Select.with_options(
       searchable: false, collection: lambda { |field|
-                            field.resource.class.send(field.attribute.to_s.pluralize).keys
-                          }),
+                                       field.resource.class.send(field.attribute.to_s.pluralize).keys
+                                     }
+    ),
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze

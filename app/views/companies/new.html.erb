@@ -1,0 +1,64 @@
+<main class="container mx-auto">
+  <div class="grid grid-cols-1 w-4/5 gap-2 p-4 mx-auto">
+    <div class="shadow-lg p-2 md:p-6 shadow-lg rounded-lg w-full mx-auto mx-auto">
+      <div class="px-4 sm:px-0">
+        <h3 class="text-2xl font-semibold leading-0 text-gray-900">Company Information</h3>
+        <p class="mt-1 max-w-2xl text-sm leading-0 text-gray-500">Company details and company documents.</p>
+      </div>
+      <div class="mt-6 border-t border-gray-100">
+        <dl class="divide-y divide-gray-100">
+          <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt class="text-sm font-medium leading-6 text-gray-900">Company name</dt>
+            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 capitalize"><%= @company_onboarding.name %></dd>
+          </div>
+          <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt class="text-sm font-medium leading-6 text-gray-900">Email address</dt>
+            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><%= @company_onboarding.email %></dd>
+          </div>
+          <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt class="text-sm font-medium leading-6 text-gray-900">Phone</dt>
+            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><%= @company_onboarding.phone %></dd>
+          </div>
+          <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt class="text-sm font-medium leading-6 text-gray-900">Address</dt>
+            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><%= @company_onboarding.address %></dd>
+          </div>
+          <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt class="text-sm font-medium leading-6 text-gray-900">City</dt>
+            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><%= @company_onboarding.city %></dd>
+          </div>
+          <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt class="text-sm font-medium leading-6 text-gray-900">Terms</dt>
+            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              <%= @company_onboarding.terms? ? 'Agreed' : 'Disagreed' %>
+            </dd>
+          </div>
+          <% if @company_onboarding.about.present? %>
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">About</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                <%= @company_onboarding.about %>
+              </dd>
+            </div>
+          <% end %>
+          <%= form_with model: @company, url: companies_path, method: :post, data: {turbo: false} do |f| %>
+              <%= f.hidden_field :approval_token, value: @company_onboarding.tokens.find_by(purpose: 0, status: 0).secret%>
+            <div class="px-4 py-6 sm:grid sm:grid-cols-1 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">
+                <%= f.label :password, class: 'text-base font-medium' %>
+                <%= f.password_field :password, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+              </dt>
+            </div>
+            <div class="px-4 py-6 sm:grid sm:grid-cols-1 sm:gap-4 sm:px-0">
+              <dt class="text-sm font-medium leading-6 text-gray-900">
+                <%= f.label :password_confirmation, class: 'text-base font-medium' %>
+                <%= f.password_field :password_confirmation, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+              </dt>
+            </div>
+            <%= f.submit "Submit", class: "m-4 w-full md:w-1/5 px-8 mx-auto capitalize rounded hover:bg-blue-600 py-2 bg-blue-500 text-white" %>
+          <% end %>
+        </dl>
+      </div>
+    </div>
+  </div>
+</main>

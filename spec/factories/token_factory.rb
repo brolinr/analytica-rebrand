@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory(:token) do
-    status { rand(0..1) }
-    purpose { rand(0..1) }
-    generator { create(:company_onboarding) }
+    status { 0 }
+    purpose { 1 }
+    association :generator, factory: :company_onboarding
   end
 end

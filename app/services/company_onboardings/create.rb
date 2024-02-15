@@ -14,7 +14,7 @@ class CompanyOnboardings::Create < ApplicationService
     if @company_onboarding.save
       assign_data(@company_onboarding)
     else
-      add_error(@company_onboarding.errors.full_messages)
+      handle_validation_errors(@company_onboarding)
     end
   end
 end

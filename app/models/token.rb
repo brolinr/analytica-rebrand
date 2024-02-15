@@ -14,11 +14,13 @@ class Token < ApplicationRecord
 
   validates :purpose, presence: true
   validates :status, presence: true
-  validate :validate_token
+  validate :validate_token, on: %i[create]
 
   private
 
   def generate_token_secret
+    return if secret.present?
+
     loop do
       self.secret = SecureRandom.urlsafe_base64(64)
       break unless Token.exists?(secret: secret)

@@ -5,7 +5,7 @@ default: &default
   
 development:
   <<: *default
-  database: Analytica_development
+  database: Analytica-rebrand_development
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
 

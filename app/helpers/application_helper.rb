@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  include Pagy::Frontend
+
   def full_title(page_title)
-    page_title.blank? ? 'Analytica' : "#{page_title} | Analytica"
+    page_title.blank? ? 'Analytica' : "Analytica | #{page_title} "
   end
 
   # rubocop:disable Metrics/ParameterLists
@@ -12,7 +14,12 @@ module ApplicationHelper
                         success_string_key: nil, failure_string_key: nil, turbo_stream_response: nil)
 
     errors = nil
-    errors = object.errors.join(' ') if object.is_a?(Result)
+    if object.is_a?(Result)
+      errors = []
+      object.errors.each do |msg|
+        errors << msg
+      end
+    end
 
     respond_to do |format|
       format.html do
@@ -26,7 +33,7 @@ module ApplicationHelper
         else
           redirect_to(failure_path,
                       flash: {
-                        error: errors.presence || nil ||
+                        error: errors.presence.join(', ') || nil ||
                                I18n.t(failure_string_key) ||
                                object.errors.full_messages
                       })

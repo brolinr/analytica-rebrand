@@ -1,26 +1,50 @@
-<h2>Log in</h2>
+<% provide(:title, 'Sign in') %>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<div class="container flex justify-center p-2 my-8 mx-auto">
+  <div class="bg-white w-full md:w-2/5 px-2.5 py-6 shadow-lg border border-gray-300 rounded">
+    <div class="border-b pb-4 mb-5">
+      <h1 class="font-bold text-2xl leading-0 tracking-tight mb-0">Welcome back!</h1>
+      <p class="text-xs leading-0 m-0">
+        Do you not have an account?
+        <%= link_to "Create", new_company_onboarding_path, class: "text-blue-500" %>
+        yours instead!
+      </p>
     </div>
-  <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
+    <div class="p-1 border-b border-1">
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="w-full mb-4">
+          <%= f.label :email, class: 'text-sm font-semibold' %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email",
+                            class: 'w-full rounded border-1 bg-gray-50 border-1 border-slate-300 focus:bg-blue-100 focus:border-0
+                              appearance-none border-slate-300 p-2 focus:border-blue-500 focus:text-sm'
+          %>
+        </div>
+
+        <div class="w-full mb-4">
+          <%= f.label :password, class: 'text-sm font-semibold' %>
+          <%= f.password_field :password, autocomplete: "password",
+                            class: 'w-full rounded border-1 bg-gray-50 border-1 border-slate-300 focus:bg-blue-100 focus:border-0
+                              appearance-none border-slate-300 p-2 focus:border-blue-500 focus:text-sm'
+          %>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <div class="w-full mb-4">
+            <div class="flex h-6 items-center">
+              <%= f.check_box :remember_me, class: 'h-4 w-4 rounded border-gray-600 text-blue-500 focus:ring-0' %>
+              <%= f.label :remember_me, 'Remember me',  class: 'text-sm ml-2' %>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="w-full mb-7">
+          <%= f.submit "Sign in", class: "w-full py-2 capitalize rounded hover:bg-blue-600 bg-blue-500 text-white" %>
+        </div>
+      <% end %>
+    </div>
+    <div class="text-blue-500 text-sm mt-8 p-1">
+      <%= render "devise/shared/links" %>
+    </div>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
