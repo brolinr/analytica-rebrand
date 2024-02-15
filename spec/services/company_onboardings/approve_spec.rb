@@ -32,6 +32,7 @@ RSpec.describe CompanyOnboardings::Approve do
 
     context 'when onboarding is already approved' do
       before { company_onboarding.approved! }
+
       let(:params) { { approval: 'approved' } }
 
       it 'does not approve onboarding', :aggregate_failures do
@@ -44,6 +45,7 @@ RSpec.describe CompanyOnboardings::Approve do
 
     context 'when onboarding is already disapproved' do
       before { company_onboarding.disapproved! }
+
       let(:params) { { approval: 'disapproved' } }
 
       it 'does not disapprove onboarding', :aggregate_failures do

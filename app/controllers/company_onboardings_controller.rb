@@ -89,8 +89,6 @@ class CompanyOnboardingsController < ApplicationController
 
   def token_valid?
     token = company_onboarding&.tokens&.find_by(status: 0, purpose: 1)
-    if token.nil? || token.void?
-      redirect_to root_path, flash: { alert: I18n.t('flash.something_wrong') }
-    end
+    redirect_to root_path, flash: { alert: I18n.t('flash.something_wrong') } if token.nil? || token.void?
   end
 end

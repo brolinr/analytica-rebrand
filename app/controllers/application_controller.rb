@@ -5,8 +5,6 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
 
   def redirect_signed_in_user
-    if company_signed_in? || administrator_signed_in?
-      redirect_to root_path, notice: "You are already signed in."
-    end
+    redirect_to root_path, notice: I18n.t('already_signed') if company_signed_in? || administrator_signed_in?
   end
 end

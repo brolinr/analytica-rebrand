@@ -21,6 +21,7 @@ RSpec.describe Companies::Create do
 
     context 'with onboarding disapproved/pending_review' do
       before { company_onboarding.disapproved! }
+
       let(:params) { { password: password, password_confirmation: password } }
 
       it 'does not create company', :aggregate_failures do

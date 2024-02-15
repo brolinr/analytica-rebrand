@@ -1,4 +1,5 @@
 en:
+  already_signed: You are already signed in.
   controllers:
     company_onboardings:
       approve:

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def admin
   Administrator.create!(
     email: 'admin@example.com',
@@ -35,7 +37,7 @@ def generate_company
     city: 'Location A',
     address: FFaker::AddressBR.street_address,
     password: password,
-    password_confirmation: password,
+    password_confirmation: password
   )
 end
 
@@ -59,13 +61,10 @@ end
 
 70.times do |time|
   company_onboarding = generate_company_onboarding
+  company_onboarding.save
   if time < 10
-    company_onboarding.save
     company_onboarding.approved!
   elsif time < 30
-    company_onboarding.save
     company_onboarding.disapproved!
-  else
-    company_onboarding.save
   end
 end

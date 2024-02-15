@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe CompanyOnboardingsController, type: :controller do
@@ -15,6 +17,7 @@ RSpec.describe CompanyOnboardingsController, type: :controller do
   describe 'POST #create' do
     context 'with valid params' do
       let(:request) { post :create, params: { company_onboarding: attributes_for(:company_onboarding) } }
+
       it 'creates a company onboarding', :aggregate_failures do
         expect { request }.to change(CompanyOnboarding, :count).by(1)
         expect(response).to redirect_to(root_path)
@@ -37,6 +40,7 @@ RSpec.describe CompanyOnboardingsController, type: :controller do
 
     context 'with void token' do
       before { token.void! }
+
       let(:params) { { id: company_onboarding.id, disapproval_token: token.secret } }
 
       it 'redirects to root path', :aggregate_failures do
@@ -56,7 +60,7 @@ RSpec.describe CompanyOnboardingsController, type: :controller do
         }
       end
 
-      it "updates company onboarding and voids token", :aggregate_failures do
+      it 'updates company onboarding and voids token', :aggregate_failures do
         expect { request }.to change { token.reload.status }.to('void').and(
           change { company_onboarding.reload.name }.to('New name')
         )
@@ -67,9 +71,10 @@ RSpec.describe CompanyOnboardingsController, type: :controller do
 
     context 'with onboarding existing company for onboarding' do
       before { create(:company, email: company_onboarding.email) }
+
       let(:params) { { id: company_onboarding.id, disapproval_token: token.secret } }
 
-      it "redirects to root path", :aggregate_failures do
+      it 'redirects to root path', :aggregate_failures do
         request
         expect(response).to redirect_to(root_path)
       end
@@ -78,8 +83,10 @@ RSpec.describe CompanyOnboardingsController, type: :controller do
 
   describe 'POST #approve' do
     before { sign_in administrator }
+
     context 'with approval params' do
       before { company_onboarding.pending_review! }
+
       let(:params) { { id: company_onboarding.id, company_onboarding: { approval: 'approved' } } }
 
       it 'approves company onboarding', :aggregate_failures do
@@ -93,12 +100,13 @@ RSpec.describe CompanyOnboardingsController, type: :controller do
 
     context 'with disapproval params' do
       before { company_onboarding.pending_review! }
-      let(:params) {
+
+      let(:params) do
         {
           id: company_onboarding.id,
           company_onboarding: { approval: 'disapproved', reason_for_disapproval: 'NOt eligible' }
         }
-      }
+      end
 
       it 'disapproves company onboarding', :aggregate_failures do
         post :approve, params: params
@@ -111,12 +119,13 @@ RSpec.describe CompanyOnboardingsController, type: :controller do
 
     context 'with approved onboarding' do
       before { company_onboarding.approved! }
-      let(:params) {
+
+      let(:params) do
         {
           id: company_onboarding.id,
           company_onboarding: { approval: 'disapproved' }
         }
-      }
+      end
 
       it 'does not change approval status', :aggregate_failures do
         post :approve, params: params
@@ -125,7 +134,5 @@ RSpec.describe CompanyOnboardingsController, type: :controller do
         expect(response).to redirect_to(company_onboardings_path)
       end
     end
-
   end
-
 end

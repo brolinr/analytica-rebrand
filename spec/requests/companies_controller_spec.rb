@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe CompaniesController, type: :controller do
@@ -7,6 +9,7 @@ RSpec.describe CompaniesController, type: :controller do
   describe 'GET new' do
     context 'when company exists' do
       let(:request) { get :new, params: { approval_token: '' } }
+
       it { expect(request).to redirect_to(root_path) }
     end
   end
