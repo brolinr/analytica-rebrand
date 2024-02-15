@@ -7,7 +7,10 @@ ruby '3.1.4'
 
 gem 'active_storage_validations',           '~> 0.9.8'
 gem 'activestorage-validator',              '~> 0.4.0'
+gem 'administrate',                         '~> 0.20.1'
 gem 'bootsnap',                             '~> 1.17.1', require: false
+gem 'cssbundling-rails'
+gem 'devise',                               '~> 4.9'
 gem 'dotenv-rails',                         '>= 2.8.1'
 gem 'image_processing',                     '~> 1.2'
 gem 'importmap-rails',                      '~> 2.0.1'
@@ -27,6 +30,8 @@ group :development, :test do
   gem 'byebug',                             '~> 11.1'
   gem 'database_cleaner-active_record',     '~> 2.1'
   gem 'debug',                              '~> 1.8', platforms: %i[mri mingw x64_mingw]
+  gem 'factory_bot_rails',                  '~> 6.4'
+  gem 'ffaker',                             '~> 2.20.0'
   gem 'foreman',                            '~> 0.87.2'
   gem 'rubocop',                            '~> 1.35.0'
   gem 'rubocop-performance',                '~> 1.14.3'
@@ -48,3 +53,5 @@ group :test do
   gem 'vcr',                                '~> 6.1.0'
   gem 'webdrivers',                         '~> 5.2.0'
 end
+
+gem 'pagy', '~> 6.4'

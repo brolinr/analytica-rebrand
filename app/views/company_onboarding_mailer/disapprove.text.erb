@@ -1,0 +1,15 @@
+We regret to inform you that your onboarding application for Analytica has 
+not been approved at this time. The decision was based on the following reason:
+
+<%= @onboarding.reason_for_disapproval.capitalize %>
+
+We understand that circumstances may vary, and we value your interest in joining us. 
+If you believe that you can address the mentioned concern and would like to proceed with 
+your application, please copy and paste the following URL into your browser:
+
+<%= @url %>
+
+Should you have any questions or require further assistance, please do not hesitate to contact
+our support team at <%= ENV['DELIVERY_SUPPORT_EMAIL'] %>.
+
+Thank you for your understanding, and we appreciate your continued interest in Analytica.

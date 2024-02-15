@@ -12,8 +12,10 @@
   </head>
 
   <body>
-    <%= render 'shared/header' %>
-    <main class="container-fluid mx-auto">
+    <%= render 'shared/header' unless (company_signed_in? || administrator_signed_in?) && !current_page?(root_path) %>
+
+    <%= render 'shared/flash_messages', data: flash %>
+    <main class="">
       <%= yield %>
     </main>
   </body>

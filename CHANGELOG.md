@@ -6,3 +6,4 @@
 - Application setup
 - Frontend setup
 - Backend setup
+- User authenitcation

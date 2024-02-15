@@ -1,0 +1,172 @@
+<% provide(:title, 'Onboarding') %>
+
+<main class="w-full container p-2 bg-white my-2 rounded mx-auto">
+  <div class="grid grid-cols-1 md:grid-cols-6 gap-2 p-4">
+    <div class="md:col-span-1 py-2 text-center">
+      <button class="w-4/5 mx-auto capitalize rounded hover:bg-blue-600 py-2 bg-blue-500 text-white" id="company-details-btn">Company details</button>
+      <button class="w-4/5 mx-auto duration-300 capitalize rounded border hover:bg-blue-500 hover:text-white my-2 py-2 border-blue-500 text-blue-500" id="documents-btn">documents</button>
+    </div>
+    <div class="md:col-span-5 p-4 shadow-lg rounded-lg">
+      <div class="mb-5">
+        <h1 class="font-bold text-4xl leading-0 tracking-tight mb-0">Edit account details!</h1>
+        <p class="text-sm leading-0 m-0">
+          Already registered?
+          <%= link_to "Sign in", new_company_session_path, class: "text-blue-500" %>
+          to your account instead.
+        </p>
+      </div>
+    <%= form_with(url: company_onboarding_path(@company_onboarding), model: @company_onboarding, html: { method: :put, data: { turbo: false } }) do |f| %>
+      <%= render "/shared/error_messages", errors: flash[:error] %>
+      <div class="rounded text-gray-900" id="company-details-tab">
+        <div class="container-fluid mb-4 grid grid-cols-1 gap-1 md:gap-4 md:grid-cols-12 row fw-semibold">
+          <div class="md:col-span-5">
+            <p><%= f.label 'Company name', class: 'text-base font-medium' %></p>
+            <%= f.text_field :name, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2', placeholder: "Analytica" %>
+          </div>
+
+          <div class="md:col-span-5">
+            <p><%= f.label :phone, class: 'text-base font-medium' %></p>
+            <%= f.text_field :phone, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2', placeholder: "(024) 0123457" %>
+          </div>
+
+          <div class="md:col-span-10">
+            <p><%= f.label :email, class: 'text-base font-medium' %></p>
+            <%= f.email_field :email, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2', placeholder: "analytica@support.com" %>
+          </div>
+
+          <div class="md:col-span-5">
+            <p><%= f.label :address, class: 'text-base font-medium' %></p>
+            <%= f.text_field :address, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2', placeholder: "1234 Street" %>
+          </div>
+
+          <div class="md:col-span-5">
+            <p><%= f.label :city, class: 'text-base font-medium' %></p>
+            <%= f.text_field :city, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2', placeholder: "Harare" %>
+          </div>
+        </div>
+          <%= link_to '#', class: "m-4 w-full md:w-1/5 px-8 mx-auto capitalize rounded hover:bg-blue-600 py-2 bg-blue-500 text-white", id: "next-button" do %>
+            Next
+          <% end %>
+      </div>
+
+      <div class="rounded hidden text-gray-900 " id="documents-tab">
+        <div class="container-fluid mb-4 grid grid-cols-1 gap-1 md:gap-4 md:grid-cols-12 row fw-semibold">
+          <div class="md:col-span-5">    
+            <%= f.label :certificate_of_incorporation, class: 'text-base font-medium' %>
+            <%= f.file_field :certificate_of_incorporation, accept: 'application/pdf', class: "w-full text-sm text-gray-700 border
+              file:mr-4 file:py-2 file:px-4 bg-slate-200 rounded file:rounded-s file:border-0
+              file:text-sm file:font-semibold file:bg-slate-500 file:text-gray-100
+              hover:file:bg-slate-300 hover:file:bg-gray-700 mb-0
+            "%>
+            <span class="text-xs text-blue-700 m-0">PDF only(MAX: 5MB)</span>
+          </div>
+
+          <div class="md:col-span-5">    
+            <%= f.label :tax_clearance,  class: 'text-base font-medium' %>
+            <%= f.file_field :tax_clearance, accept: 'application/pdf', class: "w-full text-sm text-gray-700 border
+              file:mr-4 file:py-2 file:px-4 bg-slate-200 rounded file:rounded-s file:border-0
+              file:text-sm file:font-semibold file:bg-slate-500 file:text-gray-100
+              hover:file:bg-slate-300 hover:file:bg-gray-700 mb-0
+            "%>
+            <span class="text-xs text-blue-700 m-0">PDF only(MAX: 5MB)</span>
+          </div>
+
+          <div class="md:col-span-5">    
+            <%= f.label :cr5,  class: 'text-base font-medium' %>
+            <%= f.file_field :cr5, accept: 'application/pdf', class: "w-full text-sm text-gray-700 border
+              file:mr-4 file:py-2 file:px-4 bg-slate-200 rounded file:rounded-s file:border-0
+              file:text-sm file:font-semibold file:bg-slate-500 file:text-gray-100
+              hover:file:bg-slate-300 hover:file:bg-gray-700 mb-0
+            "%>
+            <span class="text-xs text-blue-700 m-0">PDF only(MAX: 5MB)</span>
+          </div>
+
+          <div class="md:col-span-5">    
+            <%= f.label :cr6,  class: 'text-base font-medium' %>
+            <%= f.file_field :cr6, accept: 'application/pdf', class: "w-full text-sm text-gray-700 border
+              file:mr-4 file:py-2 file:px-4 bg-slate-200 rounded file:rounded-s file:border-0
+              file:text-sm file:font-semibold file:bg-slate-500 file:text-gray-100
+              hover:file:bg-slate-300 hover:file:bg-gray-700 mb-0
+            "%>
+            <span class="text-xs text-blue-700 m-0">PDF only(MAX: 5MB)</span>
+          </div>
+
+          <div class="md:col-span-12">
+            <div class="flex h-6 items-center">
+              <%= f.label :terms, 'Agree to policy and terms of use',  class: 'text-base font-medium mr-2' %>
+              <%= f.check_box :terms, class: 'h-4 w-4 rounded border-gray-600 text-blue-500 focus:ring-indigo-600' %>
+            </div>
+            <div class="text-sm leading-6">
+              <p class="text-gray-500">Read our <span class="text-blue-500">privacy policy</span> and <span class="text-blue-500">terms of use.</span> </p>
+            </div>
+          </div>
+
+          <div class="md:col-span-12">
+            <%= f.submit "Update", class: "m-4 w-full md:w-1/5 px-8 mx-auto capitalize rounded hover:bg-blue-600 py-2 bg-blue-500 text-white" %>
+          </div>
+        </div>
+
+        <%= link_to '#', class: "m-4 w-full md:w-1/5 px-8 mx-auto capitalize rounded hover:bg-blue-600 py-2 bg-blue-500 text-white", id: "previous-button" do %>
+          Previous
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  </div>
+</main>
+
+<script>
+  document.addEventListener('turbo:load', function() {
+    console.log('hello')
+  let next_button = document.getElementById('next-button');
+  let previous_button = document.getElementById('previous-button')
+
+  let documents_tab = document.getElementById('documents-tab');
+  let documents_button = document.getElementById('documents-btn')
+
+  let company_details_tab = document.getElementById('company-details-tab');
+  let company_details_button = document.getElementById('company-details-btn')
+
+  next_button.addEventListener('click', function() {
+    company_details_tab.classList.add('hidden')
+    documents_tab.classList.add('block')
+    documents_tab.classList.remove('hidden')
+
+    documents_button.classList.add('hover:bg-blue-600', 'bg-blue-500', 'text-white')
+    company_details_button.classList.remove('text-white')
+    company_details_button.classList.add('border', 'border-blue-500', 'bg-white', 'text-blue-500')
+  });
+
+  previous_button.addEventListener('click', function() {
+    documents_tab.classList.add('hidden')
+    company_details_tab.classList.add('block')
+    company_details_tab.classList.remove('hidden')
+
+    documents_button.classList.remove('hover:bg-blue-600', 'bg-blue-500', 'text-white')
+    company_details_button.classList.add('text-white')
+    company_details_button.classList.remove('border', 'border-blue-500', 'bg-white', 'text-blue-500')
+  });
+
+  company_details_button.addEventListener('click', function() {
+    documents_tab.classList.add('hidden')
+    company_details_tab.classList.add('block')
+    company_details_tab.classList.remove('hidden')
+
+    documents_button.classList.remove('hover:bg-blue-600', 'bg-blue-500', 'text-white')
+    company_details_button.classList.add('text-white')
+    company_details_button.classList.remove('border', 'border-blue-500', 'bg-white', 'text-blue-500')
+  });
+
+  documents_button.addEventListener('click', function() {
+    company_details_tab.classList.add('hidden')
+    documents_tab.classList.add('block')
+    documents_tab.classList.remove('hidden')
+
+    documents_button.classList.add('hover:bg-blue-600', 'bg-blue-500', 'text-white')
+    company_details_button.classList.remove('text-white')
+    company_details_button.classList.add('border', 'border-blue-500', 'bg-white', 'text-blue-500')
+  });
+
+  
+});
+</script>

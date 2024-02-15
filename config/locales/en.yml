@@ -1,1 +1,37 @@
 en:
+  already_signed: You are already signed in.
+  controllers:
+    company_onboardings:
+      approve:
+        success: "Company was successfully approved."
+        failure: "Company could not be approved."
+  errors:
+    onboarding_not_approved: "Company onboarding has not been approved."
+  flash:
+    created: Successfully created.
+    updated: Successfully updated.
+    destroyed: Successfully destroyed.
+    not_found: "%{model} not found."
+    something_wrong: "Something went wrong."
+    account_created: "Account was successfully created. Please confirm your account through email to continue."
+  mailers:
+    approve:
+      subject: Congratulations! Your Onboarding has been Approved 🎉
+    disapprove:
+      subject: Application Update Required
+  models:
+    company:
+      errors:
+        pdf_format: must be in PDF format
+        image_format: must be a valid image format
+        less_than_5mb: should be less than 5MB
+        terms_and_conditions:
+          presence: Please accept the terms and conditions to continue
+        certificate_of_incorporation:
+          presence: Submit your certificate of incorporation to continue
+        tax_clearance:
+          presence: Submit your tax clearance certificate to continue
+        cr5:
+          presence: CR5 is required
+        cr6:
+          presence: Submit your CR6 certificate to continue
