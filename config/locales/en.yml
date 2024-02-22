@@ -20,6 +20,10 @@ en:
     disapprove:
       subject: Application Update Required
   models:
+    auction:
+      errors:
+        deadline_later: "The start time must be before the end time."
+        only_supplier: "Only suppliers can create auctions."
     company:
       errors:
         pdf_format: must be in PDF format

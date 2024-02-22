@@ -2,7 +2,7 @@
 
 class DeviseCreateCompanies < ActiveRecord::Migration[7.0]
   def change
-    create_table :companies do |t|
+    create_table :companies, id: :uuid do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ''
       t.string :encrypted_password, null: false, default: ''
@@ -37,7 +37,7 @@ class DeviseCreateCompanies < ActiveRecord::Migration[7.0]
       t.string :city,               null: false, default: ''
       t.boolean :terms,             null: false, default: false
       t.string :about,               null: false, default: ''
-      t.boolean :buyer,                null: false, default: false
+      t.boolean :bidder,                null: false, default: false
       t.boolean :supplier,               null: false, default: false
 
       t.timestamps null: false

@@ -19,9 +19,9 @@ Analytica Procurement Solution is a powerful procurement platform designed to st
 
 ### Reverse Auction
 
-The Reverse Auction module is a stand-alone system, accessible to users with accounts and subscriptions. Companies can subscribe as either suppliers or buyers. Key features include:
+The Reverse Auction module is a stand-alone system, accessible to users with accounts and subscriptions. Companies can subscribe as either suppliers or bidders. Key features include:
 
-- Buyers can host auctions with start dates and deadlines.
+- bidders can host auctions with start dates and deadlines.
 - Suppliers can submit bids for lots/products in the auction, including at least four pictures of the items.
 - The winning bid is the one with the lowest price.
 - Suppliers can bid only on lots in their region, indicating local delivery.

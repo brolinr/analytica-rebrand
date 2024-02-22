@@ -7,7 +7,7 @@ class CreateCompanyOnboardings < ActiveRecord::Migration[7.0]
       t.string :phone,                 null: false, default: ''
       t.string :address,               null: false, default: ''
       t.boolean :terms,                null: false, default: false
-      t.boolean :buyer,                null: false, default: false
+      t.boolean :bidder,                null: false, default: false
       t.boolean :supplier,             null: false, default: false
       t.integer :approval,             null: false, default: 0
       t.text :reason_for_disapproval

@@ -7,7 +7,7 @@ class CompanyDashboard < Administrate::BaseDashboard
     id: Field::String,
     about: Field::Text,
     address: Field::String,
-    buyer: Field::Boolean,
+    bidder: Field::Boolean,
     city: Field::String,
     email: Field::String,
     name: Field::String,
@@ -28,7 +28,7 @@ class CompanyDashboard < Administrate::BaseDashboard
     id
     about
     address
-    buyer
+    bidder
     city
     email
     name
@@ -42,7 +42,7 @@ class CompanyDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = %i[
     about
     address
-    buyer
+    bidder
     city
     email
     name

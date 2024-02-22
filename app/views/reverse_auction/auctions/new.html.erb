@@ -1,0 +1,55 @@
+<%= render 'shared/breadcrumb',
+           paths: [
+             { name: 'auctions', link: reverse_auction_auctions_path },
+             { name: 'new' }
+           ]
+%>
+
+<div class="py-10 bg-red-100 w-full">
+<div class="md:w-1/2 w-full bg-white mx-auto">
+  <h1 class="text-center text-3xl">New Auction</h1>
+
+  <%= form_with model: @auction, url: reverse_auction_auctions_path, method: :post, data: {turbo: false} do |f| %>
+  <div class="w-full p-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="md:col-span-2">
+      <dt class="text-sm font-medium leading-6 text-gray-900">
+        <%= f.label :title, class: 'text-base font-medium' %>
+        <%= f.text_field :title, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+      </dt>
+    </div>
+
+    <div class="md:col-span-2">
+      <dt class="text-sm font-medium leading-6 text-gray-900">
+        <%= f.label :description, class: 'text-base font-medium' %>
+        <%= f.rich_text_area :description, class: 'h-28 w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+      </dt>
+    </div>
+
+    <div class="md:col-span-2">
+      <dt class="text-sm font-medium leading-6 text-gray-900">
+        <%= f.label :collaborator_ids, 'Invite collaborators', class: 'text-base font-medium' %>
+        <%= f.collection_select :collaborator_ids, @collaborators, :id, :name, { include_blank: false, multiple: true }, { :class => "tail w-full rounded focus:bg-blue-100 border-slate-300 p-2", multiple: true } %>
+      </dt>
+    </div>
+
+    <div class="md:col-span-1">
+      <dt class="text-sm font-medium leading-6 text-gray-900">
+        <%= f.label :starts_at, class: 'text-base font-medium' %>
+        <%= f.datetime_field :starts_at, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+      </dt>
+    </div>
+
+    <div class="md:col-span-1">
+      <dt class="text-sm font-medium leading-6 text-gray-900">
+        <%= f.label :closes_at, class: 'text-base font-medium' %>
+        <%= f.datetime_field :closes_at, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+      </dt>
+    </div>
+    <div class="md:col-span-2 text-center">
+      <%= f.submit "Submit", class: "m-4 px-8 mx-auto capitalize rounded hover:bg-blue-600 py-2 bg-blue-500 text-white" %>
+    </div>
+  </div>
+
+  <% end %>
+</div>
+</div>

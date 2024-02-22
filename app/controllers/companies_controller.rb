@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class CompaniesController < ApplicationController
-  before_action :token_void?
-  before_action :company_onboarding
+  before_action :token_void?, except: :edit
+  before_action :company_onboarding, except: :edit
+  layout 'reverse_auction', only: :edit
 
   def new; end
 
@@ -15,6 +16,11 @@ class CompaniesController < ApplicationController
       failure_path: new_company_path(approval_token: token.secret),
       success_string_key: 'flash.account_created'
     )
+  end
+
+  def edit
+    redirect_to reverse_auction_dashboards_path, notice: I18n.t('flash.something_wrong') if current_company.id != params[:id].to_i
+    @company = current_company
   end
 
   private

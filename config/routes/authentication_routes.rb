@@ -1,4 +1,4 @@
-resources :companies, only: %i[new create]
+resources :companies, only: %i[new create edit]
 devise_for :companies, skip: [:sessions, :passwords, :confirmations]
 devise_for :administrators, only: %i[sessions unlocks]
 

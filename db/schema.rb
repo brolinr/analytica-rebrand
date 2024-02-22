@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_14_170445) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_17_090315) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_text_rich_texts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.uuid "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
 
   create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
@@ -62,7 +72,27 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_14_170445) do
     t.index ["reset_password_token"], name: "index_administrators_on_reset_password_token", unique: true
   end
 
-  create_table "companies", force: :cascade do |t|
+  create_table "auctions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.datetime "starts_at"
+    t.datetime "closes_at"
+    t.uuid "company_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_auctions_on_company_id"
+  end
+
+  create_table "collaborators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "company_id", null: false
+    t.uuid "auction_id", null: false
+    t.integer "acceptance_status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["auction_id"], name: "index_collaborators_on_auction_id"
+    t.index ["company_id"], name: "index_collaborators_on_company_id"
+  end
+
+  create_table "companies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -78,7 +108,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_14_170445) do
     t.string "city", default: "", null: false
     t.boolean "terms", default: false, null: false
     t.string "about", default: "", null: false
-    t.boolean "buyer", default: false, null: false
+    t.boolean "bidder", default: false, null: false
     t.boolean "supplier", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -95,7 +125,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_14_170445) do
     t.string "phone", default: "", null: false
     t.string "address", default: "", null: false
     t.boolean "terms", default: false, null: false
-    t.boolean "buyer", default: false, null: false
+    t.boolean "bidder", default: false, null: false
     t.boolean "supplier", default: false, null: false
     t.integer "approval", default: 0, null: false
     t.text "reason_for_disapproval"
@@ -120,4 +150,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_14_170445) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "auctions", "companies"
+  add_foreign_key "collaborators", "auctions"
+  add_foreign_key "collaborators", "companies"
 end

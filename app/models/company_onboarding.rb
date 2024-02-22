@@ -42,7 +42,7 @@ class CompanyOnboarding < ApplicationRecord
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[
-      about address approval buyer created_at email id
+      about address approval bidder created_at email id
       location name phone seller terms_and_conditions updated_at
     ]
   end

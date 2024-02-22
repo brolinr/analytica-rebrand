@@ -1,0 +1,7 @@
+<%= render \
+      'shared/breadcrumb',
+      paths: [
+        { name: 'auctions', link: reverse_auction_auctions_path },
+        { name: @auction.title.truncate(10) }
+      ]
+%>

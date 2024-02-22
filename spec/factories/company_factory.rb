@@ -10,5 +10,9 @@ FactoryBot.define do
     address { FFaker::AddressBR.street_address }
     terms { true }
     confirmed_at { Time.zone.now }
+
+    trait :as_supplier do
+      supplier { true }
+    end
   end
 end

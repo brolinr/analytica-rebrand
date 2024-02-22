@@ -9,4 +9,6 @@ class Company < ApplicationRecord
   validates :city, presence: true, length: { maximum: 50 }
   validates :address, presence: true, length: { maximum: 50 }
   validates :phone, presence: true, length: { minimum: 10, maximum: 16 }, uniqueness: true
+
+  has_many :auctions, dependent: :destroy
 end
