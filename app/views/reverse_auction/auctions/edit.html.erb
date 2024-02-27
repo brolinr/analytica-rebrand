@@ -2,7 +2,66 @@
     'shared/breadcrumb',
      paths: [
        { name: 'auctions', link: reverse_auction_auctions_path },
-       { name: @auction.title.truncate(10), link: reverse_auction_auction_path(@auction) },
+       { name: @auction.title.truncate(50), link: reverse_auction_auction_path(@auction) },
        { name: 'edit' }
      ]
 %>
+
+<div class="p-3 w-full bg-slate-200">
+  <div class="w-full lg:w-1/2 mx-auto p-2 bg-white rounded-lg shadow-lg">
+    <h1 class="text-2xl font-bold text-center mb-4">Edit auction</h1>
+    <%= form_with model: @auction, url: reverse_auction_auction_path, method: :patch, data: {turbo: false} do |f| %>
+        <div class="w-full p-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="md:col-span-2">
+            <dt class="text-sm font-medium leading-6 text-gray-900">
+              <%= f.label :title, class: 'text-base font-medium' %>
+              <%= f.text_field :title, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+            </dt>
+          </div>
+
+          <div class="md:col-span-1">
+            <dt class="text-sm font-medium leading-6 text-gray-900">
+              <%= f.label :starts_at, class: 'text-base font-medium' %>
+              <%= f.datetime_field :starts_at, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+            </dt>
+          </div>
+
+          <div class="md:col-span-1">
+            <dt class="text-sm font-medium leading-6 text-gray-900">
+              <%= f.label :closes_at, class: 'text-base font-medium' %>
+              <%= f.datetime_field :closes_at, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+            </dt>
+          </div>
+
+          <% if @auction.company_id == current_company.id %>
+            <div class="md:col-span-1">
+              <%= f.label :collaborator_ids, 'Invite collaborators', class: 'text-base font-medium' %>
+              <dt class="text-sm font-medium leading-6 text-gray-900">
+                <%= f.collection_select :collaborator_ids, @collaborators, :id, :name, {selected: @auction.collaborators.pluck(:company_id) ,  include_blank: false, multiple: true }, { :class => "tail w-full rounded focus:bg-blue-100 border-slate-300 p-2", multiple: true } %>
+              </dt>
+            </div>
+          <% end %>
+
+          <div class="md:col-span-1">
+            <%= f.label :image, 'Banner image', class: 'text-base font-medium' %>
+            <%= f.file_field :image, accept: 'image/*', class: "w-full text-sm text-gray-700 border
+              file:mr-4 file:py-2 file:px-4 bg-slate-200 rounded file:rounded-s file:border-0
+              file:text-sm file:font-semibold file:bg-slate-500 file:text-gray-100
+              hover:file:bg-slate-300 hover:file:bg-gray-700 mb-0
+            "%>
+            <span class="text-xs text-blue-700 m-0">images only(MAX: 5MB)</span>
+          </div>
+
+          <div class="md:col-span-2 list-disc">
+            <%= f.label :description, class: 'text-base font-medium' %>
+            <%= f.rich_text_area :description, class: 'prose prose-a:text-blue-600 prose-ul:list-outside prose-pre:bg-gray-300 prose-em:text-slate-800 prose-ul:text-slate-900 prose-headings:text-slate-900 prose-sm'%>
+          </div>
+
+          <div class="md:col-span-2 text-center">
+            <%= f.submit "Update", class: "m-4 px-8 mx-auto capitalize rounded hover:bg-blue-600 py-2 bg-blue-500 text-white" %>
+          </div>
+        </div>
+
+      <% end %>
+  </div>
+</div>

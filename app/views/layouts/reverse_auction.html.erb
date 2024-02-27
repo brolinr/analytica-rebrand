@@ -8,7 +8,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", media: "all" %>
     <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/tail.select.js@0.5.22/css/default/tail.select-light.css" %>
 
     <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/tail.select.js@0.5.22/js/tail.select.min.js" %>
@@ -68,20 +68,25 @@
         </li>
 
         <li>
-          <%= link_to '#', class: 'flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group' do %>
+          <%= link_to reverse_auction_live_auctions_path, class: 'flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group' do %>
             <i class="bi-collection-play-fill w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white"></i>
 
             <span class="ms-3">Live auctions</span>
           <% end %>
         </li>
         <li class="my-4">
-          <% if company_signed_in? && current_company.bidder? %>
+          <% if company_signed_in? && current_company.supplier %>
             <h1 class="text-gray-200 text-2xl font-bold mb-2">Auctioneer </h1>
             <li>
-              <%= link_to '#', class: 'flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group' do %>
+              <%= link_to reverse_auction_collaborators_path, class: 'flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group' do %>
                 <i class="bi-envelope-exclamation-fill w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white"></i>
                 <span class="ms-3">Requests</span>
-                <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium rounded-full bg-white text-blue-700">3</span>
+                <% count = current_company.collaborators.where(acceptance_status: :pending).count %>
+                <% if count > 0 %>
+                  <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium rounded-full bg-white text-blue-700">
+                    <%= count %>
+                  </span>
+                <% end %>
               <% end %>
             </li>
 
@@ -93,7 +98,7 @@
             </li>
 
             <li>
-              <%= link_to '#', class: 'flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group' do %>
+              <%= link_to reverse_auction_auctions_path, class: 'flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group' do %>
                 <i class="bi-grid-fill w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white"></i>
 
                 <span class="ms-3">My Auctions</span>
@@ -101,7 +106,7 @@
             </li>
           <% end %>
 
-          <% if company_signed_in? && current_company.supplier? %>
+          <% if company_signed_in? && current_company.bidder? %>
             <h1 class="text-gray-200 text-2xl font-bold my-2">Bidder</h1>
             <li>
               <%= link_to '#', class: 'flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group' do %>

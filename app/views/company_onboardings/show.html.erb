@@ -18,7 +18,7 @@
           <%= form_with(model: @company_onboarding, url: approve_company_onboarding_path(@company_onboarding), html: { method: :post, data: { turbo: false } })do |f| %>
             <%= f.hidden_field :approval, value: 'disapproved' %>
             <%= f.label :reason_for_disapproval, class: 'text-sm' %>
-            <%= f.text_area :reason_for_disapproval, class: 'text-sm h-20 w-full appearance-none border border-slate-300 bg-slate-50 rounded' %>
+            <%= f.text_area :reason_for_disapproval, required: true,  class: 'text-sm h-20 w-full appearance-none border border-slate-300 bg-slate-50 rounded' %>
             <%= f.submit 'Disaprove', class: 'text-center w-3/5 mx-auto capitalize rounded hover:bg-amber-600 py-2 bg-amber-500 text-white' %>
           <% end %>
         </div>
@@ -188,7 +188,7 @@
           <%= form_with(model: @company_onboarding, url: approve_company_onboarding_path(@company_onboarding), html: { method: :post, data: { turbo: false } })do |f| %>
             <%= f.hidden_field :approval, value: 'disapproved' %>
             <%= f.label :reason_for_disapproval, class: 'text-sm' %>
-            <%= f.text_area :reason_for_disapproval, class: 'text-sm h-20 w-full appearance-none border border-slate-300 bg-slate-50 rounded' %>
+            <%= f.text_area :reason_for_disapproval, required: true,  class: 'text-sm h-20 w-full appearance-none border border-slate-300 bg-slate-50 rounded' %>
             <%= f.submit 'Disaprove', class: 'text-center w-3/5 mx-auto capitalize rounded hover:bg-amber-600 py-2 bg-amber-500 text-white' %>
           <% end %>
         </div>

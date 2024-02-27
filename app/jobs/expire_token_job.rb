@@ -7,6 +7,6 @@ class ExpireTokenJob
     @token = Token.find(token_id)
     @token.void!
   rescue ActiveRecord::RecordNotFound
-    sidekiq_options retry: false
+    sidekiq_options_hash retry: false
   end
 end

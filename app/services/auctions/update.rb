@@ -25,6 +25,7 @@ class Auctions::Update < ApplicationService
 
   def update_collaborators
     collaborator_ids = clean_collaborator_ids(params[:collaborator_ids])
+    return if collaborator_ids.nil?
     return auction.collaborators.destroy_all if collaborator_ids.empty?
 
     auction.collaborators.where.not(company_id: collaborator_ids).each(&:destroy!)
@@ -39,7 +40,7 @@ class Auctions::Update < ApplicationService
   end
 
   def clean_collaborator_ids(collaborator_ids)
-    return [] if collaborator_ids.nil?
+    return if collaborator_ids.nil?
 
     collaborator_ids.reject { |id| id.to_s.empty? }
   end

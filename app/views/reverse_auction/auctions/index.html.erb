@@ -1,1 +1,101 @@
 <%= render 'shared/breadcrumb', paths: [{ name: 'auctions'}] %>
+
+<main class="container mx-auto py-10">
+  <div class="p-4">
+    <h3 class="text-gray-800 text-xl font-bold sm:text-2xl">
+      Auctions
+    </h3>
+    <p class="text-gray-600">
+      Manage auctions that you have created and those you are collaborating on
+    </p>
+  </div>
+
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <%= search_form_for @q, url: reverse_auction_auctions_path, html: { method: :get } do |f| %>
+      <div class="flex items-right p-2 md:justify-end flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
+        <label for="table-search" class="sr-only">Search</label>
+        <div class="relative">
+          <%= f.search_field :title_cont, class: 'm-2 p-2  text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50', placeholder: 'Search...' %>
+          <%= f.submit 'Search', class: " text-white mx-2 bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded" %>
+        </div>
+      </div>
+    <% end %>
+
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+         <%= sort_link @q, :title, t(Auction.human_attribute_name(:title)) %>
+        </th>
+        <th scope="col" class="px-6 py-3">
+          <%= sort_link @q, :starts_at, t(Auction.human_attribute_name(:starts_at)) %>
+        </th>
+        <th scope="col" class="px-6 py-3">
+          <%= sort_link @q, :closes_at, t(Auction.human_attribute_name(:closes_at)) %>
+        </th>
+        <th scope="col" class="px-6 py-3">
+          lots
+        </th>
+        <th scope="col" class="px-6 py-3">
+          status
+        </th>
+        <th scope="col" class="px-6 py-3">
+          <span class="sr-only">Edit</span>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @auctions.each do |auction| %>
+        <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <%= auction.title %>
+          </th>
+          <td class="px-6 py-4">
+            <%= auction.starts_at.strftime("%b %d, %Y AT %l %p CAT") %>
+          </td>
+          <td class="px-6 py-4">
+            <%= auction.closes_at.strftime("%b %d, %Y AT %l %p CAT") %>
+          </td>
+          <td class="px-6 py-4">
+            <%= '0' %>
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex items-center">
+              <% case %>
+              <% when Time.current < auction.starts_at %>
+                <div class="h-2.5 w-2.5 rounded-full bg-slate-500 me-2"></div>
+                Yet to start
+              <% when Time.current >= auction.starts_at && Time.current <= auction.closes_at %>
+                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
+                In proggress
+              <% when Time.now > auction.closes_at %>
+                <div class="h-2.5 w-2.5 rounded-full bg-rose-500 me-2"></div>
+                Ended
+              <% end %>
+            </div>
+
+          </td>
+          <td class="py-4 flex gap-2">
+            <%= link_to reverse_auction_auction_path(auction)  do %>
+              <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</span>
+            <% end %>
+
+            <% if auction.company_id == current_company.id %>
+              <%= link_to edit_reverse_auction_auction_path(auction) do %>
+                <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</span>
+              <% end %>
+              <%= button_to reverse_auction_auction_path(auction), method: :delete, data: { 'turbo': false }  do %>
+                <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</span>
+              <% end %>
+            <% elsif auction.collaborators.pluck(:company_id).include?(current_company.id) %>
+              <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Add lots</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <%= render 'shared/pagy', records: @pagy %>
+  </div>
+
+</main>
