@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Auctions::Create < ApplicationService
   def call
     preload(:company)
@@ -31,7 +33,8 @@ class Auctions::Create < ApplicationService
 
     params[:collaborator_ids].each do |collaborator_id|
       next if collaborator_id.empty?
-      collaborator = @auction.collaborators.build(company_id: collaborator_id)
+
+      collaborator = @auction.collaborators.build(collaborator_id: collaborator_id, collaborator_type: 'Company')
       handle_validation_errors(collaborator) unless collaborator.save
     end
   end

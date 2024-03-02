@@ -1,10 +1,29 @@
-class ReverseAuction::CollaboratorsController < ReverseAuction::AuctionsController
+# frozen_string_literal: true
+
+class ReverseAuction::CollaboratorsController < ReverseAuction::ApplicationController
   def index
-    @pagy, @collaborators = pagy(current_company.collaborators.where(acceptance_status: :pending), items: 10)
+    @pagy, @collaborators = pagy(current_company.collaborations.pending_requests, items: 10)
   end
 
   def update
+    result = Collaborators::Update.call(context: { collaborator: collaborator }, params: permitted_params)
+    i18_string = result.success? && result.data.accepted? ? 'accepted' : 'declined'
 
+    error_or_redirect(
+      object: result,
+      success_path: reverse_auction_collaborators_path,
+      failure_path: reverse_auction_collaborators_path,
+      success_string_key: "controllers.collaborators.#{i18_string}"
+    )
   end
-  
+
+  private
+
+  def permitted_params
+    params.require(:collaborator).permit(:acceptance_status)
+  end
+
+  def collaborator
+    @collaborator ||= current_company.collaborations.pending_requests.find_by(id: params[:id])
+  end
 end

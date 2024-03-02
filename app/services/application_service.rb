@@ -60,4 +60,11 @@ class ApplicationService
 
     add_error(model.errors.full_messages).join(' , ')
   end
+
+  def handle_errors(model_object = nil)
+    yield
+    add_error(model_object.errors.full_messages) if model_object.present? && !model_object.valid?
+  rescue StandardError => e
+    add_error(e.message)
+  end
 end

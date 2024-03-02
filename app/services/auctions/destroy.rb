@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Auctions::Destroy < ApplicationService
   def call
     preload(:auction)
@@ -8,6 +10,7 @@ class Auctions::Destroy < ApplicationService
   end
 
   private
+
   def auction
     @auction ||= context[:auction] || Auction.find(params[:id])
   end

@@ -27,6 +27,7 @@ RSpec.describe Auction do
 
     context 'when validating companies' do
       before { auction.company.update!(supplier: false, bidder: true) }
+
       it { expect(auction).not_to be_valid }
     end
   end

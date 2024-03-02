@@ -4,7 +4,7 @@
   <% @auctions.each do |auction| %>
     <div class="grid grid-cols-1 lg:grid-cols-8 mb-4 shadow-lg border">
       <div class="lg:col-span-3 md:py-1 bg-white rounded-s">
-        <%= image_tag (auction.image.present? ? auction.image : 'email_illustration.jpg'), class: 'w-full object-cover rounded-s h-48' %>
+        <%= image_tag (auction.image.present? ? auction.image : 'email_illustration.jpg'), class: 'w-full object-contain rounded-s px-4' %>
       </div>
       <div class="lg:col-span-5 md:py-1 rounded-e bg-white">
         <div class="w-full p-2 md:border-y border-blue-300">

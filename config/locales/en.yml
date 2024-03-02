@@ -1,6 +1,11 @@
 en:
   already_signed: You are already signed in.
   controllers:
+    auctions:
+      upgrade_sub: 'You are not approved to have auctions. Upgrade your subscription! '
+    collaborators:
+      accepted: "You are now a collaborator of the auction. You can now add lots to the auction"
+      declined: "You have declined an invitation to collaborate on the auction."
     company_onboardings:
       approve:
         success: "Company was successfully approved."

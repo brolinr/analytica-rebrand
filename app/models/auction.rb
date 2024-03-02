@@ -1,5 +1,11 @@
+# frozen_string_literal: true
+
 class Auction < ApplicationRecord
-  I18N_SCOPE = 'models.auction.errors'.freeze
+  I18N_SCOPE = 'models.auction.errors'
+  scope :live, -> { where('starts_at <= ? AND closes_at >= ?', Time.current, Time.current) }
+  scope :collaborated, lambda { |company_id|
+                         live.joins(:collaborators).where(collaborators: { collaborator_id: company_id })
+                       }
 
   belongs_to :company
   has_many :collaborators, dependent: :destroy
@@ -11,11 +17,12 @@ class Auction < ApplicationRecord
   validate :only_supplier_can_create
   validate :starts_before_close
 
-  def self.ransackable_attributes(auth_object = nil)
-    ["closes_at", "company_id", "created_at", "id", "starts_at", "title", "updated_at"]
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[closes_at company_id created_at id starts_at title updated_at]
   end
 
   private
+
   def starts_before_close
     return if (starts_at && closes_at) && (starts_at <= closes_at)
 
@@ -27,5 +34,4 @@ class Auction < ApplicationRecord
 
     errors.add(:base, I18n.t('only_supplier', scope: I18N_SCOPE))
   end
-
 end

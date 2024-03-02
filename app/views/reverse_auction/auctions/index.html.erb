@@ -87,7 +87,7 @@
               <%= button_to reverse_auction_auction_path(auction), method: :delete, data: { 'turbo': false }  do %>
                 <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</span>
               <% end %>
-            <% elsif auction.collaborators.pluck(:company_id).include?(current_company.id) %>
+            <% elsif auction.collaborators.pluck(:collaborator_id).include?(current_company.id) %>
               <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Add lots</span>
             <% end %>
           </td>

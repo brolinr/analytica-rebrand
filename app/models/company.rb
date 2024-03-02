@@ -11,6 +11,5 @@ class Company < ApplicationRecord
   validates :phone, presence: true, length: { minimum: 10, maximum: 16 }, uniqueness: true
 
   has_many :auctions, dependent: :destroy
-  has_many :collaborators
-  has_many :collaboration_auctions, through: :collaborators
+  has_many :collaborations, as: :collaborator, class_name: 'Collaborator', dependent: :destroy
 end

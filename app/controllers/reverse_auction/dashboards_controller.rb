@@ -1,5 +1,5 @@
-class ReverseAuction::DashboardsController < ReverseAuction::ApplicationController
-  def index
+# frozen_string_literal: true
 
-  end
+class ReverseAuction::DashboardsController < ReverseAuction::ApplicationController
+  def index; end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_22_100251) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_28_093255) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,13 +83,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_22_100251) do
   end
 
   create_table "collaborators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "company_id", null: false
     t.uuid "auction_id", null: false
     t.integer "acceptance_status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "collaborator_type"
+    t.uuid "collaborator_id"
     t.index ["auction_id"], name: "index_collaborators_on_auction_id"
-    t.index ["company_id"], name: "index_collaborators_on_company_id"
+    t.index ["collaborator_type", "collaborator_id"], name: "index_collaborators_on_collaborator"
   end
 
   create_table "companies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -152,5 +153,4 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_22_100251) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "auctions", "companies"
   add_foreign_key "collaborators", "auctions"
-  add_foreign_key "collaborators", "companies"
 end

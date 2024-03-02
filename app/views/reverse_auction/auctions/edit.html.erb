@@ -37,7 +37,7 @@
             <div class="md:col-span-1">
               <%= f.label :collaborator_ids, 'Invite collaborators', class: 'text-base font-medium' %>
               <dt class="text-sm font-medium leading-6 text-gray-900">
-                <%= f.collection_select :collaborator_ids, @collaborators, :id, :name, {selected: @auction.collaborators.pluck(:company_id) ,  include_blank: false, multiple: true }, { :class => "tail w-full rounded focus:bg-blue-100 border-slate-300 p-2", multiple: true } %>
+                <%= f.collection_select :collaborator_ids, @collaborators, :id, :name, {selected: @auction.collaborators.pluck(:collaborator_id) ,  include_blank: false, multiple: true }, { :class => "tail w-full rounded focus:bg-blue-100 border-slate-300 p-2", multiple: true } %>
               </dt>
             </div>
           <% end %>

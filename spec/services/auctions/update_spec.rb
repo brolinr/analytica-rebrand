@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Auctions::Update do
@@ -5,11 +7,13 @@ RSpec.describe Auctions::Update do
 
   let(:company) { create(:company, :as_supplier) }
   let(:company_2) { create(:company, :as_supplier) }
+  let(:company_3) { create(:company, :as_supplier) }
   let(:auction) { create(:auction, company: company) }
-  let(:collaborator) { create(:collaborator, auction: auction, company: company) }
+  let(:collaborator) { create(:collaborator, auction: auction, collaborator: company_3) }
 
   describe '#call' do
     before { company }
+
     context 'with params to update auction' do
       let(:params) { { title: 'New Title' } }
 
@@ -21,11 +25,12 @@ RSpec.describe Auctions::Update do
     end
 
     context 'with params to add collaborators' do
-      let(:params) { { collaborator_ids: [company.id, company_2.id, nil, '', 'four', '4'] } }
+      let(:params) { { collaborator_ids: [company_3.id, company_2.id, nil, '', 'four', '4'] } }
 
       before do
         collaborator
         company_2
+        company_3
         company
       end
 
