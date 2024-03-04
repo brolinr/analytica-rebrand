@@ -13,9 +13,26 @@
             CLOSING <%= auction.closes_at.strftime("%b %d, %Y AT %l %p CAT").upcase %>
             • HARARE • 6H 57M 19S LEFT
           </p>
-          <button class="px-3 bg-blue-500 hover:bg-blue-600 hover:scale-95 ease-in-out duration-300 py-1 rounded-lg capitalize font-light text-white" disabled>
-            Register to bid
-          </button>
+          <% if auction.auction_registrations.find_by(company_id: current_company.id)&.pending? %>
+            <button class="px-3 bg-amber-500 hover:bg-amber-600 hover:scale-95 ease-in-out duration-300 py-1 rounded-lg capitalize font-light text-white" disabled>
+              Registration pending
+            </button>
+          <% elsif auction.auction_registrations.find_by(company_id: current_company.id)&.decline? %>
+            <button class="px-3 bg-rose-500 hover:bg-rose-600 hover:scale-95 ease-in-out duration-300 py-1 rounded-lg capitalize font-light text-white" disabled>
+              Registration disapproved
+            </button>
+          <% elsif auction.auction_registrations.find_by(company_id: current_company.id)&.approve? %>
+            <button class="px-3 bg-emerald-500 hover:bg-emerald-600 hover:scale-95 ease-in-out duration-300 py-1 rounded-lg capitalize font-light text-white" disabled>
+              Registration approved
+            </button>
+          <% else %>
+            <a href="<%= new_reverse_auction_auction_auction_registration_path(auction) %>" class="px-3 mx-2 bg-blue-500 hover:bg-blue-600 hover:scale-95 ease-in-out duration-300 py-1.5 rounded-lg capitalize font-light text-white" disabled>
+              Register to bid
+            </a>
+          <% end %>
+
+
+
           <button class="px-3 bg-slate-500 hover:bg-slate-600 hover:scale-95 ease-in-out duration-300 py-1 rounded-lg capitalize font-light text-white" disabled>
             Browse lots
           </button>

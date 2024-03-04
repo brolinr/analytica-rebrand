@@ -12,29 +12,29 @@ RSpec.describe Collaborators::Update do
 
   describe '#call' do
     context 'with params to accepting a request' do
-      let(:params) { { acceptance_status: 'accepted' } }
+      let(:params) { { acceptance_status: 'accept' } }
 
       it 'accepts a request', :aggregate_failures do
-        expect { call }.to change { collaborator.reload.acceptance_status }.from('pending').to('accepted')
+        expect { call }.to change { collaborator.reload.acceptance_status }.from('pending').to('accept')
         expect(call.data).to be_a(Collaborator)
         expect(call).to be_success
       end
     end
 
     context 'with params to decline a request' do
-      let(:params) { { acceptance_status: 'declined' } }
+      let(:params) { { acceptance_status: 'decline' } }
 
       it 'declines a request a request', :aggregate_failures do
-        expect { call }.to change { collaborator.reload.acceptance_status }.from('pending').to('declined')
+        expect { call }.to change { collaborator.reload.acceptance_status }.from('pending').to('decline')
         expect(call.data).to be_a(Collaborator)
         expect(call).to be_success
       end
     end
 
-    context 'with params to accept a declined colaboration' do
-      before { collaborator.declined! }
+    context 'with params to accept a decline colaboration' do
+      before { collaborator.decline! }
 
-      let(:params) { { acceptance_status: 'accepted' } }
+      let(:params) { { acceptance_status: 'accept' } }
 
       it 'does not update collaborator' do
         expect { call }.not_to change { collaborator.reload.attributes }
@@ -44,7 +44,7 @@ RSpec.describe Collaborators::Update do
     end
 
     context 'with empty acceptance_status on params' do
-      before { collaborator.accepted! }
+      before { collaborator.accept! }
 
       let(:params) { { acceptance_status: '' } }
 
@@ -55,10 +55,10 @@ RSpec.describe Collaborators::Update do
       end
     end
 
-    context 'with params to decline an accepted colaboration' do
-      before { collaborator.accepted! }
+    context 'with params to decline an accept colaboration' do
+      before { collaborator.accept! }
 
-      let(:params) { { acceptance_status: 'declined' } }
+      let(:params) { { acceptance_status: 'decline' } }
 
       it 'does not update collaborator' do
         expect { call }.not_to change { collaborator.reload.attributes }

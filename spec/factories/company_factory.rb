@@ -14,5 +14,9 @@ FactoryBot.define do
     trait :as_supplier do
       supplier { true }
     end
+
+    trait :as_bidder do
+      bidder { true }
+    end
   end
 end

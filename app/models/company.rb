@@ -4,6 +4,9 @@ class Company < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
 
+  scope :bidders, -> { where(bidder: true) }
+  scope :suppliers, -> { where(supplier: true) }
+
   validates :about, length: { maximum: 300 }
   validates :name, presence: true, length: { maximum: 50 }
   validates :city, presence: true, length: { maximum: 50 }
@@ -12,4 +15,5 @@ class Company < ApplicationRecord
 
   has_many :auctions, dependent: :destroy
   has_many :collaborations, as: :collaborator, class_name: 'Collaborator', dependent: :destroy
+  has_many :auction_registrations, dependent: :destroy
 end

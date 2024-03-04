@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class Collaborator < ApplicationRecord
-  enum :acceptance_status, { pending: 0, accepted: 1, declined: 2 }
+  enum :acceptance_status, { pending: 0, accept: 1, decline: 2 }
 
   scope :pending_requests, -> { where(acceptance_status: :pending) }
+  scope :accepted, -> { where(acceptance_status: :accept) }
+  scope :declined, -> { where(acceptance_status: :decline) }
 
   belongs_to :collaborator, polymorphic: true
   belongs_to :auction

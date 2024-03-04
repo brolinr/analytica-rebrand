@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe CompanyOnboardings::Update do
   subject(:call) { described_class.call(params: params, context: { company_onboarding: company_onboarding }) }
 
-  let(:company_onboarding) { create(:company_onboarding, :approved) }
+  let(:company_onboarding) { create(:company_onboarding, :approve) }
   let(:token) { create(:token, generator: company_onboarding, status: 'active', purpose: 1) }
 
   describe '#call' do
@@ -28,7 +28,7 @@ RSpec.describe CompanyOnboardings::Update do
 
       it 'does not update company onboarding', :aggregate_failures do
         expect { call }.not_to change { company_onboarding.reload.name }
-        expect(company_onboarding.reload.approval).to eq('approved')
+        expect(company_onboarding.reload.approval).to eq('approve')
         expect(token.reload.status).to eq('active')
         expect(call).to be_failure
       end

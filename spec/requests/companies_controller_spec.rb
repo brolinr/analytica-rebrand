@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe CompaniesController, type: :controller do
-  let(:company_onboarding) { create(:company_onboarding, :approved) }
+  let(:company_onboarding) { create(:company_onboarding, :approve) }
   let(:token) { create(:token, generator: company_onboarding) }
 
   describe 'GET new' do

@@ -3,7 +3,7 @@
 class CompanyOnboarding < ApplicationRecord
   I18N_SCOPE = 'models.company.errors'
 
-  enum approval: { pending_review: 0, approved: 1, disapproved: 2 }
+  enum approval: { pending_review: 0, approve: 1, disapprove: 2 }
 
   has_one_attached :certificate_of_incorporation
   has_one_attached :tax_clearance

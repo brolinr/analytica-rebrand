@@ -59,9 +59,9 @@
               <% case onboarding.approval %>
               <% when 'pending_review' %>
                 <div class="h-2.5 w-2.5 rounded-full bg-blue-500 me-2"></div>
-              <% when 'approved' %>
+              <% when 'approve' %>
                 <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
-              <% when 'disapproved' %>
+              <% when 'disapprove' %>
                 <div class="h-2.5 w-2.5 rounded-full bg-rose-500 me-2"></div>
               <% end %>
                <%= onboarding.approval.split('_').join(' ') %>

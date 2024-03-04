@@ -63,6 +63,7 @@ RSpec.describe ReverseAuction::AuctionsController, type: :controller do
         expect { post :create, params: params }.to change(Auction, :count).from(0).to(1).and(
           change(Collaborator, :count).from(0).to(1)
         )
+
         expect(response).not_to redirect_to(new_company_session_path)
         expect(flash[:notice]).not_to be_empty
       end

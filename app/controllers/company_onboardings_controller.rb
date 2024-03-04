@@ -84,7 +84,7 @@ class CompanyOnboardingsController < ApplicationController
   end
 
   def approval_valid?
-    redirect_to root_path, flash: { alert: I18n.t('flash.something_wrong') } unless company_onboarding&.disapproved?
+    redirect_to root_path, flash: { alert: I18n.t('flash.something_wrong') } unless company_onboarding&.disapprove?
   end
 
   def token_valid?

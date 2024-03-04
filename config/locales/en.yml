@@ -1,17 +1,19 @@
 en:
   already_signed: You are already signed in.
   controllers:
+    auction_registrations:
+      applied: Your request to register to bid is no
     auctions:
-      upgrade_sub: 'You are not approved to have auctions. Upgrade your subscription! '
+      upgrade_sub: 'You are not approve to have auctions. Upgrade your subscription! '
     collaborators:
-      accepted: "You are now a collaborator of the auction. You can now add lots to the auction"
-      declined: "You have declined an invitation to collaborate on the auction."
+      accept: "You are now a collaborator of the auction. You can now add lots to the auction"
+      decline: "You have decline an invitation to collaborate on the auction."
     company_onboardings:
       approve:
-        success: "Company was successfully approved."
-        failure: "Company could not be approved."
+        success: "Company was successfully approve."
+        failure: "Company could not be approve."
   errors:
-    onboarding_not_approved: "Company onboarding has not been approved."
+    onboarding_not_approved: "Company onboarding has not been approve."
   flash:
     created: Successfully created.
     updated: Successfully updated.

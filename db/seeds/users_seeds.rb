@@ -65,8 +65,8 @@ end
   company_onboarding = generate_company_onboarding
   company_onboarding.save
   if time < 10
-    company_onboarding.approved!
+    company_onboarding.approve!
   elsif time < 30
-    company_onboarding.disapproved!
+    company_onboarding.disapprove!
   end
 end

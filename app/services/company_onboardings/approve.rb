@@ -25,9 +25,9 @@ class CompanyOnboardings::Approve < ApplicationService
     end
 
     case params[:approval]
-    when 'approved'
+    when 'approve'
       approve
-    when 'disapproved'
+    when 'disapprove'
       disapprove
     end
   end
@@ -37,7 +37,7 @@ class CompanyOnboardings::Approve < ApplicationService
       status: 0, purpose: 0
     )&.any?
 
-    if company_onboarding.update(approval: :approved)
+    if company_onboarding.update(approval: :approve)
       CompanyOnboardingMailer.with(company_onboarding: company_onboarding).approve.deliver_later
       assign_data(company_onboarding)
     else
@@ -48,7 +48,7 @@ class CompanyOnboardings::Approve < ApplicationService
   def disapprove
     company_onboarding.tokens.create!(status: 0, purpose: 1) unless onboarding_tokens.where(status: 0, purpose: 1)&.any?
 
-    if company_onboarding.update(approval: :disapproved, reason_for_disapproval: params[:reason_for_disapproval])
+    if company_onboarding.update(approval: :disapprove, reason_for_disapproval: params[:reason_for_disapproval])
       CompanyOnboardingMailer.with(company_onboarding: company_onboarding,
                                    reason_for_disapproval: params[:reason_for_disapproval]).disapprove.deliver_later
       assign_data(company_onboarding)

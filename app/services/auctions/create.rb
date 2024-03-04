@@ -19,13 +19,10 @@ class Auctions::Create < ApplicationService
   private
 
   def create_auction
-    @auction = company.auctions.build(params.except(:collaborator_ids))
-
-    return assign_data(@auction) if @auction.save
-
-    handle_validation_errors(@auction)
-  rescue ActiveModel::UnknownAttributeError => e
-    add_error(e)
+    handle_errors do
+      @auction = company.auctions.build(params.except(:collaborator_ids))
+      handle_errors(@auction) { assign_data(@auction) if @auction.save! }
+    end
   end
 
   def add_collaborators
@@ -34,8 +31,7 @@ class Auctions::Create < ApplicationService
     params[:collaborator_ids].each do |collaborator_id|
       next if collaborator_id.empty?
 
-      collaborator = @auction.collaborators.build(collaborator_id: collaborator_id, collaborator_type: 'Company')
-      handle_validation_errors(collaborator) unless collaborator.save
+      handle_errors { @auction.collaborators.create!(collaborator_id: collaborator_id, collaborator_type: 'Company') }
     end
   end
 end

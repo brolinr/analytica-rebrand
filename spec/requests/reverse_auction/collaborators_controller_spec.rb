@@ -12,10 +12,10 @@ RSpec.describe ReverseAuction::CollaboratorsController, type: :controller do
     context 'with params to accept' do
       before { sign_in company }
 
-      let(:request) { put :update, params: { id: collaborator.id, collaborator: { acceptance_status: 'accepted' } } }
+      let(:request) { put :update, params: { id: collaborator.id, collaborator: { acceptance_status: 'accept' } } }
 
       it 'accepts the collaboration', :aggregate_failures do
-        expect { request }.to change { collaborator.reload.acceptance_status }.from('pending').to('accepted')
+        expect { request }.to change { collaborator.reload.acceptance_status }.from('pending').to('accept')
         expect(flash[:notice]).not_to be_empty
         expect(response).to redirect_to(reverse_auction_collaborators_path)
       end
@@ -24,10 +24,10 @@ RSpec.describe ReverseAuction::CollaboratorsController, type: :controller do
     context 'with params to decline' do
       before { sign_in company }
 
-      let(:request) { put :update, params: { id: collaborator.id, collaborator: { acceptance_status: 'declined' } } }
+      let(:request) { put :update, params: { id: collaborator.id, collaborator: { acceptance_status: 'decline' } } }
 
       it 'declines the collaboration', :aggregate_failures do
-        expect { request }.to change { collaborator.reload.acceptance_status }.from('pending').to('declined')
+        expect { request }.to change { collaborator.reload.acceptance_status }.from('pending').to('decline')
         expect(flash[:notice]).not_to be_empty
         expect(response).to redirect_to(reverse_auction_collaborators_path)
       end
@@ -39,7 +39,7 @@ RSpec.describe ReverseAuction::CollaboratorsController, type: :controller do
         collaborator.destroy
       end
 
-      let(:request) { put :update, params: { id: collaborator.id, collaborator: { acceptance_status: 'declined' } } }
+      let(:request) { put :update, params: { id: collaborator.id, collaborator: { acceptance_status: 'decline' } } }
 
       it 'declines the collaboration', :aggregate_failures do
         request

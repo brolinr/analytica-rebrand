@@ -7,7 +7,7 @@ class ReverseAuction::CollaboratorsController < ReverseAuction::ApplicationContr
 
   def update
     result = Collaborators::Update.call(context: { collaborator: collaborator }, params: permitted_params)
-    i18_string = result.success? && result.data.accepted? ? 'accepted' : 'declined'
+    i18_string = result.success? && result.data.accept? ? 'accept' : 'decline'
 
     error_or_redirect(
       object: result,

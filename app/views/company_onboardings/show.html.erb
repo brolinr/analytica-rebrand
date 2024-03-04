@@ -9,14 +9,14 @@
     <% if @company_onboarding.pending_review? %>
       <div class="md:hidden block md:col-span-1 py-2 text-center">
         <%= form_with(model: @company_onboarding, url: approve_company_onboarding_path(@company_onboarding), html: { method: :post, data: { turbo: false } })do |f| %>
-          <%= f.hidden_field :approval, value: 'approved' %>
+          <%= f.hidden_field :approval, value: 'approve' %>
           <%= f.submit 'Approve', class: 'text-center w-4/5 mx-auto capitalize rounded hover:bg-blue-600 py-2 bg-blue-500 text-white' %>
         <% end %>
 
         <div class="w-full p-2 bg-amber-100 my-2 rounded-lg text-left">
           <h3 class="text-md font-semibold leading-7 text-gray-900 mb-2">Disapprove</h3>
           <%= form_with(model: @company_onboarding, url: approve_company_onboarding_path(@company_onboarding), html: { method: :post, data: { turbo: false } })do |f| %>
-            <%= f.hidden_field :approval, value: 'disapproved' %>
+            <%= f.hidden_field :approval, value: 'disapprove' %>
             <%= f.label :reason_for_disapproval, class: 'text-sm' %>
             <%= f.text_area :reason_for_disapproval, required: true,  class: 'text-sm h-20 w-full appearance-none border border-slate-300 bg-slate-50 rounded' %>
             <%= f.submit 'Disaprove', class: 'text-center w-3/5 mx-auto capitalize rounded hover:bg-amber-600 py-2 bg-amber-500 text-white' %>
@@ -73,16 +73,16 @@
                 <% case @company_onboarding.approval %>
                 <% when 'pending_review' %>
                   <div class="h-2.5 w-2.5 rounded-full bg-blue-500 me-2"></div>
-                <% when 'approved' %>
+                <% when 'approve' %>
                   <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
-                <% when 'disapproved' %>
+                <% when 'disapprove' %>
                   <div class="h-2.5 w-2.5 rounded-full bg-rose-500 me-2"></div>
                 <% end %>
                 <%= @company_onboarding.approval.split('_').join(' ') %>
               </div>
             </dd>
           </div>
-          <% if @company_onboarding.disapproved? %>
+          <% if @company_onboarding.disapprove? %>
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Reason for disaproval</dt>
               <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -179,14 +179,14 @@
     <% if @company_onboarding.pending_review? %>
       <div class="hidden md:block md:col-span-1 py-2 ">
         <%= form_with(model: @company_onboarding, url: approve_company_onboarding_path(@company_onboarding), html: { method: :post, data: { turbo: false } })do |f| %>
-          <%= f.hidden_field :approval, value: 'approved' %>
+          <%= f.hidden_field :approval, value: 'approve' %>
           <%= f.submit 'Approve', class: 'text-center w-4/5 mx-auto capitalize rounded hover:bg-blue-600 py-2 bg-blue-500 text-white' %>
         <% end %>
 
         <div class="w-full p-2 bg-amber-100 my-2 rounded-lg ">
           <h3 class="text-md font-semibold leading-7 text-gray-900 mb-2">Disapprove</h3>
           <%= form_with(model: @company_onboarding, url: approve_company_onboarding_path(@company_onboarding), html: { method: :post, data: { turbo: false } })do |f| %>
-            <%= f.hidden_field :approval, value: 'disapproved' %>
+            <%= f.hidden_field :approval, value: 'disapprove' %>
             <%= f.label :reason_for_disapproval, class: 'text-sm' %>
             <%= f.text_area :reason_for_disapproval, required: true,  class: 'text-sm h-20 w-full appearance-none border border-slate-300 bg-slate-50 rounded' %>
             <%= f.submit 'Disaprove', class: 'text-center w-3/5 mx-auto capitalize rounded hover:bg-amber-600 py-2 bg-amber-500 text-white' %>
