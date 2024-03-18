@@ -8,6 +8,7 @@ RSpec.describe Auction do
   describe 'relations' do
     it { is_expected.to belong_to(:company) }
     it { is_expected.to have_many(:collaborators).dependent(:destroy) }
+    it { is_expected.to have_many(:lots).dependent(:nullify) }
     it { is_expected.to have_many(:auction_registrations).dependent(:destroy) }
     it { is_expected.to have_one_attached(:image) }
     it { is_expected.to have_rich_text(:description) }

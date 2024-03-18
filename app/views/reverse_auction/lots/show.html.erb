@@ -1,0 +1,36 @@
+<%= render 'shared/breadcrumb',
+           paths: [
+             { name: 'auctions', link: reverse_auction_auctions_path },
+             { name: @lot.auction.title.truncate(20), link: reverse_auction_live_auctions_path },
+             { name: 'Lots', link: reverse_auction_auction_path(@lot.auction) },
+             { name: @lot.title.truncate(20) }
+           ]
+%>
+<main>
+  <div class="w-full p-2">
+    <div class="w-full grid gap-4 md:grid-cols-4 p-3 bg-slate-300">
+      <div class="col-span-3">
+        <h1 class="font-bold text-xl"><%= @lot.title %></h1>
+      </div>
+      <div class="col-span-1 grid grid-cols-2 gap-3">
+        <%= button_to '', class: 'inline-flex items-center justify-center h-10 w-10 rounded-full border border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 duration-300' do %>
+          <span class="mdi mdi-star text-3xl"></span>
+        <% end %>
+        <button class="px-3 bg-blue-500 hover:bg-blue-600 hover:scale-95 ease-in-out duration-300 h-10 py-1 rounded-lg capitalize font-light text-white" disabled>
+          Place a bid
+        </button>
+      </div>
+    </div>
+
+    <div class="my-4">
+      <div class="md:w-1/2 mx-auto h-60 overflow-hidden" id='gallery'>
+        <%= image_tag @lot.image, class: 'object-contain w-full' %>
+      </div>
+      <div class="md:w-4/5 mx-auto p-3 my-3">
+        <h2 class="font-bold text-lg mb-2">Asking price: <span>$<%= @lot.asking_price %></span></h2>
+        <h2 class="font-bold text-lg leading-2">Description:</h2>
+        <p class="text-sm"><%= @lot.description %></p>
+      </div>
+    </div>
+  </div>
+</main>

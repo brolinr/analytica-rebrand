@@ -57,7 +57,7 @@
             <%= auction.closes_at.strftime("%b %d, %Y AT %l %p CAT") %>
           </td>
           <td class="px-6 py-4">
-            <%= '0' %>
+            <%= auction.lots.count %>
           </td>
           <td class="px-6 py-4">
             <div class="flex items-center">
@@ -76,10 +76,6 @@
 
           </td>
           <td class="py-4 flex gap-2">
-            <%= link_to reverse_auction_auction_path(auction)  do %>
-              <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</span>
-            <% end %>
-
             <% if auction.company_id == current_company.id %>
               <%= link_to edit_reverse_auction_auction_path(auction) do %>
                 <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</span>
@@ -87,8 +83,12 @@
               <%= button_to reverse_auction_auction_path(auction), method: :delete, data: { 'turbo': false }  do %>
                 <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</span>
               <% end %>
-            <% elsif auction.collaborators.pluck(:collaborator_id).include?(current_company.id) %>
-              <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Add lots</span>
+            <% end %>
+
+            <% if auction.collaborators.pluck(:collaborator_id).include?(current_company.id) || auction.company_id == current_company.id %>
+              <%= link_to new_reverse_auction_auction_lot_path(auction) do %>
+                <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Add lots</span>
+              <% end %>
             <% end %>
           </td>
         </tr>

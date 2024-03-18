@@ -10,6 +10,8 @@ class Collaborator < ApplicationRecord
   belongs_to :collaborator, polymorphic: true
   belongs_to :auction
 
+  has_many :lots, as: :collaborator, class_name: 'Lot', dependent: :nullify
+
   validates :collaborator_id, uniqueness: { scope: :auction_id, case_sensitive: false } # rubocop:disable Rails/UniqueValidationWithoutIndex
   validate :auction_owners_and_suppliers
 

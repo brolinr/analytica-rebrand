@@ -4,7 +4,7 @@ en:
     auction_registrations:
       applied: Your request to register to bid is no
     auctions:
-      upgrade_sub: 'You are not approve to have auctions. Upgrade your subscription! '
+      upgrade_sub: 'Upgrade your subscription, to be a bidder '
     collaborators:
       accept: "You are now a collaborator of the auction. You can now add lots to the auction"
       decline: "You have decline an invitation to collaborate on the auction."
@@ -27,6 +27,12 @@ en:
     disapprove:
       subject: Application Update Required
   models:
+    common:
+      not_authorized: 'You are not authorized to perform this action'
+    lot:
+      errors:
+        not_a_company: Only companies can create auctions
+        manipulate_lot: You cannot manipulate a lot during a live auction
     auction:
       errors:
         deadline_later: "The start time must be before the end time."

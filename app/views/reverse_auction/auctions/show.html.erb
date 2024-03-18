@@ -6,3 +6,37 @@
       ]
 %>
 
+<main class="w-full p-1">
+  <div class="w-full flex justify-end">
+  <div class="md:w-2/5 m-4">
+    <%= search_form_for @q, url: reverse_auction_auction_path(@auction), html: { method: :get }  do |f| %>
+      <div class="grid grid-cols-4">
+        <%= f.search_field :title_or_description_cont, class: 'col-span-3 px-3 py-1 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-gray-50'%>
+        <%= f.submit 'Search', class: "col-span-1 text-white mx-2 px-3 py-1 bg-blue-500 hover:bg-blue-600  rounded" %>
+      </div>
+    <% end %>
+  </div>
+  </div>
+  <h1 class="text-center text-6xl my-4 font-light">Lots Available </h1>
+  <div class="p-2 bg-white grid md:grid-cols-3 lg:grid-cols-4 grid-cols-1 gap-4">
+
+    <% @lots.each do |lot| %>
+      <div class="bg-slate-200 border rounded-lg duration-300 hover:ease-out-in hover:transform hover:-translate-y-0 hover:scale-95">
+        <div class="w-full ">
+          <%= image_tag lot.image.attached? ? lot.image : 'email_illustration.jpg', class: 'h-44 object-cover w-full rounded-lg' %>
+        </div>
+        <div class="w-full p-2 rounded-lg mb-2 text-wrap">
+          <h1 class="font-bold text-xl leading-6"><%= lot.title %></h1>
+          <h1 class="font-md text-sm">Asking price: $<%= lot.asking_price %></h1>
+          <p class="text-sm/6 text-slate-600 leading-5 mt-3">
+            <%= "#{lot.description.truncate(120)}" %>
+          </p>
+          <div class="w-full flex justify-center mt-3">
+            <%= link_to 'View', reverse_auction_auction_lot_path(@auction, lot), class: 'bg-blue-500 hover:bg-blue-600 w-1/2 text-center mx-auto rounded text-white py-1' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= render 'shared/pagy', records: @pagy %>
+</main>

@@ -10,6 +10,7 @@ class Auction < ApplicationRecord
   belongs_to :company
   has_many :collaborators, dependent: :destroy
   has_many :auction_registrations, dependent: :destroy
+  has_many :lots, dependent: :nullify
 
   has_rich_text :description
   has_one_attached :image

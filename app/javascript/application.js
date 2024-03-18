@@ -3,3 +3,6 @@ import '@hotwired/turbo-rails'
 import 'controllers'
 import 'trix'
 import '@rails/actiontext'
+import drop_down from "./drop_down";
+
+drop_down()

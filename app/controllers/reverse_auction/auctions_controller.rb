@@ -8,26 +8,23 @@ class ReverseAuction::AuctionsController < ReverseAuction::ApplicationController
 
   def create
     result = Auctions::Create.call(context: { company: current_company }, params: permitted_params)
-    to = result.data.is_a?(Auction) ? edit_reverse_auction_auction_path(result&.data) : reverse_auction_dashboards_path
+
     error_or_redirect(
       object: result,
-      success_path: to,
+      success_path: new_reverse_auction_auction_lot_path(result&.data) || reverse_auction_dashboards_path,
       failure_path: request.referer || reverse_auction_dashboards_path,
       success_string_key: 'flash.created'
     )
   end
 
   def show
-    # ADD check to see if current company is creator or collaborator
     @auction = Auction.find(params[:id])
+    @q = @auction.lots.order(:created_at).ransack(params[:q])
+    @pagy, @lots = pagy(@q.result, items: 30)
   end
 
   def index
-    unless current_company.supplier
-      redirect_to reverse_auction_dashboards_path, notice: I18n.t('controllers.auctions.upgrade_sub')
-    end
-
-    @q = current_company.auctions.live.ransack(params[:q])
+    @q = current_company.auctions.ransack(params[:q])
     @pagy, @auctions = pagy(@q.result(distinct: true), items: 20)
   end
 
@@ -45,10 +42,10 @@ class ReverseAuction::AuctionsController < ReverseAuction::ApplicationController
 
   def update
     result = Auctions::Update.call(context: { auction: auction }, params: permitted_params)
-    to = result.data.is_a?(Auction) ? edit_reverse_auction_auction_path(result&.data) : reverse_auction_dashboards_path
+
     error_or_redirect(
       object: result,
-      success_path: to,
+      success_path: new_reverse_auction_auction_lot_path(result&.data) || reverse_auction_dashboards_path,
       failure_path: reverse_auction_dashboards_path,
       success_string_key: 'flash.updated'
     )

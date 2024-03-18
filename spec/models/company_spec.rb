@@ -20,6 +20,7 @@ RSpec.describe Company do
     it { is_expected.to have_many(:auction_registrations).dependent(:destroy) }
     it { is_expected.to have_many(:collaborations).dependent(:destroy) }
     it { is_expected.to have_many(:auctions).dependent(:destroy) }
+    it { is_expected.to have_many(:lots).dependent(:nullify) }
   end
 
   describe 'factories' do
