@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_05_092159) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_18_091643) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -107,6 +107,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_05_092159) do
     t.index ["collaborator_type", "collaborator_id"], name: "index_collaborators_on_collaborator"
   end
 
+  create_table "collections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "company_id", null: false
+    t.uuid "lot_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_collections_on_company_id"
+    t.index ["lot_id"], name: "index_collections_on_lot_id"
+  end
+
   create_table "companies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -182,5 +191,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_05_092159) do
   add_foreign_key "auction_registrations", "companies"
   add_foreign_key "auctions", "companies"
   add_foreign_key "collaborators", "auctions"
+  add_foreign_key "collections", "companies"
+  add_foreign_key "collections", "lots"
   add_foreign_key "lots", "auctions"
 end

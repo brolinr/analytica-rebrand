@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Lot < ApplicationRecord
+  scope :collected, ->(company_id, lot_id) { Collection.where(company_id: company_id, lot_id: lot_id) }
   before_destroy do
     raise StandardError, I18n.t('models.lot.errors.manipulate_lot') if Auction.live.pluck(:id).include?(auction_id)
   end
@@ -16,6 +17,7 @@ class Lot < ApplicationRecord
 
   belongs_to :auction
   belongs_to :collaborator, polymorphic: true
+  has_many :collections, dependent: :nullify
 
   has_one_attached :image
 

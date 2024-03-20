@@ -8,6 +8,9 @@ en:
     collaborators:
       accept: "You are now a collaborator of the auction. You can now add lots to the auction"
       decline: "You have decline an invitation to collaborate on the auction."
+    collections:
+      added: Lot collected!
+      removed: Lot removed from collection
     company_onboardings:
       approve:
         success: "Company was successfully approve."
@@ -37,6 +40,8 @@ en:
       errors:
         deadline_later: "The start time must be before the end time."
         only_supplier: "Only suppliers can create auctions."
+    collection:
+      collected: already collected!
     company:
       errors:
         pdf_format: must be in PDF format

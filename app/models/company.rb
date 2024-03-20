@@ -17,4 +17,5 @@ class Company < ApplicationRecord
   has_many :collaborations, as: :collaborator, class_name: 'Collaborator', dependent: :destroy
   has_many :lots, as: :collaborator, class_name: 'Lot', dependent: :nullify
   has_many :auction_registrations, dependent: :destroy
+  has_many :collections, dependent: :destroy
 end

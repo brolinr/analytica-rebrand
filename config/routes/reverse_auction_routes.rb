@@ -5,6 +5,7 @@ namespace :reverse_auction do
     resources :lots
   end
   resources :collaborators
+  resources :collections, only: %i[index create destroy]
 
   get '/live-auctions', to: 'auctions#live'
 end
