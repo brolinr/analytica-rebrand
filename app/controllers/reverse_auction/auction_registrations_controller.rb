@@ -55,6 +55,7 @@ class ReverseAuction::AuctionRegistrationsController < ReverseAuction::Applicati
   end
 
   def registered?
-    redirect_to reverse_auction_live_auctions_path if AuctionRegistration.exists?(company_id: current_company.id)
+    redirect_to reverse_auction_live_auctions_path if AuctionRegistration.exists?(auction_id: params[:auction_id],
+                                                                                  company_id: current_company.id)
   end
 end

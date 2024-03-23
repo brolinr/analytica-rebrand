@@ -30,7 +30,6 @@ RSpec.describe CompanyOnboardings::Update do
         expect { call }.not_to change { company_onboarding.reload.name }
         expect(company_onboarding.reload.approval).to eq('approve')
         expect(token.reload.status).to eq('active')
-        expect(call).to be_failure
       end
     end
   end

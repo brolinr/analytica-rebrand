@@ -56,14 +56,16 @@ class ApplicationService
   end
 
   def handle_validation_errors(model)
-    return add_error(I18n.t('flash.something_wrong')) if model.valid?
+    return add_error(I18n.t('flash.something_wrong')) if model.changed? && model.valid?
 
     add_error(model.errors.full_messages).join(' , ')
   end
 
   def handle_errors(model_object = nil)
     yield
-    add_error(model_object.errors.full_messages) if model_object.present? && !model_object.valid?
+    if model_object&.changed? && model_object.present? && !model_object.valid?
+      add_error(model_object.errors.full_messages)
+    end
   rescue StandardError => e
     add_error(e.message)
   end

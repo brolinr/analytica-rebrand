@@ -13,8 +13,9 @@ RSpec.describe Lot do
       let!(:lot) {  create(:lot, auction: auction, collaborator: auction.company) }
 
       it 'no update occurs', :aggregate_failures do
-        expect { lot.update(description: 'New one') }.not_to change { lot.reload.description }
-        expect(lot.errors.full_messages).to include(I18n.t('models.lot.errors.manipulate_lot'))
+        expect { lot.update(description: 'New one') }.to(
+          raise_error(StandardError, I18n.t('models.lot.errors.manipulate_lot'))
+        )
       end
 
       it 'no destroy occurs', :aggregate_failures do
@@ -45,6 +46,7 @@ RSpec.describe Lot do
     it { is_expected.to belong_to(:auction) }
     it { is_expected.to belong_to(:collaborator) }
     it { is_expected.to have_one_attached(:image) }
+    it { is_expected.to have_many(:bids).dependent(:destroy) }
   end
 
   describe 'factories' do

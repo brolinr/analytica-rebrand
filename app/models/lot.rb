@@ -1,28 +1,21 @@
 # frozen_string_literal: true
 
 class Lot < ApplicationRecord
+  before_update :manipulation_on_live_auction
+  before_destroy :manipulation_on_live_auction
+
   scope :collected, ->(company_id, lot_id) { Collection.where(company_id: company_id, lot_id: lot_id) }
-  before_destroy do
-    raise StandardError, I18n.t('models.lot.errors.manipulate_lot') if Auction.live.pluck(:id).include?(auction_id)
-  end
 
-  before_update do
-    if Auction.live.pluck(:id).include?(auction_id)
-      errors.add(:base, I18n.t('models.lot.errors.manipulate_lot'))
-      throw(:abort)
-    end
-  end
+  validates :title, :description, :image, :asking_price_cents, presence: true
+  validate :validate_collaborator
 
+  has_one_attached :image
   monetize :asking_price_cents
 
   belongs_to :auction
   belongs_to :collaborator, polymorphic: true
   has_many :collections, dependent: :nullify
-
-  has_one_attached :image
-
-  validates :title, :description, :image, :asking_price_cents, presence: true
-  validate :validate_collaborator
+  has_many :bids, dependent: :destroy
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[asking_price_cents auction_id collaborator_id collaborator_type created_at description id title updated_at]
@@ -42,5 +35,9 @@ class Lot < ApplicationRecord
     unless auction&.collaborators&.pluck(:collaborator_id)&.include?(collaborator_id)
       errors.add(:base, I18n.t('models.common.not_authorized'))
     end
+  end
+
+  def manipulation_on_live_auction
+    raise StandardError, I18n.t('models.lot.errors.manipulate_lot') if Auction.live.pluck(:id).include?(auction_id)
   end
 end

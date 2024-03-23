@@ -1,9 +1,63 @@
-<div class="max-w-md mx-auto mt-12 h-40 rounded-lg border-2 border-dashed flex items-center justify-center">
-  <label htmlFor="file" class="cursor-pointer text-center p-4 md:p-8">
-    <svg class="w-10 h-10 mx-auto" viewBox="0 0 41 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12.1667 26.6667C8.48477 26.6667 5.5 23.6819 5.5 20C5.5 16.8216 7.72428 14.1627 10.7012 13.4949C10.5695 12.9066 10.5 12.2947 10.5 11.6667C10.5 7.0643 14.231 3.33334 18.8333 3.33334C22.8655 3.33334 26.2288 6.19709 27.0003 10.0016C27.0556 10.0006 27.1111 10 27.1667 10C31.769 10 35.5 13.731 35.5 18.3333C35.5 22.3649 32.6371 25.7279 28.8333 26.5M25.5 21.6667L20.5 16.6667M20.5 16.6667L15.5 21.6667M20.5 16.6667L20.5 36.6667" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
-    <p class="mt-3 text-gray-700 max-w-xs mx-auto">Click to <span class="font-medium text-indigo-600">Upload your  file</span> or drag and drop your file here</p>
-  </label>
-  <input id="file" type="file" class="hidden" />
+<div class="max-w-sm p-2 mb-4 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer">
+  <div id="<%= "image-preview_#{locals[:uniq]}" %>" class="p-6-bg-gray-100"></div>
+  <div class="block" id="<%= locals[:uniq] %>">
+    <%= locals[:form].file_field locals[:attribute].to_sym, multiple: locals[:multiple], accept: 'image/*', id: "#{locals[:form].object.class.to_s.underscore}_#{ locals[:attribute].to_s }", class: 'hidden' %>
+    <%= locals[:form].label locals[:attribute].to_sym, class: 'text-base font-medium cursor-pointer'.html_safe do %>
+      <h1 class="mdi mdi-cloud-arrow-up leading-0 tracking-tight p-0 text-6xl text-center"></h1>
+      <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-700">Upload <%= locals[:multiple] ? 'Images' : 'Image' %></h5>
+      <p class="font-normal text-sm text-gray-400 md:px-6">Each photo should be less than <b class="text-gray-600">5mb</b></p>
+      <p class="font-normal text-sm text-gray-400 md:px-6">and should be in <b class="text-gray-600">JPG, PNG, or GIF</b> format.</p>
+      <span id="filename" class="text-gray-500 bg-gray-200 z-50"></span>
+    <% end %>
+  </div>
 </div>
+
+<script>
+  const uploadInput = document.getElementById('<%= "#{locals[:form].object.class.to_s.underscore}_#{locals[:attribute].to_s }" %>');
+  const filenameLabel = document.getElementById('filename');
+  const imagePreview = document.getElementById('<%= "image-preview_#{locals[:uniq]}" %>');
+
+  // Check if the event listener has been added before
+  let isEventListenerAdded = false;
+
+  uploadInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      filenameLabel.textContent = file.name;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const uniq_form = document.getElementById('<%= locals[:uniq] %>')
+        uniq_form.classList.add('hidden')
+        imagePreview.innerHTML =
+          `<img src="${e.target.result}" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
+        uniq_form.classList.remove('border-dashed', 'border-2', 'border-gray-400');
+        // Add event listener for image preview only once
+        if (!isEventListenerAdded) {
+          imagePreview.addEventListener('click', () => {
+            uploadInput.click();
+          });
+          isEventListenerAdded = true;
+        }
+      };
+      reader.readAsDataURL(file);
+    } else {
+      filenameLabel.textContent = '';
+      imagePreview.innerHTML =
+        `<div class="bg-gray-200 h-48 rounded-lg flex items-center justify-center text-gray-500">No image preview</div>`;
+      imagePreview.classList.add('border-dashed', 'border-2', 'border-gray-400');
+
+      // Remove the event listener when there's no image
+      imagePreview.removeEventListener('click', () => {
+        uploadInput.click();
+      });
+
+      isEventListenerAdded = false;
+    }
+  });
+
+  uploadInput.addEventListener('click', (event) => {
+    event.stopPropagation();
+  });
+</script>

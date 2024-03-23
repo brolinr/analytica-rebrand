@@ -8,29 +8,36 @@
 %>
 <main>
   <div class="w-full p-2">
-    <div class="w-full grid gap-4 md:grid-cols-4 p-3 bg-slate-300">
-      <div class="col-span-3">
-        <h1 class="font-bold text-xl"><%= @lot.title %></h1>
+    <div class="w-full grid gap-4 md:grid-cols-5 p-2 bg-slate-300">
+      <div class="col-span-3 flex justify-start items-center">
+        <h1 class="font-bold my-auto text-3xl"><%= @lot.title %></h1>
       </div>
-      <div class="col-span-1 grid grid-cols-2 gap-3">
-        <% if Collection.exists?(lot_id: @lot.id, company_id: current_company.id) %>
-          <%= form_with(model: Collection.new, url: reverse_auction_collection_path(Lot.collected(current_company.id, @lot.id).last.id), html: { method: :delete, data: { turbo: false } }) do |f| %>
-            <%= f.button type: 'submit', class: 'inline-flex items-center justify-center z-40  top-0 right-0 h-10 w-10 rounded-full border border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 duration-300' do %>
-              <span class="mdi mdi-star' text-xl"></span>
+      <div class="col-span-2 grid grid-cols-2 gap-3">
+        <div class="flex justify-center">
+          <% if Collection.exists?(lot_id: @lot.id, company_id: current_company.id) %>
+            <%= form_with(model: Collection.new, url: reverse_auction_collection_path(Lot.collected(current_company.id, @lot.id).last.id), html: { method: :delete, data: { turbo: false } }) do |f| %>
+              <%= f.button type: 'submit', class: 'inline-flex items-center justify-center py-2 px-3 rounded-full border border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 duration-300' do %>
+                <span class="mdi mdi-star text-xl"></span>
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= form_with(model: Collection.new, url: reverse_auction_collections_path, html: { method: :post, data: { turbo: false } }) do |f| %>
+              <%= f.hidden_field :lot_id, value: @lot.id %>
+              <%= f.button type: 'submit', class: 'inline-flex items-center justify-center py-2 px-3 rounded-full border border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 duration-300' do %>
+                <span class="mdi mdi-star-outline text-xl"></span>
+              <% end %>
             <% end %>
           <% end %>
-        <% else %>
-          <%= form_with(model: Collection.new, url: reverse_auction_collections_path, html: { method: :post, data: { turbo: false } }) do |f| %>
-            <%= f.hidden_field :lot_id, value: @lot.id %>
-            <%= f.button type: 'submit', class: 'inline-flex items-center justify-center z-40  top-0 right-0 h-10 w-10 rounded-full border border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 duration-300' do %>
-              <span class="mdi mdi-star-outline' text-xl"></span>
-            <% end %>
+        </div>
+        <div class="flex justify-start items-center">
+          <% if current_company.auction_registrations.exists?(auction_id: @lot.auction.id) %>
+            <%= link_to 'Place a bid', new_reverse_auction_lot_bid_path(@lot), class: 'text-center px-10 bg-blue-500 hover:bg-blue-600 hover:scale-95 ease-in-out duration-300 py-2 rounded-lg capitalize font-light text-white' %>
+          <% else %>
+            <a href="<%= new_reverse_auction_auction_auction_registration_path(@lot.auction) %>" class="px-3 mx-2 bg-blue-500 hover:bg-blue-600 hover:scale-95 ease-in-out duration-300 py-1.5 rounded-lg capitalize font-light text-white" disabled>
+              Register to bid
+            </a>
           <% end %>
-        <% end %>
-
-        <button class="px-3 bg-blue-500 hover:bg-blue-600 hover:scale-95 ease-in-out duration-300 h-10 py-1 rounded-lg capitalize font-light text-white" disabled>
-          Place a bid
-        </button>
+        </div>
       </div>
     </div>
 

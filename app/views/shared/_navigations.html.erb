@@ -93,17 +93,10 @@
         <% if company_signed_in? && current_company.bidder? %>
           <h1 class="text-gray-200 text-2xl font-bold my-2">Bidder</h1>
           <li>
-            <%= link_to '#', class: 'flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group' do %>
-              <i class="mdi mdi-archive-check text-xl transition duration-75 text-gray-400 group-hover:text-white"></i>
+            <%= link_to reverse_auction_bids_path, class: 'flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group' do %>
+              <i class="mdi-archive mdi text-xl transition duration-75 text-gray-400 group-hover:text-white"></i>
 
-              <span class="ms-3">Lots won</span>
-            <% end %>
-          </li>
-          <li>
-            <%= link_to '#', class: 'flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group' do %>
-              <i class="mdi-cash mdi text-xl transition duration-75 text-gray-400 group-hover:text-white"></i>
-
-              <span class="ms-3">Bids</span>
+              <span class="ms-3">Lots Bid</span>
             <% end %>
           </li>
         <% end %>
