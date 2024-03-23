@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Auctions::Destroy do
@@ -9,6 +11,7 @@ RSpec.describe Auctions::Destroy do
   describe '#call' do
     context 'with existing auction' do
       before { auction }
+
       it 'deletes auction', :aggregate_failures do
         expect { call }.to change(Auction, :count).from(1).to(0)
         expect(call).to be_success

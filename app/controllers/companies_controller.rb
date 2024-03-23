@@ -19,7 +19,10 @@ class CompaniesController < ApplicationController
   end
 
   def edit
-    redirect_to reverse_auction_dashboards_path, notice: I18n.t('flash.something_wrong') if current_company.id != params[:id].to_i
+    if current_company.id != params[:id].to_i
+      redirect_to reverse_auction_dashboards_path,
+                  notice: I18n.t('flash.something_wrong')
+    end
     @company = current_company
   end
 

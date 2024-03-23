@@ -47,11 +47,13 @@ admin if Administrator.count < 1
   company = generate_company
 
   if time > 3
+    company.bidder = true
     company.password = 'password'
     company.password_confirmation = 'password'
     company.save!
     company.confirm
   elsif time > 13
+    company.supplier = true
     company.save!
     company.confirm
   else
@@ -63,8 +65,8 @@ end
   company_onboarding = generate_company_onboarding
   company_onboarding.save
   if time < 10
-    company_onboarding.approved!
+    company_onboarding.approve!
   elsif time < 30
-    company_onboarding.disapproved!
+    company_onboarding.disapprove!
   end
 end

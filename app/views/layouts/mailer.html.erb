@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", media: "all" %>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style>
-      .main {
-        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-        border-radius: 5px;
-        box-shadow: 10px;
-        margin: 0;
-        padding: 10px;
-        box-sizing: border-box;
-        font-family: Arial, Helvetica, sans-serif;
-        max-width: 650px;
-      }
+        .main {
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            border-radius: 5px;
+            box-shadow: 10px;
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
       .header {
         background-color: #2682df;
         border-radius: 5px;

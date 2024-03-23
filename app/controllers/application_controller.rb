@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   def after_sign_in_path_for(_resource)
     case resource_name
     when :company

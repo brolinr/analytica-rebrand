@@ -22,6 +22,8 @@ class CompanyDashboard < Administrate::BaseDashboard
     id
     name
     address
+    bidder
+    supplier
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[

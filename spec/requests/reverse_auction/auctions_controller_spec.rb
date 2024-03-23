@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe ReverseAuction::AuctionsController, type: :controller  do
+RSpec.describe ReverseAuction::AuctionsController, type: :controller do
   let(:company) { create(:company, :as_supplier) }
   let(:company_2) { create(:company, :as_supplier) }
   let(:auction) { create(:auction, company: company) }
@@ -23,36 +25,33 @@ RSpec.describe ReverseAuction::AuctionsController, type: :controller  do
   end
 
   describe 'POST #create' do
-    before do
-      @params = { auction: attributes_for(:auction) }
-    end
+    let(:params) { { auction: attributes_for(:auction) } }
 
-    context 'not logged' do
-      it 'should redirect user to sign in', :aggregate_failures do
-        post :create, params: @params
+    context 'when not logged in' do
+      it 'redirects user to sign in', :aggregate_failures do
+        post :create, params: params
         expect(response).to redirect_to(new_company_session_path)
         expect(flash[:alert]).not_to be_empty
       end
 
-      it 'should not create an auction', :aggregate_failures do
-        expect { post :create, params: @params }.not_to change(Auction, :count).from(0)
+      it 'does not create an auction', :aggregate_failures do
+        expect { post :create, params: params }.not_to change(Auction, :count).from(0)
       end
     end
 
-    context 'logged in' do
-      before do
-        sign_in company
-        @params = { auction: attributes_for(:auction, company: nil) }
-      end
+    context 'when logged in' do
+      before { sign_in company }
 
-      it 'should create auction', :aggregate_failures do
-        expect { post :create, params: @params }.to change(Auction, :count).by(1)
+      let(:params) { { auction: attributes_for(:auction, company: nil) } }
+
+      it 'creates auction', :aggregate_failures do
+        expect { post :create, params: params }.to change(Auction, :count).by(1)
         expect(response).not_to redirect_to(new_company_session_path)
         expect(flash[:notice]).not_to be_empty
       end
     end
 
-    context 'adding collaborators' do
+    context 'when adding collaborators' do
       let(:params) do
         auction = attributes_for(:auction, company: nil)
         auction[:collaborator_ids] = [company_2.id]
@@ -64,6 +63,7 @@ RSpec.describe ReverseAuction::AuctionsController, type: :controller  do
         expect { post :create, params: params }.to change(Auction, :count).from(0).to(1).and(
           change(Collaborator, :count).from(0).to(1)
         )
+
         expect(response).not_to redirect_to(new_company_session_path)
         expect(flash[:notice]).not_to be_empty
       end
@@ -72,6 +72,7 @@ RSpec.describe ReverseAuction::AuctionsController, type: :controller  do
 
   describe 'PUT #update' do
     let(:request) { put :update, params: { id: auction.id, auction: params } }
+
     before do
       auction
       sign_in(company)
@@ -81,7 +82,7 @@ RSpec.describe ReverseAuction::AuctionsController, type: :controller  do
       let(:params) { { title: 'New one' } }
 
       it 'updates title of auction', :aggregate_failures do
-        expect { request }.to change { auction.reload.title }.to("New one")
+        expect { request }.to change { auction.reload.title }.to('New one')
         expect(response).not_to redirect_to(new_company_session_path)
         expect(flash[:notice]).not_to be_empty
       end
@@ -100,12 +101,13 @@ RSpec.describe ReverseAuction::AuctionsController, type: :controller  do
 
   describe 'DELETE #destroy' do
     let(:request) { delete :destroy, params: { id: auction.id } }
+
     before do
       sign_in company
       auction
     end
 
-    it 'should destroy auction', :aggregate_failures do
+    it 'destroys auction', :aggregate_failures do
       expect { request }.to change(Auction, :count).from(1).to(0)
       expect(flash[:notice]).not_to be_empty
     end

@@ -29,7 +29,7 @@ class Companies::Create < ApplicationService
   end
 
   def create_company
-    unless company_onboarding.approved? && !Company.exists?(email: company_onboarding.email)
+    unless company_onboarding.approve? && !Company.exists?(email: company_onboarding.email)
       return add_error(I18n.t('errors.onboarding_not_approved'))
     end
 

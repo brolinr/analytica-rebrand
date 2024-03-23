@@ -16,6 +16,14 @@ RSpec.describe Company do
     it { is_expected.to validate_length_of(:address).is_at_most(50) }
   end
 
+  describe 'relations' do
+    it { is_expected.to have_many(:auction_registrations).dependent(:destroy) }
+    it { is_expected.to have_many(:collaborations).dependent(:destroy) }
+    it { is_expected.to have_many(:auctions).dependent(:destroy) }
+    it { is_expected.to have_many(:lots).dependent(:nullify) }
+    it { is_expected.to have_many(:bids).dependent(:destroy) }
+  end
+
   describe 'factories' do
     let(:company) { create(:company) }
 

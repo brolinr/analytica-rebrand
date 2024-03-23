@@ -13,11 +13,11 @@ FactoryBot.define do
     cr5 { pdf_upload }
     cr6 { pdf_upload }
 
-    trait :approved do
+    trait :approve do
       approval { 1 }
     end
 
-    trait :disapproved do
+    trait :disapprove do
       approval { 2 }
     end
 

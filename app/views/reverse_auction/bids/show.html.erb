@@ -1,0 +1,9 @@
+<%= render \
+      'shared/breadcrumb',
+      paths: [
+        { name: 'live auctions', link: reverse_auction_live_auctions_path },
+        { name: @lot.auction.title.truncate(10), link: reverse_auction_auction_path(@lot.auction) },
+        { name: @lot.title.truncate(10), link: reverse_auction_auction_lot_path(@lot.auction, @lot) },
+        { name: 'Bid' }
+      ]
+%>

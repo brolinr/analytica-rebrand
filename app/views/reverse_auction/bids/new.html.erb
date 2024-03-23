@@ -1,0 +1,60 @@
+<%= render \
+      'shared/breadcrumb',
+      paths: [
+        { name: 'live auctions', link: reverse_auction_live_auctions_path },
+        { name: @lot.auction.title.truncate(10), link: reverse_auction_auction_path(@lot.auction) },
+        { name: @lot.title.truncate(10), link: reverse_auction_auction_lot_path(@lot.auction, @lot) },
+        { name: 'New bid' }
+      ]
+%>
+<div class="my-4">
+  <% if @lot&.bids.empty? %>
+    <div class="gap-4 my-5">
+      <div class="text-center mb-4">
+        <h1 class="text-3xl">Be the first to bid!</h1>
+        <p class="font-bold mb-4">The starting bid for this lot is
+          <span>$<%= @lot&.asking_price %></span>
+        </p>
+      </div>
+    </div>
+    <%= render('reverse_auction/bids/form') %>
+  <% elsif @lot&.bids&.order(:amount_cents)&.first&.company_id == current_company&.id && Auction.live.pluck(:id).include?(@lot.auction_id) %>
+    <div class="text-center mb-4">
+      <h1 class="text-3xl text-blue-500">You have the leading bid!</h1>
+      <p class="font-bold mb-4">The amount you have bid is:
+        <span>$<%= @lot&.bids&.order(:amount_cents)&.first.amount %></span>
+      </p>
+      <%= link_to 'Retract bid', '#', class: 'text-center px-10 bg-rose-500 hover:bg-rose-600 hover:scale-95 ease-in-out duration-300 py-2 rounded-lg capitalize font-light text-white' %>
+    </div>
+  <% elsif @lot.bids.pluck(:company_id).exclude?(current_company.id) && @lot&.bids.any? %>
+    <div class="text-center mb-4">
+      <h1 class="text-3xl text-blue-500">Outbid the current bid!</h1>
+      <p class="font-bold">The leading bid stands at:
+        <span>$<%= @lot&.bids&.order(:amount_cents)&.first.amount %></span>
+      </p>
+    </div>
+    <%= render('reverse_auction/bids/form') %>
+  <% elsif @lot.bids.pluck(:company_id).include?(current_company.id) && @lot&.bids&.order(:amount_cents)&.first&.company_id != current_company.id && Auction.live.pluck(:id).include?(@lot.auction_id) %>
+    <div class="text-center mb-4">
+      <h1 class="text-3xl text-blue-500">You have been outbid!</h1>
+      <p class="font-bold">The current bid stands at:
+        <span>$<%= @lot&.bids&.order(:amount_cents)&.first.amount %></span>
+      </p>
+    </div>
+    <%= render('reverse_auction/bids/form') %>
+  <% elsif Auction.live.pluck(:id).exclude?(@lot.auction_id) && @lot.bids.pluck(:company_id).include?(current_company.id) && @lot&.bids&.order(:amount_cents)&.first&.company_id != current_company.id %>
+    <div class="text-center mb-4">
+      <h1 class="text-3xl text-blue-500">You Lost!</h1>
+      <p class="font-bold">The winning bid:
+        <span>$<%= @lot&.bids&.order(:amount_cents)&.first.amount %></span>
+      </p>
+    </div>
+  <% elsif @lot&.bids&.order(:amount_cents)&.first&.company_id == current_company&.id && Auction.live.pluck(:id).exclude?(@lot.auction_id) %>
+    <div class="text-center mb-4">
+      <h1 class="text-3xl text-blue-500">You have Won!</h1>
+      <p class="font-bold">Your winning bid:
+        <span>$<%= @lot&.bids&.order(:amount_cents)&.first.amount %></span>
+      </p>
+    </div>
+  <% end %>
+</div>

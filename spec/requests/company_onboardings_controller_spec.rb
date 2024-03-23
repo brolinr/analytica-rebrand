@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe CompanyOnboardingsController, type: :controller do
-  let(:company_onboarding) { create(:company_onboarding, :disapproved) }
+  let(:company_onboarding) { create(:company_onboarding, :disapprove) }
   let(:administrator) { create(:administrator) }
   let(:token) { create(:token, status: 0, purpose: 1, generator: company_onboarding) }
 
@@ -87,11 +87,11 @@ RSpec.describe CompanyOnboardingsController, type: :controller do
     context 'with approval params' do
       before { company_onboarding.pending_review! }
 
-      let(:params) { { id: company_onboarding.id, company_onboarding: { approval: 'approved' } } }
+      let(:params) { { id: company_onboarding.id, company_onboarding: { approval: 'approve' } } }
 
       it 'approves company onboarding', :aggregate_failures do
         post :approve, params: params
-        expect(company_onboarding.reload.approval).to eq('approved')
+        expect(company_onboarding.reload.approval).to eq('approve')
         expect(Token.count).to eq(1)
         expect(response).to redirect_to(company_onboardings_path)
         expect(flash[:notice]).not_to be_empty
@@ -104,32 +104,32 @@ RSpec.describe CompanyOnboardingsController, type: :controller do
       let(:params) do
         {
           id: company_onboarding.id,
-          company_onboarding: { approval: 'disapproved', reason_for_disapproval: 'NOt eligible' }
+          company_onboarding: { approval: 'disapprove', reason_for_disapproval: 'NOt eligible' }
         }
       end
 
       it 'disapproves company onboarding', :aggregate_failures do
         post :approve, params: params
-        expect(company_onboarding.reload.approval).to eq('disapproved')
+        expect(company_onboarding.reload.approval).to eq('disapprove')
         expect(Token.count).to eq(1)
         expect(response).to redirect_to(company_onboardings_path)
         expect(flash[:notice]).not_to be_empty
       end
     end
 
-    context 'with approved onboarding' do
-      before { company_onboarding.approved! }
+    context 'with approve onboarding' do
+      before { company_onboarding.approve! }
 
       let(:params) do
         {
           id: company_onboarding.id,
-          company_onboarding: { approval: 'disapproved' }
+          company_onboarding: { approval: 'disapprove' }
         }
       end
 
       it 'does not change approval status', :aggregate_failures do
         post :approve, params: params
-        expect(company_onboarding.reload.approval).to eq('approved')
+        expect(company_onboarding.reload.approval).to eq('approve')
         expect(Token.count).to eq(0)
         expect(response).to redirect_to(company_onboardings_path)
       end

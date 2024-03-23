@@ -5,11 +5,11 @@ require 'rails_helper'
 RSpec.describe Companies::Create do
   subject(:call) { described_class.call(params: params, context: { company_onboarding: company_onboarding }) }
 
-  let(:company_onboarding) { create(:company_onboarding, :approved) }
+  let(:company_onboarding) { create(:company_onboarding, :approve) }
   let(:password) { FFaker::Internet.password }
 
   describe '#call' do
-    context 'with approved onboarding' do
+    context 'with approve onboarding' do
       let(:params) { { password: password, password_confirmation: password } }
 
       it 'creates company', :aggregate_failures do
@@ -19,8 +19,8 @@ RSpec.describe Companies::Create do
       end
     end
 
-    context 'with onboarding disapproved/pending_review' do
-      before { company_onboarding.disapproved! }
+    context 'with onboarding disapprove/pending_review' do
+      before { company_onboarding.disapprove! }
 
       let(:params) { { password: password, password_confirmation: password } }
 

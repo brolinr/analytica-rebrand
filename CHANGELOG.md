@@ -7,3 +7,4 @@
 - Frontend setup
 - Backend setup
 - User authenitcation
+- Reverse Auction

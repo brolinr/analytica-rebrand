@@ -1,0 +1,47 @@
+<%= render 'shared/breadcrumb', paths: [{ name: 'Live auctions'}] %>
+
+<div class="container mx-auto bg-gray-100 p-3">
+  <% @auctions.each do |auction| %>
+    <div class="grid grid-cols-1 lg:grid-cols-8 mb-4 shadow-lg border">
+      <div class="lg:col-span-3 md:py-1 bg-white rounded-s">
+        <%= image_tag (auction.image.present? ? auction.image : 'email_illustration.jpg'), class: 'w-full object-contain rounded-s px-4' %>
+      </div>
+      <div class="lg:col-span-5 md:py-1 rounded-e bg-white">
+        <div class="w-full p-2 md:border-y border-blue-300">
+          <h1 class="text-4xl w-full font-light"><%= auction.title %></h1>
+          <p class="mb-4 tracking-tight leading-5 font-light text-slate-500">
+            CLOSING <%= auction.closes_at.strftime("%b %d, %Y AT %l %p CAT").upcase %>
+            • HARARE • 6H 57M 19S LEFT
+          </p>
+          <% if auction.auction_registrations.find_by(company_id: current_company.id)&.pending? %>
+            <button class="px-3 bg-amber-500 hover:bg-amber-600 hover:scale-95 ease-in-out duration-300 py-1 rounded-lg capitalize font-light text-white" disabled>
+              Registration pending
+            </button>
+          <% elsif auction.auction_registrations.find_by(company_id: current_company.id)&.decline? %>
+            <button class="px-3 bg-rose-500 hover:bg-rose-600 hover:scale-95 ease-in-out duration-300 py-1 rounded-lg capitalize font-light text-white" disabled>
+              Registration disapproved
+            </button>
+          <% elsif auction.auction_registrations.find_by(company_id: current_company.id)&.approve? %>
+            <button class="px-3 bg-emerald-500 hover:bg-emerald-600 hover:scale-95 ease-in-out duration-300 py-1 rounded-lg capitalize font-light text-white" disabled>
+              Registration approved
+            </button>
+          <% else %>
+            <a href="<%= new_reverse_auction_auction_auction_registration_path(auction) %>" class="px-3 mx-2 bg-blue-500 hover:bg-blue-600 hover:scale-95 ease-in-out duration-300 py-1.5 rounded-lg capitalize font-light text-white" disabled>
+              Register to bid
+            </a>
+          <% end %>
+
+          <%= link_to 'Browse lots', reverse_auction_auction_path(auction), class: 'px-3 bg-slate-500 hover:bg-slate-600 hover:scale-95 ease-in-out duration-300 py-1.5 rounded-lg capitalize font-light text-white' %>
+
+        </div>
+        <div class="w-full px-2">
+          <h2 class="text-xl font-bold capitalize mb-4">Description:</h2>
+          <div class="prose prose-a:text-blue-600 prose-ul:list-outside prose-pre:bg-gray-300 prose-em:text-slate-800 prose-ul:text-slate-900 prose-headings:text-slate-900 prose-sm">
+            <%= auction.description %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <%= render 'shared/pagy', records: @pagy %>
+</div>

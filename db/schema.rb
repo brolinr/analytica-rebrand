@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_17_090315) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_20_093047) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -72,6 +72,20 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_17_090315) do
     t.index ["reset_password_token"], name: "index_administrators_on_reset_password_token", unique: true
   end
 
+  create_table "auction_registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "auction_id", null: false
+    t.uuid "company_id", null: false
+    t.integer "approval", default: 0
+    t.string "delivery_phone"
+    t.string "delivery_city"
+    t.string "delivery_address"
+    t.boolean "terms"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["auction_id"], name: "index_auction_registrations_on_auction_id"
+    t.index ["company_id"], name: "index_auction_registrations_on_company_id"
+  end
+
   create_table "auctions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.datetime "starts_at"
@@ -82,14 +96,34 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_17_090315) do
     t.index ["company_id"], name: "index_auctions_on_company_id"
   end
 
-  create_table "collaborators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "bids", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "amount_cents"
     t.uuid "company_id", null: false
+    t.uuid "lot_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_bids_on_company_id"
+    t.index ["lot_id"], name: "index_bids_on_lot_id"
+  end
+
+  create_table "collaborators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "auction_id", null: false
     t.integer "acceptance_status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "collaborator_type"
+    t.uuid "collaborator_id"
     t.index ["auction_id"], name: "index_collaborators_on_auction_id"
-    t.index ["company_id"], name: "index_collaborators_on_company_id"
+    t.index ["collaborator_type", "collaborator_id"], name: "index_collaborators_on_collaborator"
+  end
+
+  create_table "collections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "company_id", null: false
+    t.uuid "lot_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_collections_on_company_id"
+    t.index ["lot_id"], name: "index_collections_on_lot_id"
   end
 
   create_table "companies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -136,6 +170,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_17_090315) do
     t.index ["phone"], name: "index_company_onboardings_on_phone", unique: true
   end
 
+  create_table "lots", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "asking_price_cents"
+    t.uuid "auction_id", null: false
+    t.string "collaborator_type"
+    t.uuid "collaborator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["auction_id"], name: "index_lots_on_auction_id"
+    t.index ["collaborator_type", "collaborator_id"], name: "index_lots_on_collaborator"
+  end
+
   create_table "tokens", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "expires_at"
     t.integer "status", default: 0
@@ -150,7 +197,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_17_090315) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "auction_registrations", "auctions"
+  add_foreign_key "auction_registrations", "companies"
   add_foreign_key "auctions", "companies"
+  add_foreign_key "bids", "companies"
+  add_foreign_key "bids", "lots"
   add_foreign_key "collaborators", "auctions"
-  add_foreign_key "collaborators", "companies"
+  add_foreign_key "collections", "companies"
+  add_foreign_key "collections", "lots"
+  add_foreign_key "lots", "auctions"
 end

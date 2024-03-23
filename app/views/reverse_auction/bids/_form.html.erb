@@ -1,0 +1,15 @@
+<%= form_with model: @bid, url: reverse_auction_lot_bids_path(@lot), method: :post, data: {turbo: false} do |f| %>
+    <div class="w-4/5 md:w-2/5 gap-4 grid md:grid-cols-1 mx-auto">
+      <dt class="text-sm font-medium leading-6 text-gray-900">
+        <%= f.label :amount, class: 'text-base font-medium' %>
+        <%= f.number_field :amount, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+      </dt>
+
+      <div class="bg-white w-full flex justify-start">
+        <%= render('shared/upload_file', locals: {multiple: true, form: f, attribute: :images, uniq: "images" }) %>
+      </div>
+
+      <%= f.submit 'Submit', class: "col-span-1 text-white mx-2 px-3 py-1 bg-blue-500 hover:bg-blue-600  rounded" %>
+    </div>
+  </div>
+<% end %>
