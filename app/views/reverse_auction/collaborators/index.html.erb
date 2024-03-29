@@ -3,16 +3,38 @@
 <div class="w-4/5 mx-auto">
   <h1 class="text-center text text-4xl my-8 font-bold">Pending Collaboration Requests</h1>
 <ul role="list" class="divide-y divide-gray-300">
-<% @collaborators.each do |collaborator| %>
+  <% @collaborators.each do |collaborator| %>
     <% avatar_url = "https://api.dicebear.com/7.x/initials/svg?seed=#{URI.encode_www_form_component(collaborator.auction.company.name)}&backgroundColor=00acc1,039be5,1e88e5,3949ab,d1d4f9&backgroundType=gradientLinear" %>
     <li class="lg:flex justify-between gap-x-6 py-5">
-    <div class="mb-4 flex min-w-0 gap-x-4">
-      <img src="<%= avatar_url %>" alt="company_initials" class="h-12 w-12 flex-none rounded-full bg-gray-50">
-      <div class="min-w-0 flex-auto">
-        <p class="text-sm font-semibold leading-6 text-gray-900"><%= collaborator.auction.company.name %></p>
-        <p class="mt-1 truncate text-xs leading-5 text-gray-500"><%= collaborator.auction.company.email %></p>
+      <div class="mb-4 flex min-w-0 gap-x-4">
+        <img src="<%= avatar_url %>" alt="company_initials" class="h-12 w-12 flex-none rounded-full bg-gray-50">
+        <div class="min-w-0 flex-auto">
+          <p class="text-sm font-semibold leading-6 text-gray-900"><%= collaborator.auction.company.name %></p>
+          <p class="mt-1 truncate text-xs leading-5 text-gray-500"><%= collaborator.auction.company.email %></p>
+        </div>
+        <div class="flex lg:hidden gap-2 lg:gap-4">
+          <%= form_with(model: collaborator, url: reverse_auction_collaborator_path(collaborator), html: { method: :put, data: { turbo: false } }) do |f| %>
+            <%= f.hidden_field :acceptance_status, value: 'accept' %>
+            <%= f.button type: 'submit', class: 'inline-flex items-center justify-center h-12 w-12 rounded-full border border-teal-500 text-teal-500 hover:text-white hover:bg-teal-500 duration-300' do %>
+              <span class="mdi mdi-check text-3xl"></span>
+            <% end %>
+          <% end %>
+
+          <%= form_with(model: collaborator, url: reverse_auction_collaborator_path(collaborator), html: { method: :put, data: { turbo: false } })do |f| %>
+            <%= f.hidden_field :acceptance_status, value: 'decline' %>
+            <%= f.button type: 'submit', class: ' h-12 w-12 flex-none rounded-full border border-rose-500 text-rose-500 hover:text-white hover:bg-rose-500 duration-300' do %>
+              <span class="mdi mdi-exclamation text-3xl"></span>
+            <% end %>
+          <% end %>
+        </div>
       </div>
-      <div class="flex lg:hidden gap-2 lg:gap-4">
+
+      <div class="shrink-0 sm:flex sm:flex-col sm:items-end md:items-start lg:items-end">
+        <p class="text-sm leading-6 text-gray-900"><%= collaborator.auction.title %></p>
+        <p class="mt-1 text-xs leading-5 text-gray-500">Request sent: <%= collaborator.created_at.strftime("%b %d, %Y AT %l %p CAT") %></p>
+      </div>
+
+      <div class="hidden lg:flex flex gap-2 lg:gap-4">
         <%= form_with(model: collaborator, url: reverse_auction_collaborator_path(collaborator), html: { method: :put, data: { turbo: false } }) do |f| %>
           <%= f.hidden_field :acceptance_status, value: 'accept' %>
           <%= f.button type: 'submit', class: 'inline-flex items-center justify-center h-12 w-12 rounded-full border border-teal-500 text-teal-500 hover:text-white hover:bg-teal-500 duration-300' do %>
@@ -27,30 +49,8 @@
           <% end %>
         <% end %>
       </div>
-    </div>
-
-    <div class="shrink-0 sm:flex sm:flex-col sm:items-end md:items-start lg:items-end">
-      <p class="text-sm leading-6 text-gray-900"><%= collaborator.auction.title %></p>
-      <p class="mt-1 text-xs leading-5 text-gray-500">Request sent: <%= collaborator.created_at.strftime("%b %d, %Y AT %l %p CAT") %></p>
-    </div>
-
-    <div class="hidden lg:flex flex gap-2 lg:gap-4">
-      <%= form_with(model: collaborator, url: reverse_auction_collaborator_path(collaborator), html: { method: :put, data: { turbo: false } }) do |f| %>
-        <%= f.hidden_field :acceptance_status, value: 'accept' %>
-        <%= f.button type: 'submit', class: 'inline-flex items-center justify-center h-12 w-12 rounded-full border border-teal-500 text-teal-500 hover:text-white hover:bg-teal-500 duration-300' do %>
-          <span class="mdi mdi-check text-3xl"></span>
-        <% end %>
-      <% end %>
-
-      <%= form_with(model: collaborator, url: reverse_auction_collaborator_path(collaborator), html: { method: :put, data: { turbo: false } })do |f| %>
-        <%= f.hidden_field :acceptance_status, value: 'decline' %>
-        <%= f.button type: 'submit', class: ' h-12 w-12 flex-none rounded-full border border-rose-500 text-rose-500 hover:text-white hover:bg-rose-500 duration-300' do %>
-          <span class="mdi mdi-exclamation text-3xl"></span>
-        <% end %>
-      <% end %>
-    </div>
-  </li>
-<% end %>
+    </li>
+  <% end %>
   <%= render 'shared/pagy', records: @pagy %>
 </ul>
 </div>

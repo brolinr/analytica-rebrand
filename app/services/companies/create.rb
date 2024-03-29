@@ -23,6 +23,8 @@ class Companies::Create < ApplicationService
       address: company_onboarding.address,
       city: company_onboarding.city,
       terms: company_onboarding.terms,
+      bidder: true,
+      supplier: true,
       password: params[:password],
       password_confirmation: params[:password_confirmation]
     )

@@ -11,8 +11,8 @@ class ReverseAuction::CollaboratorsController < ReverseAuction::ApplicationContr
 
     error_or_redirect(
       object: result,
-      success_path: reverse_auction_collaborators_path,
-      failure_path: reverse_auction_collaborators_path,
+      success_path: request.referer || reverse_auction_collaborators_path,
+      failure_path: request.referer || reverse_auction_collaborators_path,
       success_string_key: "controllers.collaborators.#{i18_string}"
     )
   end

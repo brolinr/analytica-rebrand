@@ -1,9 +1,13 @@
-<header class="py-6 bg-gray-50">
+<header class="py-6 bg-gray-100">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <nav class="relative z-50 flex justify-between">
       <div class="flex items-center md:gap-x-12">
-        <a href="/" class="text-3xl text-blue-500 hover:text-blue-700 text-md font-semibold">Analytica</a>
-        
+        <div class="w-1/5">
+          <a href="/" class="text-3xl text-blue-500 hover:text-blue-700 text-md font-semibold">
+            <%= image_tag 'analytica-blue.png', class: 'h-12 w-auto object-contain' %>
+          </a>
+        </div>
+
         <div class="hidden md:flex md:gap-x-6">
           <%= link_to  'Company', company_path, 
             class: 'inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
@@ -27,7 +31,7 @@
         <%= link_to contact_path, class: 'group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none 
             focus-visible:outline-2 focus-visible:outline-offset-2 bg-blue-600 text-white hover:text-slate-100 hover:bg-blue-500 
             active:bg-blue-800 active:text-blue-100 focus-visible:outline-blue-600' do %>
-          <span>Contact us <span class="hidden lg:inline">today</span></span>
+          <span>Contact  <span class="hidden lg:inline"></span></span>
         <% end %>
         
         <div class="-mr-1 md:hidden">
@@ -54,7 +58,7 @@
           rounded-md text-md font-semibold col-span-3 transition ease-out-in
           over:-translate-y-2 hover:scale-95 duration-300"
         >
-          Analytica
+          <%= image_tag 'analytica-blue.png', class: 'h-12 w-auto object-contain' %>
         </a>
         <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" id="close-menu">
           <span class="sr-only">Close menu</span>
@@ -71,8 +75,8 @@
             <%= link_to  'Contact', contact_path, class: '-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-700 hover:bg-slate-100 hover:text-slate-900' %>
           </div>
           <div class="py-6">
-            <a href="#f" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log in</a>
-            <a href="#d" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Create account</a>
+            <%= link_to  'Log in', new_company_session_path, class: "-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" %>
+            <%= link_to  'Create account', new_company_onboarding_path, class: "-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" %>
           </div>
         </div>
       </div>

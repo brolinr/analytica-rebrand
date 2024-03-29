@@ -176,6 +176,7 @@ GEM
       net-imap
       net-pop
       net-smtp
+    mailtrap (2.0.0)
     marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
@@ -397,6 +398,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   importmap-rails (~> 2.0.1)
   letter_opener (~> 1.8)
+  mailtrap (~> 2.0)
   money-rails (~> 1.15)
   pagy (~> 6.4)
   pg (~> 1.1)

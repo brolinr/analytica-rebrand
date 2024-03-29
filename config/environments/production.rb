@@ -63,7 +63,15 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "analytica_production"
 
   config.action_mailer.perform_caching = false
-
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    user_name: ENV['MAILTRAP_USERNAME'],
+    password: ENV['MAILTRAP_PASSWORD'],
+    address: ENV['MAILTRAP_ADDRESS'],
+    host: ENV['MAILTRAP_ADDRESS'],
+    port: ENV['MAILTRAP_PORT'].to_i,
+    authentication: ENV['MAILTRAP_AUTH']
+  }
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
