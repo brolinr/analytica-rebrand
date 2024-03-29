@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Token < ApplicationRecord
-  after_create :expire_token
+  # after_create :expire_token
   after_initialize do |_token|
     generate_token_secret
     set_expiration
