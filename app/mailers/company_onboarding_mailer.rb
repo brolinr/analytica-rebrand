@@ -5,7 +5,7 @@ class CompanyOnboardingMailer < ApplicationMailer
 
   def approve
     @url = Rails.application.routes.url_helpers.new_company_url(approval_token: associated_token(0, 0).secret)
-    mail(to: onboarding.email, subject: I18n.t('mailers.approve.subject'))
+    mail(from: ENV['DELIVERY_SUPPORT_EMAIL'] ,to: onboarding.email, subject: I18n.t('mailers.approve.subject'))
   end
 
   def disapprove
@@ -13,7 +13,7 @@ class CompanyOnboardingMailer < ApplicationMailer
                                                                             disapproval_token: associated_token(
                                                                               1, 0
                                                                             ).secret)
-    mail(to: onboarding.email, subject: I18n.t('mailers.disapprove.subject'))
+    mail(from: ENV['DELIVERY_SUPPORT_EMAIL'], to: onboarding.email, subject: I18n.t('mailers.disapprove.subject'))
   end
 
   private
