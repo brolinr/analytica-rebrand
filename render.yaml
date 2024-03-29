@@ -1,7 +1,7 @@
 databases:
   - name: Analytica
-    databaseName: Analytica
-    user: Analytica
+    databaseName: analytica_onnj
+    user: analytica_onnj_user
     plan: free
 
 services:
