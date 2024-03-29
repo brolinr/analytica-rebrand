@@ -4,7 +4,7 @@ class Auction < ApplicationRecord
   I18N_SCOPE = 'models.auction.errors'
   scope :live, -> { where('starts_at <= ? AND closes_at >= ?', Time.current, Time.current) }
   scope :collaborated, lambda { |company_id|
-                         live.joins(:collaborators).where(collaborators: { collaborator_id: company_id })
+                         joins(:collaborators).where(collaborators: { collaborator_id: company_id })
                        }
 
   belongs_to :company

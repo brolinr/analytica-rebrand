@@ -22,6 +22,7 @@ en:
   errors:
     onboarding_not_approved: "Company onboarding has not been approve."
   flash:
+    onboarded: Your details have been sent successfully. We will send you an email after reviewing your details.
     created: Successfully created.
     updated: Successfully updated.
     destroyed: Successfully destroyed.

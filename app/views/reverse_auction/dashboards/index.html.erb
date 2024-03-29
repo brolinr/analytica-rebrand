@@ -1,5 +1,127 @@
 <%= render 'shared/breadcrumb', paths: [{ name: 'Dashboard' }] %>
 
-<div class="container-fluid mx-auto bg-amber-100 p-6">
-<h1>DASHBOARD</h1>
+<div class="container-fluid mx-auto bg-gray-100 p-6">
+  <div class="grid w-full grid-cols-1 h-fit md:grid-cols-4 gap-4">
+    <div class="shadow-md rounded-xl w-full h-fit p-3 bg-white grid grid-cols-3 gap-3">
+      <div class="col-span-1 py-6 md:py-4 h-fit flex items-center justify-center bg-amber-200 rounded-xl">
+        <h1 class="text-2xl text-amber-500 text-center mdi mdi-star"></h1>
+      </div>
+      <div class="col-span-2 rounded-xl h-fit my-auto">
+        <h4 class="font-bold text-lg"><%= current_company.collections.count %></h4>
+        <p class="text-sm font-medium">Collections</p>
+      </div>
+    </div>
+
+    <div class="shadow-md rounded-xl w-full h-fit p-3 bg-white grid grid-cols-3 gap-3">
+      <div class="col-span-1 py-6 md:py-4 h-fit flex items-center justify-center bg-blue-200 rounded-xl">
+        <h1 class="text-2xl text-blue-500 text-center mdi mdi-play"></h1>
+      </div>
+      <div class="col-span-2 rounded-xl h-fit my-auto">
+        <h4 class="font-bold text-lg"><%= @auctions.live.count %></h4>
+        <p class="text-sm font-medium">Live auctions</p>
+      </div>
+    </div>
+
+    <div class="shadow-md rounded-xl w-full h-fit p-3 bg-white grid grid-cols-3 gap-3">
+      <div class="col-span-1 py-6 md:py-4 h-fit flex items-center justify-center bg-slate-200 rounded-xl">
+        <h1 class="text-2xl text-slate-500 text-center mdi mdi-gavel"></h1>
+      </div>
+      <div class="col-span-2 rounded-xl h-fit my-auto">
+        <h4 class="font-bold text-lg"><%= @auctions.count %></h4>
+        <p class="text-sm font-medium">Auctions</p>
+      </div>
+    </div>
+
+    <div class="shadow-md rounded-xl w-full h-fit p-3 bg-white grid grid-cols-3 gap-3">
+      <div class="col-span-1 py-6 md:py-4 h-fit flex items-center justify-center bg-emerald-200 rounded-xl">
+        <h1 class="text-2xl text-emerald-500 text-center mdi mdi-cash"></h1>
+      </div>
+      <div class="col-span-2 rounded-xl h-fit my-auto">
+        <h4 class="font-bold text-lg"><%= current_company.bids.count %></h4>
+        <p class="text-sm font-medium">Bids</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-5 gap-4 mt-8">
+    <div class="md:col-span-3 bg-white rounded-2xl p-3">
+      <div class="p-2">
+        <h1 class="font-bold text-2xl">Your auctions</h1>
+      </div>
+      <div class="mt-4 overflow-y-auto h-[39lvh] flex">
+        <table class="border-collapse table-auto w-full text-sm">
+          <thead>
+          <tr>
+            <th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Title</th>
+            <th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Starts on</th>
+            <th class="border-b font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 text-left">Status</th>
+          </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-slate-800">
+          <% @auctions.order(:starts_at).each do |auction| %>
+            <tr>
+              <td class="border-b border-slate-100 p-4 pl-8 text-slate-500"><%= auction.title %></td>
+              <td class="border-b border-slate-100 p-4 text-slate-500"><%= auction.starts_at.strftime("%b %d, %Y AT %l %p CAT") %></td>
+              <td class="border-b border-slate-100 p-4 pr-8 text-slate-500">
+                <div class="py-1 px-2 flex flex-col">
+                  <% case %>
+                  <% when Time.current < auction.starts_at %>
+                    <div class="h-2.5 w-2.5 rounded-full bg-slate-500 me-2"></div>
+                  <% when Time.current >= auction.starts_at && Time.current <= auction.closes_at %>
+                    <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
+                  <% when Time.now > auction.closes_at %>
+                    <div class="h-2.5 w-2.5 rounded-full bg-rose-500 me-2"></div>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="md:col-span-2 bg-white rounded-2xl p-3">
+      <div class="p-2">
+        <h1 class="font-bold text-2xl">Collaboration requests</h1>
+      </div>
+
+      <div class="border-t mt-4 h-[39lvh] overflow-y-auto">
+        <ul role="list" class="divide-y divide-gray-300">
+          <% @collaboration_requests.each do |collaborator| %>
+            <% avatar_url = "https://api.dicebear.com/7.x/initials/svg?seed=#{URI.encode_www_form_component(collaborator.auction.company.name)}&backgroundColor=00acc1,039be5,1e88e5,3949ab,d1d4f9&backgroundType=gradientLinear" %>
+            <li class=" justify-between gap-x-6 py-5">
+              <div class="mb-4 flex min-w-0 gap-x-4">
+                <img src="<%= avatar_url %>" alt="company_initials" class="h-12 w-12 flex-none rounded-full bg-gray-50">
+                <div class="min-w-0 flex-auto">
+                  <p class="text-sm font-semibold leading-6 text-gray-900"><%= collaborator.auction.company.name %></p>
+                  <p class="mt-1 truncate text-xs leading-5 text-gray-500"><%= collaborator.auction.company.email %></p>
+                </div>
+                <div class="flex gap-2 lg:gap-4">
+                  <%= form_with(model: collaborator, url: reverse_auction_collaborator_path(collaborator), html: { method: :put, data: { turbo: false } }) do |f| %>
+                    <%= f.hidden_field :acceptance_status, value: 'accept' %>
+                    <%= f.button type: 'submit', class: 'inline-flex items-center justify-center h-12 w-12 rounded-full border border-teal-500 text-teal-500 hover:text-white hover:bg-teal-500 duration-300' do %>
+                      <span class="mdi mdi-check text-2xl"></span>
+                    <% end %>
+                  <% end %>
+
+                  <%= form_with(model: collaborator, url: reverse_auction_collaborator_path(collaborator), html: { method: :put, data: { turbo: false } }) do |f| %>
+                    <%= f.hidden_field :acceptance_status, value: 'decline' %>
+                    <%= f.button type: 'submit', class: ' h-12 w-12 flex-none rounded-full border border-rose-500 text-rose-500 hover:text-white hover:bg-rose-500 duration-300' do %>
+                      <span class="mdi mdi-exclamation text-2xl"></span>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="shrink-0 flex flex-col items-end items-end">
+                <p class="text-sm leading-6 text-gray-900"><%= collaborator.auction.title %></p>
+                <p class="mt-1 text-xs leading-5 text-gray-500">Request sent: <%= collaborator.created_at.strftime("%b %d, %Y AT %l %p CAT") %></p>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+    </div>
+  </div>
 </div>

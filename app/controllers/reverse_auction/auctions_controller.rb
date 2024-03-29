@@ -24,7 +24,9 @@ class ReverseAuction::AuctionsController < ReverseAuction::ApplicationController
   end
 
   def index
-    @q = current_company.auctions.ransack(params[:q])
+    collaborated = Auction.collaborated(current_company.id)
+    com = Auction.where(company_id: current_company.id).joins(collaborated)
+    @q = com.ransack(params[:q])
     @pagy, @auctions = pagy(@q.result(distinct: true), items: 20)
   end
 

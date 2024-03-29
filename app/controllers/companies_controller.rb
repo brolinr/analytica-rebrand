@@ -19,11 +19,22 @@ class CompaniesController < ApplicationController
   end
 
   def edit
-    if current_company.id != params[:id].to_i
+    if current_company.id != params[:id]
       redirect_to reverse_auction_dashboards_path,
                   notice: I18n.t('flash.something_wrong')
     end
     @company = current_company
+  end
+
+  def update
+    result = Companies::Update.call(context: { company: current_company }, params: params)
+
+    error_or_redirect(
+      object: result,
+      success_path: edit_company_path(current_company),
+      failure_path: edit_company_path(current_company),
+      success_string_key: 'flash.updated'
+    )
   end
 
   private
@@ -38,5 +49,9 @@ class CompaniesController < ApplicationController
 
   def company_onboarding
     @company_onboarding ||= token&.generator
+  end
+
+  def permitteed_params
+    params.require(:company).permit %i[email name phone address city password password_confirmation current_password]
   end
 end

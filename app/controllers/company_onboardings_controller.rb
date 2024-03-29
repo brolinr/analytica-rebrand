@@ -19,7 +19,7 @@ class CompanyOnboardingsController < ApplicationController
       object: result,
       success_path: root_path,
       failure_path: new_company_onboarding_path,
-      success_string_key: 'flash.created'
+      success_string_key: 'flash.onboarded'
     )
   end
 

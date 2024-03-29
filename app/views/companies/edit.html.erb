@@ -1,1 +1,58 @@
 <%= render 'shared/breadcrumb', paths: [{ link: reverse_auction_dashboards_path, name: 'Dashboard' }, { name: 'Edit account' }] %>
+
+<main class="w-full container p-2 bg-white my-2 rounded mx-auto mt-10">
+  <div class="w-4/5 mx-auto grid-cols-1 md:grid-cols-6 gap-2 p-4">
+    <div class="md:col-span-5 p-4 shadow-lg rounded-lg">
+      <div class="mb-5">
+        <h1 class=" text-center font-bold text-4xl leading-0 tracking-tight mb-0">Edit account information!</h1>
+      </div>
+      <%= form_with(url: company_registration_path, model: @company, html: { method: :put, data: { turbo: false } }) do |f| %>
+        <%= render "/shared/error_messages", errors: flash[:error] %>
+        <div class="rounded text-gray-900" id="company-details-tab">
+          <div class="container-fluid mb-4 grid grid-cols-1 gap-1 md:gap-4 md:grid-cols-2 row fw-semibold">
+            <div class="">
+              <p><%= f.label 'Company name', class: 'text-base font-medium' %></p>
+              <%= f.text_field :name, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2', placeholder: "Analytica" %>
+            </div>
+
+            <div class="">
+              <p><%= f.label :phone, class: 'text-base font-medium' %></p>
+              <%= f.text_field :phone, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2', placeholder: "(024) 0123457" %>
+            </div>
+
+            <div class="md:col-span-2">
+              <p><%= f.label :email, class: 'text-base font-medium' %></p>
+              <%= f.email_field :email, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2', placeholder: "analytica@support.com" %>
+            </div>
+
+            <div class="">
+              <p><%= f.label :address, class: 'text-base font-medium' %></p>
+              <%= f.text_field :address, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2', placeholder: "1234 Street" %>
+            </div>
+
+            <div class="">
+              <p><%= f.label :city, class: 'text-base font-medium' %></p>
+              <%= f.text_field :city, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2', placeholder: "Harare" %>
+            </div>
+
+            <div class="">
+              <p><%= f.label :password, class: 'text-base font-medium' %></p>
+              <%= f.password_field :password, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+            </div>
+
+            <div class="">
+              <p><%= f.label :password_confirmation, class: 'text-base font-medium' %></p>
+              <%= f.password_field :password_confirmation, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+            </div>
+
+            <div class="">
+              <p><%= f.label :current_password, class: 'text-base font-medium' %></p>
+              <%= f.password_field :current_password, class: 'w-full rounded focus:bg-blue-100 border-slate-300 p-2' %>
+            </div>
+          </div>
+          <%= f.submit 'Update', class: "mt-4 w-full md:w-1/5 px-8 mx-auto capitalize rounded hover:bg-blue-600 py-2 bg-blue-500 text-white", id: "next-button" %>
+      </div>
+    <% end %>
+    </div>
+  </div>
+</main>
