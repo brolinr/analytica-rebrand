@@ -5,7 +5,7 @@ require "rails/all"
 Bundler.require(*Rails.groups)
 module Analytica
   class Application < Rails::Application
-    Rails.application.routes.default_url_options[:host] = ENV.fetch('HOST', "http://localhost:3000")
+    Rails.application.routes.default_url_options[:host] = ENV.fetch('APP_HOST', "http://localhost:3000")
 
     config.load_defaults 7.0
 
