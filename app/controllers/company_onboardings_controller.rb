@@ -36,12 +36,13 @@ class CompanyOnboardingsController < ApplicationController
     result = CompanyOnboardings::Update.call(params: onboarding_params,
                                              context: { company_onboarding: company_onboarding })
     token = company_onboarding.tokens.find_by(status: 'active', purpose: 'onboarding_edit')
+    key = result.success? && result.data.approve? ? 'flash.approved' : 'flash.disapproved'
 
     error_or_redirect(
       object: result,
       success_path: root_path,
       failure_path: token.nil? ? root_path : edit_company_onboarding_path(disapproval_token: token.secret),
-      success_string_key: 'flash.updated'
+      success_string_key: key
     )
   end
 
