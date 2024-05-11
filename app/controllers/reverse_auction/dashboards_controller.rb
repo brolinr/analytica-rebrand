@@ -2,7 +2,7 @@
 
 class ReverseAuction::DashboardsController < ReverseAuction::ApplicationController
   def index
-    @auctions = my_auctions.joins(collaborated_auctions)
+    @auctions = my_auctions.merge(collaborated_auctions)
     @collaboration_requests = current_company.collaborations.pending_requests
   end
 
