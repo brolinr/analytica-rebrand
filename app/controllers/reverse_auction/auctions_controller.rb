@@ -24,11 +24,15 @@ class ReverseAuction::AuctionsController < ReverseAuction::ApplicationController
   end
 
   def index
-    collaborated = Auction.collaborated(current_company.id)
-    com = Auction.where(company_id: current_company.id).joins(collaborated)
-    @q = com.ransack(params[:q])
+    collaborated_ids = Auction.collaborated(current_company.id).pluck(:id)
+    company_auctions = Auction.where(company_id: current_company.id).pluck(:id)
+  
+    combined_ids = (collaborated_ids + company_auctions).uniq
+  
+    @q = Auction.where(id: combined_ids).ransack(params[:q])
     @pagy, @auctions = pagy(@q.result(distinct: true), items: 20)
   end
+  
 
   def live
     unless current_company.bidder
