@@ -2,22 +2,17 @@
 
 class ReverseAuction::DashboardsController < ReverseAuction::ApplicationController
   def index
-    @auctions = combined_auctions
+    @auctions = my_auctions.merge(collaborated_auctions)
     @collaboration_requests = current_company.collaborations.pending_requests
   end
 
   private
 
   def collaborated_auctions
-    @collaborated_auctions ||= Auction.collaborated(current_company.id).to_a
+    @collaborated_auctions ||= Auction.collaborated(current_company.id)
   end
 
   def my_auctions
-    @my_auctions ||= Auction.where(company_id: current_company.id).to_a
-  end
-
-  def combined_auctions
-    (@my_auctions + collaborated_auctions).uniq
+    @my_auctions ||= Auction.where(company_id: current_company.id)
   end
 end
-
