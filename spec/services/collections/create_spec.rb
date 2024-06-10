@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Collections::Create do
-  subject(:call) { described_class.call(context: { company: company, lot: lot }) }
+  subject(:call) { described_class.call(context: { company: company, collectable: lot }) }
 
   let(:company) { create(:company, :as_supplier) }
   let(:auction) { create(:auction, company: company) }

@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :collection do
     company { create(:company) }
-    lot { create(:lot) }
+    collectable { create(:lot, :with_auction, :with_collaborator) }
   end
 end

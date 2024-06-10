@@ -2,9 +2,9 @@
 
 class Collections::Create < ApplicationService
   def call
-    preload(:company, :lot)
+    preload(:company, :collectable)
 
-    handle_errors { step :collect_lot }
+    handle_errors { step :collect_collectable }
 
     result
   end
@@ -15,12 +15,12 @@ class Collections::Create < ApplicationService
     @company ||= context[:company]
   end
 
-  def lot
-    @lot ||= context[:lot]
+  def collectable
+    @collectable ||= context[:collectable]
   end
 
-  def collect_lot
-    collection = Collection.new(lot_id: lot.reload.id, company_id: company.reload.id)
+  def collect_collectable
+    collection = collectable.collections.build(company_id: company.reload.id)
     handle_errors(collection) { assign_data(collection) if collection.save! }
   end
 end

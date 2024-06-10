@@ -1,0 +1,91 @@
+<% avatar_url = "https://api.dicebear.com/7.x/initials/svg?seed=#{URI.encode_www_form_component('FAcebook')}&backgroundColor=00acc1,039be5,1e88e5,3949ab,d1d4f9&backgroundType=gradientLinear" %>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= full_title('Reverse auction') %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", media: "all" %>
+    <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/tail.select.js@0.5.22/css/default/tail.select-light.css" %>
+    <%= stylesheet_link_tag "https://cdn.materialdesignicons.com/7.4.47/css/materialdesignicons.min.css" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <div class="md:hidden w-full p-4 gap-3 flex justify-center bg-red-400">
+      <div id="menu-button" class="w-12 h-12 hover:bg-emerald-500 duration-300 hover:text-white flex justify-center items-center bg-slate-300 rounded-lg">
+        <i id="menu-icon" class="leading-3 text-4xl mdi mdi-menu-open"></i>
+      </div>
+      <div class="w-12 h-12 bg-slate-300 rounded-lg"></div>
+      <div class="w-12 h-12 bg-slate-300 rounded-lg"></div>
+    </div>
+    <div class="grid grid-cols-12 gap-2 p-1">
+      <aside class="hidden col-span-1 h-screen md:block flex-col">
+        <div>
+          <div id="menu-button" class="w-12 h-12 hover:bg-emerald-500 duration-300 hover:text-white flex justify-center items-center mx-auto my-auto bg-slate-300 mb-4 rounded-lg">
+            <i id="menu-icon" class="leading-3 text-4xl mdi mdi-menu-open"></i>
+          </div>
+          <div class="w-12 h-12 hover:bg-emerald-500 duration-300 hover:text-white flex justify-center items-center mx-auto my-auto bg-slate-300 mb-4 rounded-lg">
+            <i class="leading-3 text-2xl mdi mdi-gavel"></i>
+          </div>
+          <div class="w-12 h-12 hover:bg-emerald-500 duration-300 hover:text-white flex justify-center items-center mx-auto my-auto bg-slate-300 mb-4 rounded-lg">
+            <i class="leading-3 text-2xl mdi mdi-heart"></i>
+          </div>
+        </div>
+        
+        <div class="flex items-center w-12 mt-10 mx-auto">
+          <div>
+            <div>
+              <button type="button" class="w-full h-12 flex max-w-xs items-center rounded-full" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                <img src="<%= avatar_url %>" alt="company_initials" class="h-12 w-12 rounded-full">
+              </button>
+            </div>
+
+            <div id="dropdown-menu" class="hidden absolute left-4 mt-2 z-10 w-38 origin-top-right rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+              <%= link_to 'Profile', '#', class: 'block px-4 py-2 text-sm text-gray-400' %>
+              <%= link_to 'Subscriptions', '#', class: 'block px-4 py-2 text-sm text-gray-400' %>
+              <%= button_to 'Sign out', '#', method: :delete, class: 'block px-4 py-2 text-sm text-rose-400' %>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <main class="col-span-12 md:col-span-11">
+        <%= render 'shared/flash_messages', data: flash %>
+        <%= yield %>
+      </main>
+    </div>
+  </body>
+  <script>
+    const content =  document.getElementById('content-bar');
+    const menu = document.getElementById('menu');
+
+    document.querySelectorAll('#menu-button').forEach((menu_button) => {
+      const menu_icon = menu_button.querySelector('#menu-icon');
+      content.addEventListener('click', () => {
+        menu.classList.remove('fixed')
+        menu.classList.add('hidden')
+      })
+
+      document.querySelectorAll('.tile').forEach((tile) => {
+        tile.addEventListener('click', () => {
+          menu.classList.remove('fixed')
+          menu.classList.add('hidden')
+        })
+      })
+
+      menu_button.addEventListener('click', () => {
+        menu.classList.toggle('fixed')
+        menu.classList.toggle('hidden')
+
+        menu_icon.classList.toggle('mdi-menu-open')
+        menu_icon.classList.toggle('mdi-menu-close')
+      })
+    })
+    
+  </script>
+</html>
+
+

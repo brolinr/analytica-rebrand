@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_20_093047) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_01_045148) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -119,11 +119,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_20_093047) do
 
   create_table "collections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "company_id", null: false
-    t.uuid "lot_id", null: false
+    t.string "collectable_type"
+    t.uuid "collectable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["collectable_type", "collectable_id"], name: "index_collections_on_collectable"
     t.index ["company_id"], name: "index_collections_on_company_id"
-    t.index ["lot_id"], name: "index_collections_on_lot_id"
   end
 
   create_table "companies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -183,6 +184,26 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_20_093047) do
     t.index ["collaborator_type", "collaborator_id"], name: "index_lots_on_collaborator"
   end
 
+  create_table "tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.string "taggable_type"
+    t.uuid "taggable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["taggable_type", "taggable_id"], name: "index_tags_on_taggable"
+  end
+
+  create_table "tenders", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.string "location"
+    t.string "organisation"
+    t.datetime "deadline"
+    t.bigint "administrator_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["administrator_id"], name: "index_tenders_on_administrator_id"
+  end
+
   create_table "tokens", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "expires_at"
     t.integer "status", default: 0
@@ -204,6 +225,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_20_093047) do
   add_foreign_key "bids", "lots"
   add_foreign_key "collaborators", "auctions"
   add_foreign_key "collections", "companies"
-  add_foreign_key "collections", "lots"
   add_foreign_key "lots", "auctions"
+  add_foreign_key "tenders", "administrators"
 end
