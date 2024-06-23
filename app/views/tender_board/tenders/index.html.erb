@@ -5,6 +5,7 @@
       <div class="bg-white col-span-1 p-4 rounded-full text-slate-600 duration-300 hover:bg-slate-300"></div>
     </div>
     <div class="h-screen overflow-scroll overflow-scroll-x-auto gap-3 grid grid-cols-1">
+      
       <% @tenders.each do |tender| %>
         <%= link_to tender_board_tender_path(tender), data: { "turbo-frame": "content" } do %>
           <div class="bg-white p-2 rounded-lg hover:bg-slate-100 tile">
@@ -22,7 +23,13 @@
           </div>
         <% end %>
       <% end %>
+      
+
     </div>
+
+    <div class="p-2 rounded-lg bg-emerald-500 hover:bg-slate-100 tile">
+      </div>
+    <%= render 'shared/pagy', records: @pagy %>
   </div>
   
   <div class="col-span-5" id="content-bar">

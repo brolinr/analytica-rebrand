@@ -11,4 +11,11 @@ RSpec.describe Tender do
   describe 'relations' do
     it { is_expected.to have_many(:tags).dependent(:nullify) }
   end
+
+  describe 'factories' do
+    let(:administrator) { create(:administrator) }
+    let(:tender) { create(:tender, administrator: administrator) }
+
+    it { expect { tender }.to change(described_class, :count).by(1) }
+  end
 end

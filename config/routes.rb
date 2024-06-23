@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  
   root 'static_pages#home'
   get 'company', to: 'static_pages#company'
   get 'contact', to: 'static_pages#contact'

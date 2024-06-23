@@ -2,7 +2,7 @@ class TenderBoard::TendersController < TenderBoard::ApplicationController
   before_action :tender, only: :show
 
   def index
-    @pagy, @tenders = pagy(Tender.all.ransack(params[:q]).result(distinct: true), items: 20)
+    @pagy, @tenders = pagy(Tender.all.ransack(params[:q]).result(distinct: true), items: 5)
   end
 
   def show

@@ -7,6 +7,9 @@ RSpec.describe Administrator do
     it { is_expected.to validate_presence_of(:email) }
   end
 
+  describe 'relations' do
+    it { is_expected.to have_many(:tenders).dependent(:nullify) }
+  end
   describe 'factories' do
     let(:administrator) { create(:administrator) }
 

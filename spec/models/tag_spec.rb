@@ -8,4 +8,10 @@ RSpec.describe Tag do
   describe 'relations' do
     it { is_expected.to belong_to(:taggable).required(false) }
   end
+
+  describe 'factories' do
+    let(:tag) { create(:tag) }
+
+    it { expect { tag }.to change(described_class, :count).by(1) }
+  end
 end
