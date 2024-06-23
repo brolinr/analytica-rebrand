@@ -50,7 +50,8 @@ RSpec.describe Lot do
   end
 
   describe 'factories' do
-    let(:lot) { create(:lot, :with_auction, :with_collaborator) }
+    let(:auction) { create(:auction, :with_company) }
+    let(:lot) { create(:lot, auction: auction, collaborator: auction.company) }
 
     it { expect { lot }.to change(described_class, :count).by(1) }
   end

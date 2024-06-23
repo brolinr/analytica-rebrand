@@ -44,7 +44,9 @@
               <% end %>
             <% else %>
               <%= form_with(model: Collection.new, url: reverse_auction_collections_path, html: { method: :post, data: { turbo: false } }) do |f| %>
-                <%= f.hidden_field :lot_id, value: lot.id %>
+                <%= f.hidden_field :collectable_id, value: lot.id %>
+                <%= f.hidden_field :collectable_type, value: lot.class %>
+
                 <%= f.button type: 'submit', class: 'inline-flex items-center justify-center z-40  top-0 right-0 h-8 w-8 rounded-full border border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 duration-300' do %>
                   <span class="mdi mdi-star-outline text-xl"></span>
                 <% end %>

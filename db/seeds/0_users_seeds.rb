@@ -43,30 +43,18 @@ end
 
 admin if Administrator.count < 1
 
-22.times do |time|
+5.times do
   company = generate_company
 
-  if time > 3
-    company.bidder = true
-    company.password = 'password'
-    company.password_confirmation = 'password'
-    company.save!
-    company.confirm
-  elsif time > 13
-    company.supplier = true
-    company.save!
-    company.confirm
-  else
-    company.save!
-  end
+  company.bidder = true
+  company.password = 'password'
+  company.password_confirmation = 'password'
+  company.supplier = true
+  company.save!
+  company.confirm
 end
 
-70.times do |time|
+10.times do
   company_onboarding = generate_company_onboarding
   company_onboarding.save
-  if time < 10
-    company_onboarding.approve!
-  elsif time < 30
-    company_onboarding.disapprove!
-  end
 end

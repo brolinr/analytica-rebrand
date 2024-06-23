@@ -4,7 +4,7 @@ class Lot < ApplicationRecord
   before_update :manipulation_on_live_auction
   before_destroy :manipulation_on_live_auction
 
-  scope :collected, ->(company_id, lot_id) { Collection.where(company_id: company_id, lot_id: lot_id) }
+  scope :collected, ->(company_id, lot_id) { Collection.where(company_id: company_id, collectable_id: lot_id) }
 
   validates :title, :description, :image, :asking_price_cents, presence: true
   validate :validate_collaborator
@@ -14,7 +14,7 @@ class Lot < ApplicationRecord
 
   belongs_to :auction
   belongs_to :collaborator, polymorphic: true
-  has_many :collections, dependent: :nullify
+  has_many :collections, as: :collectable, dependent: :nullify
   has_many :bids, dependent: :destroy
 
   def self.ransackable_attributes(_auth_object = nil)

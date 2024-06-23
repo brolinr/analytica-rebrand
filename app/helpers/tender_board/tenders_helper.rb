@@ -1,0 +1,2 @@
+module TenderBoard::TendersHelper
+end

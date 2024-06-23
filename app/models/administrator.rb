@@ -3,4 +3,6 @@
 class Administrator < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :validatable, :lockable, :trackable
+
+  has_many :tenders, dependent: :nullify
 end

@@ -5,7 +5,7 @@ class ReverseAuction::BidsController < ReverseAuction::ApplicationController
   before_action :lot, except: :destroy
 
   def new
-    if current_company.auction_registrations.exists?(auction_id: lot.auction.id)
+    unless current_company.auction_registrations.exists?(auction_id: lot.auction.id)
       redirect_to(reverse_auction_live_auctions_path, notice: I18n.t('controllers.bids.register_first'))
     end
     @bid = Bid.new
