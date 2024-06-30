@@ -1,0 +1,66 @@
+<%= form_for([namespace, page.resource]) do |f| %>
+  <% if page.resource.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= t(
+          "administrate.form.errors",
+          pluralized_errors: pluralize(page.resource.errors.count, t("administrate.form.error")),
+          resource_name: display_resource_name(page.resource_name, singular: true)
+        ) %>
+      </h2>
+
+      <ul>
+        <% page.resource.errors.full_messages.each do |message| %>
+          <li class="flash-error"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="w-4/5 mx-auto grid md:grid-cols-2 grid-cols-1 gap-2">
+    <div class="flex-col col-span-1 gap-y-1">
+      <%= f.label :title %>
+      <%= f.text_field :title, class: 'w-full rounded border-slate-200 bg-white' %>
+    </div>
+
+    <div class="flex-col col-span-1 gap-y-1">
+      <%= f.label :organisation %>
+      <%= f.text_field :organisation, class: 'w-full rounded border-slate-200 bg-white' %>
+    </div>
+
+    <div class="flex-col col-span-1 gap-y-1">
+      <%= f.label :location %>
+      <%= f.text_field :location, class: 'w-full rounded border-slate-200 bg-white' %>
+    </div>
+
+    <div class="flex-col col-span-1 gap-y-1">
+      <%= f.label :deadline %>
+      <%= f.datetime_field :deadline, class: 'w-full rounded border-slate-200 bg-white' %>
+    </div>
+
+    <div class="flex-col col-span-2 gap-y-1">
+      <%= f.label :description %>
+      <%= f.rich_text_area :description, class: 'w-full h-48 rounded border-slate-200 bg-white' %>
+    </div>
+
+    <div class="col-span-2">
+      <% page.attributes(controller.action_name).each do |title, attributes| %>
+        <% attributes.each do |attribute| %>
+          <div class="p-0 m-0 field-unit--<%= attribute.html_class %> field-unit--<%= requireness(attribute) %>">
+            <%= render_field attribute, f: f %>
+
+            <% hint_key = "administrate.field_hints.#{page.resource_name}.#{attribute.name}" %>
+            <% if I18n.exists?(hint_key) -%>
+              <div class="field-unit__hint">
+                <%= I18n.t(hint_key) %>
+              </div>
+            <% end -%>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="col-span-2">
+      <%= f.submit %>
+  </div>
+  </div>
+<% end %>

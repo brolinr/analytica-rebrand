@@ -26,7 +26,7 @@ rich_text = "<div>
   Inventore vitae doloremque quod dolore velit dolor hic.
 </div>"
 
-def tender
+def tender(rich_text)
   tender = Tender.new(
     title: FFaker::Lorem.word,
     description: rich_text,
@@ -42,7 +42,7 @@ def tender
   end
 end
 
-45.times { tender }
+45.times { tender(rich_text) }
 
 Company.all do |company|
   Tender.all.limit(10) do |tender|

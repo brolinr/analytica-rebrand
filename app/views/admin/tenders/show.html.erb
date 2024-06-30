@@ -1,0 +1,52 @@
+<%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+<% content_for(:title) { "Preview #{page.page_title}" } %>
+<%= stylesheet_link_tag "https://cdn.materialdesignicons.com/7.4.47/css/materialdesignicons.min.css" %>
+
+<header class="mb-4 w-full p-4 flex justify-between border">
+  <div class="text-2xl font-bold leading-3 flex items-center">
+    <h1>
+      <%= "Preview #{page.resource.title}" %>
+    </h1>
+  </div>
+
+  <div class="flex flex-row gap-x-2">
+    <%= link_to(
+      t("administrate.actions.edit_resource", name: page.page_title),
+      [:edit, namespace, page.resource],
+      class: "button",
+    ) if accessible_action?(page.resource, :edit) %>
+
+    <%= link_to(
+      t("administrate.actions.destroy"),
+      [namespace, page.resource],
+      class: "button button--danger",
+      method: :delete,
+      data: { confirm: t("administrate.actions.confirm") }
+    ) if accessible_action?(page.resource, :destroy) %>
+  </div>
+</header>
+
+<main class="w-full">
+  <div class="col-span-5" id="content-bar">
+    <div class="p-2 bg-white flex items-center gap-2 overflow-scroll overflow-scroll-x-auto">
+      <% page.resource.tags.each do |tag| %>
+        <div class="px-2 rounded bg-slate-300">
+          <span class="text-center text-sm tracking-tighter font-bold leading-3" ><%= tag.title %></span>
+        </div>
+      <%end%>
+    </div>
+
+    <div class="bg-white mt-5 p-5">
+      <%= page.resource.description %>
+    </div>
+    
+    <div class="w-[60%] md:w-[30%] px-3 flex gap-1">
+      <div class="h-10 bg-white rounded-full flex justify-center items-center">
+        <i id="menu-icon" class="text-teal-500 leading-3 text-4xl mdi mdi-facebook"></i>
+      </div>
+      <div class="col-span-3 flex items-center">
+        <h1 class="font-bold text-xl"><%= page.resource.organisation %></h1>
+      </div>
+    </div>
+  </div>
+</main>

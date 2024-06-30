@@ -3,7 +3,7 @@ class Tender < ApplicationRecord
 
   belongs_to :administrator
   has_many :tags, as: :taggable, dependent: :nullify
-  has_many :collections, as: :collectable, dependent: :nullify
+  belongs_to :collections, polymorphic: true, optional: true
 
   validates :title, :description, :deadline, :location, :organisation, presence: true
 end
