@@ -1,4 +1,4 @@
-module Admin
-  class CompanyOnboardingsController < Admin::ApplicationController
-  end
+# frozen_string_literal: true
+
+class Admin::CompanyOnboardingsController < Admin::ApplicationController
 end

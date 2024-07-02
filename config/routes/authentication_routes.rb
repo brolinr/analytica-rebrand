@@ -1,5 +1,5 @@
 resources :companies, only: %i[new create edit]
-devise_for :companies, skip: [:sessions, :passwords, :confirmations]
+devise_for :companies, skip: [:sessions, :passwords, :confirmations, :registrations]
 devise_for :administrators, only: %i[sessions unlocks]
 
 devise_scope :company do

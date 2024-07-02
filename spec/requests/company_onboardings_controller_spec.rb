@@ -74,9 +74,8 @@ RSpec.describe CompanyOnboardingsController, type: :controller do
 
       let(:params) { { id: company_onboarding.id, disapproval_token: token.secret } }
 
-      it 'redirects to root path', :aggregate_failures do
-        request
-        expect(response).to redirect_to(root_path)
+      it 'Pundit denies request' do
+        expect { request }.to raise_error(::Pundit::NotAuthorizedError)
       end
     end
   end

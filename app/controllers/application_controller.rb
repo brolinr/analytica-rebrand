@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
     current_administrator || current_company
   end
 
+  def after_update_path_for(_resource)
+    reverse_auction_dashboards_path
+  end
+
   private
 
   def devise_sanitized_params

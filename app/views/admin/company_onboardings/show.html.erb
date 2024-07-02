@@ -164,7 +164,7 @@
           <%= form_with(model: page.resource, url: approve_company_onboarding_path(page.resource), html: { method: :post, data: { turbo: false } })do |f| %>
             <%= f.hidden_field :approval, value: 'disapprove' %>
             <%= f.label :reason_for_disapproval, class: 'text-sm' %>
-            <%= f.text_area :reason_for_disapproval, required: true,  class: 'text-sm h-20 w-full appearance-none border border-slate-300 bg-slate-50 rounded' %>
+            <%= f.text_area :reason_for_disapproval, required: true, value: '',  class: 'text-sm h-20 w-full appearance-none border border-slate-300 bg-slate-50 rounded' %>
             <%= f.submit 'Disaprove', class: ' flex text-center w-full my-2 capitalize rounded py-2 text-white' %>
           <% end %>
         </div>

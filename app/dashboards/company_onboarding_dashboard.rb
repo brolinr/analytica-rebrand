@@ -1,12 +1,17 @@
-require "administrate/base_dashboard"
+# frozen_string_literal: true
+
+require 'administrate/base_dashboard'
 
 class CompanyOnboardingDashboard < Administrate::BaseDashboard
-
   ATTRIBUTE_TYPES = {
     id: Field::String,
     about: Field::Text,
     address: Field::String,
-    approval: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
+    approval: Field::Select.with_options(
+      searchable: false, collection: lambda { |field|
+        field.resource.class.send(field.attribute.to_s.pluralize).keys
+      }
+    ),
     bidder: Field::Boolean,
     city: Field::String,
     email: Field::String,
@@ -17,7 +22,7 @@ class CompanyOnboardingDashboard < Administrate::BaseDashboard
     terms: Field::Boolean,
     tokens: Field::HasMany,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
@@ -30,7 +35,7 @@ class CompanyOnboardingDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-    
+
   ].freeze
 
   FORM_ATTRIBUTES = %i[
