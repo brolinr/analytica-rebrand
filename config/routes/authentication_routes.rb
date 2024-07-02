@@ -15,6 +15,6 @@ devise_scope :company do
   post 'company/confirmation', to: 'devise/confirmations#create', as: :company_confirmations
 end
 
-resources :company_onboardings do
+resources :company_onboardings, except: %i[show index] do
   post '/approve/', on: :member, to: 'company_onboardings#approve', as: :approve
 end

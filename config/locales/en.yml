@@ -17,8 +17,8 @@ en:
       removed: Lot removed from collection
     company_onboardings:
       approve:
-        success: "Company was successfully approve."
-        failure: "Company could not be approve."
+        success: "Approval successful!"
+        failure: "Approval unsuccessful!"
   errors:
     onboarding_not_approved: "Company onboarding has not been approve."
   flash:
