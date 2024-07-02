@@ -40,7 +40,7 @@ class CompaniesController < ApplicationController
   private
 
   def token_void?
-    redirect_to root_path if token.nil? || token.void?
+    redirect_to root_path if token.nil?
   end
 
   def token

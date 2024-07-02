@@ -46,7 +46,8 @@ class CompanyOnboardings::Approve < ApplicationService
   end
 
   def disapprove
-    company_onboarding.tokens.create!(status: 0, purpose: 1) unless onboarding_tokens.where(status: 0, purpose: 1)&.any?
+    company_onboarding.tokens.destroy_all
+    company_onboarding.tokens.create!(status: 0, purpose: 1)
 
     if company_onboarding.update(approval: :disapprove, reason_for_disapproval: params[:reason_for_disapproval])
       CompanyOnboardingMailer.with(company_onboarding: company_onboarding,

@@ -17,6 +17,7 @@
       </div>
     <%= form_with(url: company_onboarding_path(@company_onboarding), model: @company_onboarding, html: { method: :put, data: { turbo: false } }) do |f| %>
       <%= render "/shared/error_messages", errors: flash[:error] %>
+      
       <div class="rounded text-gray-900" id="company-details-tab">
         <div class="container-fluid mb-4 grid grid-cols-1 gap-1 md:gap-4 md:grid-cols-12 row fw-semibold">
           <div class="md:col-span-5">

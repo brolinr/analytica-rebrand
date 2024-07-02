@@ -2,7 +2,7 @@
 
 class Token < ApplicationRecord
   # after_create :expire_token
-  after_initialize do |_token|
+  before_save do |_token|
     generate_token_secret
     set_expiration
   end
@@ -22,7 +22,7 @@ class Token < ApplicationRecord
     return if secret.present?
 
     loop do
-      self.secret = SecureRandom.urlsafe_base64(64)
+      self.secret = SecureRandom.urlsafe_base64(10).parameterize
       break unless Token.exists?(secret: secret)
     end
   end
