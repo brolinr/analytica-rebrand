@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.4'
+ruby '3.3.3'
 
 gem 'active_storage_validations',           '~> 0.9.8'
 gem 'activestorage-validator',              '~> 0.4.0'
@@ -17,6 +17,7 @@ gem 'money-rails',                          '~> 1.15'
 gem 'pagy',                                 '~> 6.4'
 gem 'pg',                                   '~> 1.1'
 gem 'puma',                                 '~> 5.0'
+gem 'pundit',                               '~> 2.3'
 gem 'rails',                                '~> 7.0.8'
 gem 'ransack',                              '~> 4.1'
 gem 'redis',                                '~> 4.0'
@@ -56,5 +57,3 @@ group :test do
   gem 'vcr',                                '~> 6.1.0'
   gem 'webdrivers',                         '~> 5.2.0'
 end
-
-gem 'mailtrap', '~> 2.0'

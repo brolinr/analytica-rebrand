@@ -1,5 +1,5 @@
 resources :companies, only: %i[new create edit]
-devise_for :companies, skip: [:sessions, :passwords, :confirmations]
+devise_for :companies, skip: [:sessions, :passwords, :confirmations, :registrations]
 devise_for :administrators, only: %i[sessions unlocks]
 
 devise_scope :company do
@@ -15,6 +15,6 @@ devise_scope :company do
   post 'company/confirmation', to: 'devise/confirmations#create', as: :company_confirmations
 end
 
-resources :company_onboardings do
+resources :company_onboardings, except: %i[show index] do
   post '/approve/', on: :member, to: 'company_onboardings#approve', as: :approve
 end

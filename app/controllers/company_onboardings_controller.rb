@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
 class CompanyOnboardingsController < ApplicationController
-  before_action :authenticate_administrator!, only: %i[approve index show]
-  before_action :redirect_signed_in_user, except:  %i[approve index show]
-
-  before_action :onboarding_valid?, except: %i[new create index]
-  before_action :approval_valid?, only: :edit
-  before_action :token_valid?, only: :edit
+  before_action :authenticate_administrator!, only: :approve
+  before_action :token_active?, only: %i[edit]
 
   def new
     @company_onboarding = CompanyOnboarding.new
@@ -23,26 +19,21 @@ class CompanyOnboardingsController < ApplicationController
     )
   end
 
-  def show; end
-
-  def index
-    @q = CompanyOnboarding.ransack(params[:q], approval: 'pending_review')
-    @pagy, @company_onboardings = pagy(@q.result.where(approval: 'pending_review'))
+  def edit
+    authorize(company_onboarding, :update?)
   end
 
-  def edit; end
-
   def update
+    authorize(company_onboarding, :update?)
     result = CompanyOnboardings::Update.call(params: onboarding_params,
                                              context: { company_onboarding: company_onboarding })
     token = company_onboarding.tokens.find_by(status: 'active', purpose: 'onboarding_edit')
-    key = result.success? && result.data.approve? ? 'flash.approved' : 'flash.disapproved'
 
     error_or_redirect(
       object: result,
       success_path: root_path,
       failure_path: token.nil? ? root_path : edit_company_onboarding_path(disapproval_token: token.secret),
-      success_string_key: key
+      success_string_key: 'flash.updated'
     )
   end
 
@@ -53,8 +44,8 @@ class CompanyOnboardingsController < ApplicationController
 
     error_or_redirect(
       object: result,
-      success_path: company_onboardings_path,
-      failure_path: company_onboardings_path,
+      success_path: request.referer || company_onboardings_path,
+      failure_path: request.referer || company_onboardings_path,
       i18n_scope: 'controllers.company_onboardings.approve'
     )
   end
@@ -78,18 +69,13 @@ class CompanyOnboardingsController < ApplicationController
     @company_onboarding ||= CompanyOnboarding.find(params[:id])
   end
 
-  def onboarding_valid?
-    if company_onboarding.is_a?(CompanyOnboarding) && Company.exists?(email: company_onboarding.email)
-      redirect_to root_path, flash: { alert: I18n.t('flash.something_wrong') }
-    end
+  def token
+    @token ||= Token.find_by(secret: params[:disapproval_token])
   end
 
-  def approval_valid?
-    redirect_to root_path, flash: { alert: I18n.t('flash.something_wrong') } unless company_onboarding&.disapprove?
-  end
+  def token_active?
+    return if token&.active?
 
-  def token_valid?
-    token = company_onboarding&.tokens&.find_by(status: 0, purpose: 1)
-    redirect_to root_path, flash: { alert: I18n.t('flash.something_wrong') } if token.nil? || token.void?
+    redirect_to root_path, flash: { alert: I18n.t('flash.something_wrong') }
   end
 end

@@ -38,19 +38,19 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    user_name: ENV['MAILTRAP_USERNAME'],
-    password: ENV['MAILTRAP_PASSWORD'],
-    address: ENV['MAILTRAP_ADDRESS'],
-    host: ENV['MAILTRAP_ADDRESS'],
-    port: ENV['MAILTRAP_PORT'].to_i,
-    authentication: ENV['MAILTRAP_AUTH'],
-    enable_starttls_auto: true
+    address:         ENV['SMTP_ADDRESS'],
+    port:            ENV['SMTP_PORT'],
+    domain:          ENV['APP_DOMAIN'],
+    user_name:       ENV['DELIVERY_SUPPORT_EMAIL'],
+    password:        ENV['SMTP_PASSWORD'],
+    authentication:  ENV['SMTP_AUTHENTICATION'],
+    enable_starttls: true,
+    open_timeout:    5,
+    read_timeout:    5
   }
-  config.action_mailer.perform_deliveries = true
   config.action_mailer.asset_host = 'http://localhost:3000'
 
   # Print deprecation notices to the Rails logger.

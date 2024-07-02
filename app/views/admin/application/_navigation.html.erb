@@ -9,9 +9,7 @@ as defined by the routes in the `admin/` namespace
 
 <nav class="navigation">
   <%= link_to(t("administrate.navigation.back_to_app"), root_url, class: "button button--alt button--nav") if defined?(root_url) %>
-  <h1 class="navigation__title">Accounts</h1></br>
-  <%= link_to("Review", company_onboardings_path, class: "navigation__link") %>
-
+  
   <% Administrate::Namespace.new(namespace).resources_with_index_route.each do |resource| %>
     <%= link_to(
       display_resource_name(resource),

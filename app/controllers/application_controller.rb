@@ -4,9 +4,18 @@ class ApplicationController < ActionController::Base
   before_action :devise_sanitized_params, if: :devise_controller?
   include ApplicationHelper
   include Pagy::Backend
+  include Pundit::Authorization
 
   def redirect_signed_in_user
     redirect_to root_path, notice: I18n.t('already_signed') if company_signed_in? || administrator_signed_in?
+  end
+
+  def current_user
+    current_administrator || current_company
+  end
+
+  def after_update_path_for(_resource)
+    reverse_auction_dashboards_path
   end
 
   private

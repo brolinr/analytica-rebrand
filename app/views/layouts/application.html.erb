@@ -13,10 +13,10 @@
   </head>
 
   <body>
-    <%= render 'shared/header' unless (company_signed_in? || administrator_signed_in?) && !current_page?(root_path) %>
+    <%= render 'shared/header' unless company_signed_in? && !current_page?(root_path) %>
 
-    <%= render 'shared/flash_messages', data: flash %>
-    <main class="">
+    <%= render 'shared/flash_messages', data: flash unless current_page?(new_company_onboarding_path) %>
+    <main class="bg-white">
       <%= yield %>
     </main>
     <div class="w-full">
