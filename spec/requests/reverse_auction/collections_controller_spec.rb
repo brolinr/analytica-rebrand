@@ -13,7 +13,7 @@ RSpec.describe ReverseAuction::CollectionsController, type: :controller do
     let(:request) { post :create, params: { collection: params } }
 
     context 'with correct params' do
-      let(:params) { { lot_id: lot.id } }
+      let(:params) { { collectable_id: lot.id, collectable_type: lot.class } }
 
       it 'creates collection', :aggregate_failures do
         expect { request }.to change(Collection, :count).from(0).to(1)
@@ -22,7 +22,7 @@ RSpec.describe ReverseAuction::CollectionsController, type: :controller do
     end
 
     context 'with invalid lot id' do
-      let(:params) { { lot_id: 'invalid' } }
+      let(:params) { { collectable_id: 'invalid', collectable_type: lot.class } }
 
       it 'does not create any collection', :aggregate_failures do
         expect { request }.not_to change(Collection, :count).from(0)
@@ -32,7 +32,7 @@ RSpec.describe ReverseAuction::CollectionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:collection) { create(:collection, lot: lot, company: company) }
+    let(:collection) { create(:collection, collectable: lot, company: company) }
     let(:request) { delete :destroy, params: params }
 
     context 'with correct params' do
@@ -41,6 +41,7 @@ RSpec.describe ReverseAuction::CollectionsController, type: :controller do
       before { collection }
 
       it 'destroys collection', :aggregate_failures do
+        
         expect { request }.to change(Collection, :count).from(1).to(0)
         expect(flash[:notice]).not_to be_empty
       end

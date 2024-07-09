@@ -1,0 +1,42 @@
+<%= turbo_frame_tag 'content' do %>
+  <div class="col-span-5" id="content-bar">
+    <div class="p-3 bg-slate-200 rounded">
+      <h1 class="text-3xl text-slate-900 font-bold"><%= @tender.title %></h1>
+    </div>
+    <div class="p-2 border-2 border-y bg-white flex items-center gap-2 overflow-scroll overflow-scroll-x-auto">
+      <% if Collection.exists?(collectable_id: @tender.id, company_id: current_company) %>
+        <%= form_with(model: Collection.new, url: reverse_auction_collection_path(Lot.collected(current_company.id, @tender.id).last.id), html: { method: :delete, data: { turbo: false } }) do |f| %>
+          <%= f.button type: 'submit', class: 'px-2 mr-5 py-3 bg-emerald-500 flex items-center rounded text-white hover:text-slate-900 hover:bg-slate-300' do %>
+            <span class="mdi mdi-star text-center text-xl tracking-tighter font-bold leading-3"></span>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= form_with(model: Collection.new, url: reverse_auction_collections_path, html: { method: :post, data: { turbo: false } }) do |f| %>
+          <%= f.hidden_field :collectable_id, value: @tender.id %>
+          <%= f.hidden_field :collectable_type, value: @tender.class %>
+
+          <%= f.button type: 'submit', class: 'px-2 mr-5 py-3 bg-emerald-500 flex items-center rounded text-white hover:text-slate-900 hover:bg-slate-300' do %>
+            <span class="mdi mdi-star-outline text-center text-xl tracking-tighter font-bold leading-3"></span>
+          <% end %>
+        <% end %>
+      <% end %>
+      <% @tags.each do |tag| %>
+        <div class="px-2 rounded bg-slate-300">
+          <span class="text-center text-sm tracking-tighter font-bold leading-3" ><%= tag.title %></span>
+        </div>
+      <%end%>
+    </div>
+    <div class="bg-white mt-5 p-5">
+      <%= @tender.description %>
+    </div>
+    
+    <div class="w-[60%] md:w-[30%] px-3 flex gap-1">
+      <div class="h-10 bg-white rounded-full flex justify-center items-center">
+        <i id="menu-icon" class="text-teal-500 leading-3 text-4xl mdi mdi-facebook"></i>
+      </div>
+      <div class="col-span-3 flex items-center">
+        <h1 class="font-bold text-xl"><%= @tender.organisation %></h1>
+      </div>
+    </div>
+  </div>
+<% end %>

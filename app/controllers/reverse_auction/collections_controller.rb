@@ -8,7 +8,7 @@ class ReverseAuction::CollectionsController < ReverseAuction::ApplicationControl
   end
 
   def create
-    result = Collections::Create.call(context: { company: current_company, lot: lot })
+    result = Collections::Create.call(context: { company: current_company, collectable: collectable })
 
     error_or_redirect(
       object: result,
@@ -32,11 +32,11 @@ class ReverseAuction::CollectionsController < ReverseAuction::ApplicationControl
   private
 
   def permitted_params
-    params.require(:collection).permit(:lot_id)
+    params.require(:collection).permit(:collectable_id, :collectable_type)
   end
 
-  def lot
-    @lot ||= Lot.find_by(id: permitted_params[:lot_id])
+  def collectable
+    @collectable ||= permitted_params[:collectable_type].constantize.send(:find_by, { id: permitted_params[:collectable_id] })
   end
 
   def collection

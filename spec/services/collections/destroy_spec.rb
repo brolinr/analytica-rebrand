@@ -5,10 +5,10 @@ require 'rails_helper'
 RSpec.describe Collections::Destroy do
   subject(:call) { described_class.call(context: { collection: collection }) }
 
-  let(:company) { create(:company, :as_supplier) }
-  let(:auction) { create(:auction, company: company) }
-  let(:lot) { create(:lot, auction: auction, collaborator: company) }
-  let(:collection) { create(:collection, lot: lot, company: company) }
+  let!(:company) { create(:company, :as_supplier) }
+  let!(:auction) { create(:auction, company: company) }
+  let!(:lot) { create(:lot, auction: auction, collaborator: company) }
+  let(:collection) { create(:collection, collectable: lot, company: company) }
 
   describe '#call' do
     context 'with existing collection' do
